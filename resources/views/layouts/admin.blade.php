@@ -25,9 +25,9 @@
             <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-700 transition">
                 🏷️ Kelola Layanan
             </a>
-            <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-700 transition">
-                📰 Kelola Artikel
-            </a>
+           <a href="{{ route('admin.artikel.index') }}">📰 Kelola Artikel</a>
+
+
             <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-700 transition">
                 📑 Laporan
             </a>

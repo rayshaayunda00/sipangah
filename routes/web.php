@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\RedirectIfNotRegistered;
+use App\Http\Controllers\ArtikelController;
 
 // Halaman utama (landing page)
 Route::get('/', function () {
@@ -45,5 +46,28 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+// 🔹 Route Admin (CRUD)
+Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
+    Route::get('artikel', [ArtikelController::class, 'index'])->name('artikel.index');
+    Route::get('artikel/create', [ArtikelController::class, 'create'])->name('artikel.create');
+    Route::post('artikel', [ArtikelController::class, 'store'])->name('artikel.store');
+    Route::get('artikel/{id}/edit', [ArtikelController::class, 'edit'])->name('artikel.edit');
+    Route::put('artikel/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
+    Route::delete('artikel/{id}', [ArtikelController::class, 'destroy'])->name('artikel.destroy');
+});
+
+
+
+Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
+
+
+/// 🔹 Route Publik
+// Daftar artikel (harus ditulis dulu)
+Route::get('/artikel', [ArtikelController::class, 'publicIndex'])->name('artikel.index');
+
+// Detail artikel (ditulis setelah route daftar)
+Route::get('/artikel/{seo}', [ArtikelController::class, 'publicShow'])->name('artikel.show');
 
 require __DIR__.'/auth.php';
