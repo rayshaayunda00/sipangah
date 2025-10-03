@@ -8,6 +8,7 @@
     <table class="w-full mt-6 bg-white border">
         <thead>
             <tr class="bg-gray-100 text-left">
+                <th class="p-2">Gambar</th>
                 <th class="p-2">Judul</th>
                 <th class="p-2">Kategori</th>
                 <th class="p-2">Penulis</th>
@@ -16,17 +17,28 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($artikels as $a)
+            @foreach($artikels as $artikel)
             <tr class="border-b">
-                <td class="p-2">{{ $a->judul }}</td>
-                <td class="p-2">{{ $a->kategori?->nama_kategori ?? '-' }}</td>
-                <td class="p-2">{{ $a->penulis?->nama_penulis ?? '-' }}</td>
-                <td class="p-2">{{ $a->status_publikasi }}</td>
-                <td class="p-2">
-                    <a href="{{ route('admin.artikel.edit',$a->id_artikel) }}" class="text-blue-600">✏️ Edit</a>
-                    <form action="{{ route('admin.artikel.destroy',$a->id_artikel) }}" method="POST" class="inline">
-                        @csrf @method('DELETE')
-                        <button type="submit" onclick="return confirm('Hapus artikel ini?')" class="text-red-600">🗑 Hapus</button>
+                <td class="p-3">
+                    @if($artikel->url_gambar_utama)
+                        <img src="{{ asset('storage/'.$artikel->url_gambar_utama) }}"
+                             alt="Gambar Artikel"
+                             class="w-20 h-20 object-cover rounded">
+                    @else
+                        <span class="text-gray-400">Tidak ada</span>
+                    @endif
+                </td>
+                <td class="p-3">{{ $artikel->judul }}</td>
+                <td class="p-3">{{ $artikel->kategori->nama_kategori ?? '-' }}</td>
+                <td class="p-3">{{ $artikel->penulis->nama_penulis ?? '-' }}</td>
+                <td class="p-3">{{ $artikel->status_publikasi }}</td>
+                <td class="p-3">
+                    <a href="{{ route('admin.artikel.edit',$artikel->id_artikel) }}" class="text-blue-500">✏️ Edit</a>
+                    |
+                    <form action="{{ route('admin.artikel.destroy',$artikel->id_artikel) }}" method="POST" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-red-500" onclick="return confirm('Yakin hapus?')">🗑 Hapus</button>
                     </form>
                 </td>
             </tr>
