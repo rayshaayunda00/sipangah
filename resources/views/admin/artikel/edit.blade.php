@@ -35,6 +35,17 @@
             </select>
         </div>
 
+        {{-- **TAMBAHAN PENTING: STATUS PUBLIKASI** --}}
+        <div class="mb-4">
+            <label>Status Publikasi</label>
+            <select name="status_publikasi" class="w-full border p-2 rounded">
+                <option value="published" {{ $artikel->status_publikasi == 'published' ? 'selected' : '' }}>Published</option>
+                <option value="draft" {{ $artikel->status_publikasi == 'draft' ? 'selected' : '' }}>Draft (Tidak Ditampilkan)</option>
+            </select>
+            <p class="text-xs text-gray-500 mt-1">Hanya artikel berstatus Published yang tampil di website publik.</p>
+        </div>
+        {{-- **AKHIR TAMBAHAN** --}}
+
         <div class="mb-4">
             <label>Isi Konten</label>
             <textarea name="isi_konten" class="w-full border p-2 rounded" rows="6" required>{{ $artikel->isi_konten }}</textarea>

@@ -65,7 +65,11 @@
                         {{-- Tautan Navigasi --}}
                         <div class="hidden sm:ml-6 sm:flex sm:space-x-8 items-center">
                             <a href="#" class="text-teal-600 border-b-2 border-teal-600 px-3 py-2 text-sm font-medium">Beranda</a>
-                            <a href="#" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Berita</a>
+                           <a href="{{ route('artikel.public.index') }}"
+       class="px-3 py-2 text-sm font-medium {{ request()->routeIs('artikel.public.*') ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-500 hover:text-gray-900' }}">
+        Artikel
+    </a>
+
                             <a href="{{ route('layanan') }}" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Layanan</a>
                             <a href="#" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Galeri</a>
                             <a href="#" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Potensi</a>

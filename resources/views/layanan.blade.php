@@ -41,7 +41,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 5rem;
         }
 
         /* Header Styles */
@@ -84,7 +84,7 @@
 
         /* Welcome Card */
         .welcome-card {
-            background: white;
+            background: rgb(255, 255, 255);
             border-radius: 1.5rem;
             padding: 2.5rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -106,7 +106,7 @@
         }
 
         .welcome-icon {
-            font-size: 4rem;
+            font-size: 4 rem;
             color: var(--primary);
             margin-bottom: 1.5rem;
             display: inline-block;

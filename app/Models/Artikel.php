@@ -26,6 +26,12 @@ class Artikel extends Model
         'status_publikasi',
     ];
 
+    // **TAMBAHKAN BAGIAN INI UNTUK OTOMATIS MENGUBAH STRING MENJADI OBJEK TANGGAL (CARBON)**
+    protected $casts = [
+        'tanggal_publikasi' => 'datetime',
+    ];
+    // ***********************************************************************************
+
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'id_kategori', 'id_kategori');

@@ -100,4 +100,27 @@ class ArtikelController extends Controller
 
         return redirect()->route('admin.artikel.index')->with('success','Artikel berhasil dihapus!');
     }
+
+     // ================== PUBLIC ==================
+    public function publicIndex()
+    {
+        $artikels = Artikel::with(['penulis','kategori'])
+            ->where('status_publikasi','published')
+            ->latest()
+            ->paginate(6);
+
+        return view('public.artikel.index', compact('artikels'));
+    }
+
+    public function publicShow($seo)
+    {
+        $artikel = Artikel::with(['penulis','kategori'])
+            ->where('url_seo',$seo)
+            ->firstOrFail();
+
+        $artikel->increment('jumlah_dibaca');
+
+        return view('public.artikel.show', compact('artikel'));
+    }
+
 }

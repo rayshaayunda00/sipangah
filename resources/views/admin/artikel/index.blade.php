@@ -33,14 +33,23 @@
                 <td class="p-3">{{ $artikel->penulis->nama_penulis ?? '-' }}</td>
                 <td class="p-3">{{ $artikel->status_publikasi }}</td>
                 <td class="p-3">
-                    <a href="{{ route('admin.artikel.edit',$artikel->id_artikel) }}" class="text-blue-500">✏️ Edit</a>
-                    |
-                    <form action="{{ route('admin.artikel.destroy',$artikel->id_artikel) }}" method="POST" class="inline">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="text-red-500" onclick="return confirm('Yakin hapus?')">🗑 Hapus</button>
-                    </form>
-                </td>
+                    <td class="p-3 flex space-x-2">
+    <a href="{{ route('admin.artikel.edit', $artikel->id_artikel) }}"
+       class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition">
+       ✏️ Edit
+    </a>
+
+    <form action="{{ route('admin.artikel.destroy',$artikel->id_artikel) }}" method="POST" class="inline">
+        @csrf
+        @method('DELETE')
+        <button type="submit"
+                class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                onclick="return confirm('Yakin hapus?')">
+            🗑 Hapus
+        </button>
+    </form>
+</td>
+
             </tr>
             @endforeach
         </tbody>
