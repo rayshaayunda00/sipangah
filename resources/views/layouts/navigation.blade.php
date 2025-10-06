@@ -18,19 +18,17 @@
 
                     {{-- Tautan Artikel --}}
                     <a href="{{ route('artikel.public.index') }}"
-                       class="px-3 py-2 text-sm font-medium {{ request()->routeIs('artikel.public.*') ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-500 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300' }}">
-                        Artikel
-                    </a>
+       class="px-3 py-2 text-sm font-medium {{ request()->routeIs('artikel.public.*') ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-500 hover:text-gray-900' }}">
+        Artikel
+    </a>
 
                     {{-- Tautan Lain --}}
                     <a href="{{ route('layanan') }}"
                        class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
                         Layanan
                     </a>
-                    <a href="#"
-                       class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
-                        Galeri
-                    </a>
+                     <a href="{{ route('galeri.index') }}" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Galeri</a>
+
                     <a href="#"
                        class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
                         Potensi

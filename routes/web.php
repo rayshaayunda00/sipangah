@@ -7,6 +7,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\RedirectIfNotRegistered;
 use App\Http\Controllers\ArtikelController;
+use App\Http\Controllers\GaleriPublikController;
 
 // Halaman utama (landing page)
 Route::get('/', function () {
@@ -52,5 +53,24 @@ Route::prefix('admin')->middleware(['auth', AdminMiddleware::class])->name('admi
 // 🔹 Route Publik Artikel
 Route::get('/artikel', [ArtikelController::class, 'publicIndex'])->name('artikel.public.index');
 Route::get('/artikel/{seo}', [ArtikelController::class, 'publicShow'])->name('artikel.public.show');
+
+
+    /// --- Admin galeri ---
+    // --- Admin ---
+    Route::prefix('admin')->middleware(['auth'])->group(function () {
+        Route::get('/galeri', [App\Http\Controllers\Admin\GaleriController::class, 'index'])->name('admin.galeri.index');
+        Route::get('/galeri/create', [App\Http\Controllers\Admin\GaleriController::class, 'create'])->name('admin.galeri.create');
+        Route::post('/galeri', [App\Http\Controllers\Admin\GaleriController::class, 'store'])->name('admin.galeri.store');
+        Route::get('/galeri/{id}/edit', [App\Http\Controllers\Admin\GaleriController::class, 'edit'])->name('admin.galeri.edit');
+        Route::put('/galeri/{id}', [App\Http\Controllers\Admin\GaleriController::class, 'update'])->name('admin.galeri.update');
+        Route::delete('/galeri/{id}', [App\Http\Controllers\Admin\GaleriController::class, 'destroy'])->name('admin.galeri.destroy');
+        Route::post('/galeri/{id}/upload', [App\Http\Controllers\Admin\GaleriController::class, 'uploadFoto'])->name('admin.galeri.uploadFoto');
+        Route::delete('/galeri/foto/{id}', [App\Http\Controllers\Admin\GaleriController::class, 'destroyFoto'])->name('admin.galeri.foto.destroy');
+    });
+
+
+// --- Publik Galeri ---
+Route::get('/galeri', [GaleriPublikController::class, 'index'])->name('galeri.index');
+Route::get('/galeri/{id}', [GaleriPublikController::class, 'show'])->name('galeri.show');
 
 require __DIR__.'/auth.php';

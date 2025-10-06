@@ -533,10 +533,11 @@
                     <i class="fas fa-chart-bar"></i>
                     Dashboard
                 </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-users"></i>
-                    Kelola User
-                </a>
+                <a href="{{ route('admin.galeri.index') }}" class="nav-item">
+    <i class="fas fa-images"></i>
+    Kelola Galeri
+</a>
+
                 <a href="#" class="nav-item">
                     <i class="fas fa-concierge-bell"></i>
                     Kelola Layanan

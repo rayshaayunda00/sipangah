@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
+    @section('content')
 
 {{-- **HERO SECTION BARU (Lebih Responsif & Estetik)** --}}
 {{-- Catatan: mt-20 untuk mengimbangi navbar fixed h-20 --}}

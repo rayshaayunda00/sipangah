@@ -212,7 +212,7 @@
                 </a>
                 <a href="#" class="nav-item">
                     <i class="fas fa-users"></i>
-                    Kelola User
+                    Kelola Galeri
                 </a>
                 <a href="#" class="nav-item">
                     <i class="fas fa-concierge-bell"></i>
