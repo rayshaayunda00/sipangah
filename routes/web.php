@@ -8,17 +8,44 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Middleware\RedirectIfNotRegistered;
 use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\GaleriPublikController;
+use App\Http\Controllers\PengaduanController;
+use App\Http\Controllers\Admin\AdminPengaduanController;
+use App\Http\Controllers\Admin\DashboardController;
 
 // Halaman utama (landing page)
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 // Halaman layanan (hanya untuk user terdaftar)
 Route::get('/layanan', function () {
     return view('layanan');
 })->middleware(RedirectIfNotRegistered::class)
   ->name('layanan');
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/layanan/pengaduan', [PengaduanController::class, 'index'])->name('layanan.pengaduan');
+    Route::post('/layanan/pengaduan', [PengaduanController::class, 'store'])->name('layanan.pengaduan.store');
+        // Riwayat Pengaduan → menampilkan semua pengaduan
+    Route::get('/layanan/pengaduan/riwayat', [PengaduanController::class, 'riwayat'])
+        ->name('layanan.pengaduan.riwayat');
+});
+
+
+
+// Route::middleware(['auth', 'admin'])->group(function () {
+//     Route::get('/admin/pengaduan', [AdminPengaduanController::class, 'index'])->name('admin.pengaduan.index');
+//     Route::get('/admin/pengaduan/{id_pengaduan}', [AdminPengaduanController::class, 'show'])->name('admin.pengaduan.show');
+//     Route::post('/admin/pengaduan/{id_pengaduan}/status', [AdminPengaduanController::class, 'updateStatus'])->name('admin.pengaduan.updateStatus');
+//     Route::delete('/admin/pengaduan/{id_pengaduan}', [AdminPengaduanController::class, 'destroy'])->name('admin.pengaduan.destroy');
+// });
+Route::prefix('admin')->middleware(['auth', AdminMiddleware::class])->name('admin.')->group(function () {
+    Route::get('/pengaduan', [AdminPengaduanController::class, 'index'])->name('pengaduan.index');
+    Route::get('/pengaduan/{id_pengaduan}', [AdminPengaduanController::class, 'show'])->name('pengaduan.show');
+    Route::post('/pengaduan/{id_pengaduan}/status', [AdminPengaduanController::class, 'updateStatus'])->name('pengaduan.updateStatus');
+    Route::delete('/pengaduan/{id_pengaduan}', [AdminPengaduanController::class, 'destroy'])->name('pengaduan.destroy');
+});
+
 
 // 🔐 Login & Logout (Breeze)
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');

@@ -210,14 +210,16 @@
                     <i class="fas fa-chart-bar"></i>
                     Dashboard
                 </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-users"></i>
-                    Kelola Galeri
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-concierge-bell"></i>
-                    Kelola Layanan
-                </a>
+                 <a href="{{ route('admin.galeri.index') }}" class="nav-item">
+    <i class="fas fa-images"></i>
+    Kelola Galeri
+</a>
+
+               <a href="{{ route('admin.pengaduan.index') }}" class="nav-item flex items-center space-x-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition">
+    <i class="fas fa-concierge-bell text-teal-600"></i>
+    <span>Kelola Layanan Pengaduan</span>
+</a>
+
                 <a href="{{ route('admin.artikel.index') }}" class="nav-item">
                     <i class="fas fa-newspaper"></i>
                     Kelola Artikel

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sipangah | Kelurahan Cupak Tangah</title>
 
-    <!-- Memanggil aset Vite (untuk Tailwind CSS) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
@@ -51,8 +50,9 @@
         {{-- =================================== --}}
         {{-- BAGIAN NAVIGASI (HEADER) --}}
         {{-- Menggunakan fixed top-0 w-full z-50 agar navbar tetap di atas --}}
+        {{-- Kode navigasi yang Anda berikan diletakkan di sini --}}
         {{-- =================================== --}}
-        <nav class="bg-white shadow-md fixed top-0 w-full z-50">
+        <nav x-data="{ open: false }" class="bg-white shadow-md fixed top-0 w-full z-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-20">
                     <div class="flex">
@@ -62,35 +62,91 @@
                             <span class="text-lg font-semibold text-gray-800">Sipangah Cupak Tangah</span>
                         </a>
 
-                        {{-- Tautan Navigasi --}}
+                        {{-- Tautan Navigasi Desktop --}}
                         <div class="hidden sm:ml-6 sm:flex sm:space-x-8 items-center">
-                           <a href="/"
-                       class="px-3 py-2 text-sm font-medium {{ request()->is('/') ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-500 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300' }}">
-                        Beranda
-                    </a>
-                           <a href="{{ route('artikel.public.index') }}"
-       class="px-3 py-2 text-sm font-medium {{ request()->routeIs('artikel.public.*') ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-500 hover:text-gray-900' }}">
-        Artikel
-    </a>
+                            {{-- Tautan Beranda --}}
+                            <a href="/"
+                                class="px-3 py-2 text-sm font-medium {{ request()->is('/') ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-500 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300' }}">
+                                Beranda
+                            </a>
 
-                            <a href="{{ route('layanan') }}" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Layanan</a>
+                            {{-- Tautan Artikel --}}
+                            <a href="{{ route('artikel.public.index') }}"
+                                class="px-3 py-2 text-sm font-medium {{ request()->routeIs('artikel.public.*') ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-500 hover:text-gray-900' }}">
+                                Artikel
+                            </a>
+
+<div x-data="{ open: false }" class="relative">
+    <button @click="open = !open"
+        class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300 inline-flex items-center">
+        Layanan
+        <svg class="ml-1 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 9l-7 7-7-7" />
+        </svg>
+    </button>
+
+    <div x-show="open" @click.away="open = false"
+        class="absolute bg-white shadow-lg rounded-lg mt-2 w-48 z-50">
+        <a href="{{ route('layanan.pengaduan') }}"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            Pengaduan
+        </a>
+        <a href="{{ route('layanan') }}"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            Administrasi
+        </a>
+    </div>
+</div>
+
+
                             <a href="{{ route('galeri.index') }}" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Galeri</a>
 
-                            <a href="#" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Potensi</a>
-                            <a href="#" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Tentang</a>
+                            <a href="#"
+                                class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
+                                Potensi
+                            </a>
+                            <a href="#"
+                                class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
+                                Tentang
+                            </a>
                         </div>
                     </div>
 
-                    {{-- Tombol Autentikasi (Laravel Breeze) --}}
-<div class="flex items-center space-x-3">
-    @auth
-        {{-- Kalau sudah login tampil Dashboard --}}
-        <a href="{{ url('/dashboard') }}"
-           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 transition duration-150 ease-in-out">
-            Dashboard
-        </a>
-    @else
-        {{-- Kalau belum login tampil Masuk + Daftar --}}
+                    <div class="hidden sm:flex sm:items-center sm:ml-auto">
+                        @auth
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    <button class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 focus:outline-none transition ease-in-out duration-150">
+                                        <div>{{ Auth::user()->name }}</div>
+                                        <div class="ml-1">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </x-slot>
+
+                                <x-slot name="content">
+                                    <x-dropdown-link :href="route('profile.edit')">
+                                        {{ __('Profil') }}
+                                    </x-dropdown-link>
+
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <x-dropdown-link :href="route('logout')"
+                                                onclick="event.preventDefault();
+                                                            this.closest('form').submit();">
+                                            {{ __('Keluar') }}
+                                        </x-dropdown-link>
+                                    </form>
+                                </x-slot>
+                            </x-dropdown>
+                        @endauth
+
+                        @guest
+                            {{-- Kalau belum login tampil Masuk + Daftar --}}
         <a href="{{ route('login') }}"
            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 transition duration-150 ease-in-out">
             Masuk
@@ -100,12 +156,60 @@
            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-teal-700 bg-white hover:bg-gray-100 transition duration-150 ease-in-out">
             Daftar
         </a>
-    @endauth
-</div>
+                        @endguest
+                    </div>
 
+                    {{-- Hamburger (Mobile Menu) --}}
+                    <div class="-mr-2 flex items-center sm:hidden">
+                        <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            {{-- Responsive Navigation Menu (Mobile) --}}
+            <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white">
+                <div class="pt-2 pb-3 space-y-1 border-t border-gray-100">
+                    {{-- Tautan Navigasi Mobile --}}
+                    <a href="/" class="block w-full pl-3 pr-4 py-2 border-l-4 {{ request()->is('/') ? 'border-teal-600 text-teal-700 bg-teal-50' : 'border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800' }}">Beranda</a>
+                    <a href="{{ route('artikel.public.index') }}" class="block w-full pl-3 pr-4 py-2 border-l-4 {{ request()->routeIs('artikel.public.*') ? 'border-teal-600 text-teal-700 bg-teal-50' : 'border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800' }}">Artikel</a>
+                    <a href="{{ route('layanan') }}" class="block w-full pl-3 pr-4 py-2 border-l-4 border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800">Layanan</a>
+                    <a href="#" class="block w-full pl-3 pr-4 py-2 border-l-4 border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800">Galeri</a>
+                    <a href="#" class="block w-full pl-3 pr-4 py-2 border-l-4 border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800">Potensi</a>
+                    <a href="#" class="block w-full pl-3 pr-4 py-2 border-l-4 border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800">Tentang</a>
+                </div>
+
+                <div class="pt-4 pb-1 border-t border-gray-200">
+                    <div class="px-4">
+                        <div class="font-medium text-base text-gray-800">{{ Auth::user()?->name }}</div>
+                        <div class="font-medium text-sm text-gray-500">{{ Auth::user()?->email }}</div>
+                    </div>
+
+                    <div class="mt-3 space-y-1">
+                        <x-responsive-nav-link :href="route('profile.edit')">
+                            {{ __('Profil') }}
+                        </x-responsive-nav-link>
+
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-responsive-nav-link :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Keluar') }}
+                            </x-responsive-nav-link>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{-- Margin top harus di layout utama jika navbar fixed --}}
+            <div class="pt-2"></div>
         </nav>
+
 
         {{-- =================================== --}}
         {{-- BAGIAN HERO UTAMA --}}
@@ -213,135 +317,85 @@
                     <p class="text-gray-500 mt-2">Berita dan informasi terkini dari Kelurahan Cupak Tangah</p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-                    {{-- Blok Kiri: Featured Post (Pembangunan) --}}
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
-                        <div class="relative">
-                             {{-- Placeholder untuk gambar besar. Ganti dengan asset() jika sudah punya gambar --}}
-                            <img class="w-full h-80 object-cover"
-                                 src="https://placehold.co/800x600/38A169/ffffff?text=Pembangunan+Jalan"
-                                 alt="Pembangunan Infrastruktur Jalan">
-                            <span class="absolute top-4 left-4 bg-teal-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
-                                Pembangunan
+    {{-- Blok Kiri: Featured Post --}}
+    @if($featuredArtikel)
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+            <div class="relative">
+                <img class="w-full h-80 object-cover"
+                     src="{{ $featuredArtikel->url_gambar_utama ? asset('storage/'.$featuredArtikel->url_gambar_utama) : 'https://placehold.co/800x600/38A169/ffffff?text=Featured' }}"
+                     alt="{{ $featuredArtikel->judul }}">
+                <span class="absolute top-4 left-4 bg-teal-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                    {{ $featuredArtikel->kategori->nama_kategori ?? 'Umum' }}
+                </span>
+            </div>
+            <div class="p-6">
+                <div class="flex items-center text-sm text-gray-500 mb-3">
+                    <span class="mr-3 flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        {{ $featuredArtikel->created_at->format('d F Y') }}
+                    </span>
+                    <span class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                        {{ $featuredArtikel->jumlah_dibaca ?? 0 }} views
+                    </span>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $featuredArtikel->judul }}</h3>
+                <p class="text-gray-600 line-clamp-3">{{ Str::limit($featuredArtikel->isi_konten, 150) }}</p>
+                <a href="{{ route('artikel.public.show', $featuredArtikel->url_seo) }}" class="mt-4 inline-flex items-center text-teal-600 font-medium hover:text-teal-800 transition duration-150 ease-in-out">
+                    Baca Selengkapnya
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    @endif
+
+    {{-- Blok Kanan: 4 Artikel Terbaru --}}
+    <div class="space-y-4">
+        @foreach($latestArtikel as $artikel)
+            <a href="{{ route('artikel.public.show', $artikel->url_seo) }}" class="block bg-white p-4 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition duration-200">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="flex items-center text-xs text-gray-500 mb-1">
+                            <span class="bg-gray-100 text-gray-700 font-medium px-2 py-0.5 rounded mr-3">{{ $artikel->kategori->nama_kategori ?? 'Umum' }}</span>
+                            <span class="flex items-center">
+                                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                                {{ $artikel->jumlah_dibaca ?? 0 }}
                             </span>
                         </div>
-                        <div class="p-6">
-                            <div class="flex items-center text-sm text-gray-500 mb-3">
-                                <span class="mr-3 flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                    18 September 2025
-                                </span>
-                                <span class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                    1.234 views
-                                </span>
-                            </div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">
-                                Pembangunan Infrastruktur Jalan Cupak Tangah Tahap II Dimulai
-                            </h3>
-                            <p class="text-gray-600 line-clamp-3">
-                                Pemerintah Kelurahan Cupak Tangah memulai pembangunan infrastruktur jalan tahap kedua untuk meningkatkan akses dan mobilitas warga. Proyek ini diharapkan selesai pada akhir tahun ini.
-                            </p>
-                            <a href="#" class="mt-4 inline-flex items-center text-teal-600 font-medium hover:text-teal-800 transition duration-150 ease-in-out">
-                                Baca Selengkapnya
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                            </a>
-                        </div>
+                        <p class="font-semibold text-gray-800 hover:text-teal-600 transition">{{ Str::limit($artikel->judul, 50) }}</p>
+                        <p class="text-xs text-gray-500 mt-1">{{ $artikel->created_at->format('d F Y') }}</p>
                     </div>
-
-                    {{-- Blok Kanan: Daftar Berita Pendek --}}
-                    <div class="space-y-4">
-
-                        {{-- Post 1: Sosial --}}
-                        <a href="#" class="block bg-white p-4 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition duration-200">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <div class="flex items-center text-xs text-gray-500 mb-1">
-                                        <span class="bg-gray-100 text-gray-700 font-medium px-2 py-0.5 rounded mr-3">Sosial</span>
-                                        <span class="flex items-center">
-                                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                            892
-                                        </span>
-                                    </div>
-                                    <p class="font-semibold text-gray-800 hover:text-teal-600 transition">
-                                        Sosialisasi Program Bantuan Sosial Tahun 2025
-                                    </p>
-                                    <p class="text-xs text-gray-500 mt-1">16 September 2025</p>
-                                </div>
-                                <svg class="w-5 h-5 text-teal-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            </div>
-                        </a>
-
-                        {{-- Post 2: UMKM --}}
-                        <a href="#" class="block bg-white p-4 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition duration-200">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <div class="flex items-center text-xs text-gray-500 mb-1">
-                                        <span class="bg-gray-100 text-gray-700 font-medium px-2 py-0.5 rounded mr-3">UMKM</span>
-                                        <span class="flex items-center">
-                                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                            756
-                                        </span>
-                                    </div>
-                                    <p class="font-semibold text-gray-800 hover:text-teal-600 transition">
-                                        Pelatihan UMKM Digital untuk Warga Cupak Tangah
-                                    </p>
-                                    <p class="text-xs text-gray-500 mt-1">14 September 2025</p>
-                                </div>
-                                <svg class="w-5 h-5 text-teal-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            </div>
-                        </a>
-
-                        {{-- Post 3: Kesehatan --}}
-                        <a href="#" class="block bg-white p-4 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition duration-200">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <div class="flex items-center text-xs text-gray-500 mb-1">
-                                        <span class="bg-gray-100 text-gray-700 font-medium px-2 py-0.5 rounded mr-3">Kesehatan</span>
-                                        <span class="flex items-center">
-                                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                            623
-                                        </span>
-                                    </div>
-                                    <p class="font-semibold text-gray-800 hover:text-teal-600 transition">
-                                        Vaksinasi Massal COVID-19 di Balai Kelurahan
-                                    </p>
-                                    <p class="text-xs text-gray-500 mt-1">12 September 2025</p>
-                                </div>
-                                <svg class="w-5 h-5 text-teal-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            </div>
-                        </a>
-
-                        {{-- Post 4: Lingkungan --}}
-                        <a href="#" class="block bg-white p-4 rounded-xl shadow-md border border-gray-200 hover:shadow-lg transition duration-200">
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <div class="flex items-center text-xs text-gray-500 mb-1">
-                                        <span class="bg-gray-100 text-gray-700 font-medium px-2 py-0.5 rounded mr-3">Lingkungan</span>
-                                        <span class="flex items-center">
-                                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                            445
-                                        </span>
-                                    </div>
-                                    <p class="font-semibold text-gray-800 hover:text-teal-600 transition">
-                                        Gotong Royong Bersih-Bersih Lingkungan
-                                    </p>
-                                    <p class="text-xs text-gray-500 mt-1">10 September 2025</p>
-                                </div>
-                                <svg class="w-5 h-5 text-teal-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            </div>
-                        </a>
-
-                        {{-- Tombol Lihat Semua Berita --}}
-                        <div class="pt-4">
-                            <a href="#" class="w-full inline-flex justify-center items-center px-6 py-3 border border-teal-600 text-base font-medium rounded-lg text-teal-600 bg-white hover:bg-teal-50 transition duration-150 ease-in-out">
-                                Lihat Semua Berita
-                            </a>
-                        </div>
-                    </div>
-
+                    <svg class="w-5 h-5 text-teal-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
                 </div>
+            </a>
+        @endforeach
+
+        {{-- Tombol Lihat Semua Artikel --}}
+        <div class="pt-4">
+            <a href="{{ route('artikel.public.index') }}" class="w-full inline-flex justify-center items-center px-6 py-3 border border-teal-600 text-base font-medium rounded-lg text-teal-600 bg-white hover:bg-teal-50 transition duration-150 ease-in-out">
+                Lihat Semua Artikel
+            </a>
+        </div>
+    </div>
+
+</div>
+
+
+
             </div>
         </section>
 
@@ -1104,7 +1158,7 @@
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.477 2 2 6.477 2 12c0 5.084 3.738 9.31 8.604 10.043v-7.043h-2.54v-3h2.54V9.35c0-2.51 1.49-3.9 3.774-3.9 1.094 0 2.24.195 2.24.195v2.46h-1.26c-1.247 0-1.637.772-1.637 1.564v1.88h2.77l-.446 3h-2.324v7.043C18.262 21.31 22 17.084 22 12c0-5.523-4.477-10-10-10z"/></svg>
                             </a>
                             <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-teal-600 transition">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c-3.197 0-4.28 0-4.326.02-.07.006-.118.01-.17.01-.482.02-.75.056-1.12.18-.363.125-.688.318-.99.62-.303.3-.497.625-.622.99-.124.37-.158.64-.18 1.12-.02.05-.015.1-.01.17-.003.046 0 .142 0 .326v4.326c0 .184 0 .28-.003.326-.006.07-.01.118-.01.17-.02.482-.056.75-.18 1.12-.125.363-.318.688-.62.99-.3.303-.625.497-.99.622-.37.124-.64.158-1.12.18-.05.002-.1.01-.17.01-.046.003-.142 0-.326 0-3.197 0-4.28 0-4.326-.02-.07-.006-.118-.01-.17-.01-.482-.02-.75-.056-1.12-.18-.363-.125-.688-.318-.99-.62-.303-.3-.497-.625-.622-.99-.124-.37-.158-.64-.18-1.12-.002-.05-.01-.1-.01-.17-.003-.046 0-.142 0-.326V12c0 3.197 0 4.28.02 4.326.006.07.01.118.01.17.02.482.056.75.18 1.12.125.363.318.688.62.99.3.303.625.497.99.622.37.124.64.158 1.12.18.05.002.1.01.17.01.046.003.142 0 .326 0h4.326c.184 0 .28 0 .326-.003.07-.006.118-.01.17-.01.482-.02.75-.056 1.12-.18.363-.125.688-.318.99-.62.303-.3.497-.625.622-.99.124-.37.158-.64.18-1.12.002-.05.01-.1.01-.17.003-.046 0-.142 0-.326V12c0-3.197 0-4.28-.02-4.326zM12 16.5a4.5 4.5 0 110-9 4.5 4.5 0 010 9zm0-2a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM17.5 7A.5.5 0 0117 7.5a.5.5 0 01-1 0 .5.5 0 010-1 .5.5 0 01.5.5z"/></svg>
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c-3.197 0-4.28 0-4.326.02-.07.006-.118.01-.17.01-.482.02-.75.056-1.12.18-.363.125-.688.318-.99.62-.303.3-.497.625-.622.99-.124.37-.158.64-.18 1.12-.02.05-.015.1-.01.17-.003.046 0 .142 0 .326v4.326c0 .184 0 .28-.003.326-.006.07-.01.118-.01.17-.02.482-.056.75-.18 1.12-.125.363-.318.688-.62.99-.3.303-.625.497-.99.622-.37.124-.64.158-1.12.18-.05.002-.1.01-.17.01-.046.003-.142 0-.326 0-3.197 0-4.28 0-4.326-.02-.07-.006-.118-.01-.17-.01-.482-.02-.75-.056-1.12-.18-.363-.125-.688-.318-.99-.62-.303-.3-.497-.625-.622-.99-.124-.37-.158-.64-.18-1.12-.002-.05-.01-.1-.01-.17-.003-.046 0-.142 0-.326V12c0-3.197 0-4.28-.02-4.326zM12 16.5a4.5 4.5 0 110-9 4.5 4.5 0 010 9zm0-2a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM17.5 7A.5.5 0 0117 7.5a.5.5 0 01-1 0 .5.5 0 010-1 .5.5 0 01.5.5z"/></svg>
                             </a>
                             <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-teal-600 transition">
                                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.062 6.062c-.628.278-1.306.465-2.01.554.724-.435 1.282-1.122 1.543-1.94-.68.405-1.43.698-2.227.854C18.528 4.67 17.527 4.25 16.486 4.25c-1.92 0-3.47 1.55-3.47 3.47 0 .272.03.535.086.79C10.742 7.74 8.52 6.543 6.945 4.79c-.31.53-.487 1.144-.487 1.802 0 1.2.613 2.25 1.54 2.873-.603-.02-1.17-.184-1.666-.46v.04c0 1.68 1.198 3.085 2.784 3.4c-.29.08-.597.124-.91.124-.224 0-.44-.022-.656-.062.443 1.38 1.72 2.38 3.237 2.41-1.187.933-2.68 1.49-4.3 1.49-.276 0-.546-.016-.814-.047 1.535.986 3.356 1.564 5.32 1.564 6.38 0 9.873-5.285 9.873-9.872 0-.15-.003-.298-.008-.445.676-.487 1.26-1.1 1.72-1.792z"/></svg>

@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-    @section('content')
+@section('title', 'Artikel Terkini | Kelurahan Cupak Tangah')
+
+@section('content')
 
 {{-- **HERO SECTION BARU (Lebih Responsif & Estetik)** --}}
 {{-- Catatan: mt-20 untuk mengimbangi navbar fixed h-20 --}}
@@ -48,9 +50,9 @@
                 {{-- Gambar utama dengan efek hover dan kategori badge --}}
                 <div class="relative overflow-hidden">
                     <img src="{{ $a->url_gambar_utama ? asset('storage/'.$a->url_gambar_utama) : 'https://placehold.co/600x400/E5E7EB/6B7280?text=NO+IMAGE' }}"
-                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/E5E7EB/6B7280?text=NO+IMAGE';"
-                         alt="Gambar Artikel"
-                         class="w-full h-52 object-cover transition-transform duration-500 group-hover:scale-110">
+                        onerror="this.onerror=null;this.src='https://placehold.co/600x400/E5E7EB/6B7280?text=NO+IMAGE';"
+                        alt="Gambar Artikel"
+                        class="w-full h-52 object-cover transition-transform duration-500 group-hover:scale-110">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                     {{-- Kategori badge --}}
