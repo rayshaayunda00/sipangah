@@ -224,10 +224,19 @@
                     <i class="fas fa-newspaper"></i>
                     Kelola Artikel
                 </a>
+
+               <a href="{{ route('admin.item_potensi.index') }}" class="nav-item flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded">
+    <i class="fas fa-file-alt"></i>
+    <span>Kelola Potensi</span>
+</a>
+
+
                 <a href="#" class="nav-item">
                     <i class="fas fa-file-alt"></i>
                     Laporan
                 </a>
+
+
                 <form method="POST" action="{{ route('logout') }}" class="nav-item logout-btn">
                     @csrf
                     <button type="submit" class="logout-btn" style="background: none; border: none; color: inherit; width: 100%; text-align: left; cursor: pointer;">

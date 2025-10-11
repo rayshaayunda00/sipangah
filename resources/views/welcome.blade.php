@@ -103,10 +103,11 @@
 
                             <a href="{{ route('galeri.index') }}" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Galeri</a>
 
-                            <a href="#"
-                                class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
-                                Potensi
-                            </a>
+                            <a href="{{ route('potensi.public.index') }}"
+   class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
+   Potensi
+</a>
+
                             <a href="#"
                                 class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
                                 Tentang

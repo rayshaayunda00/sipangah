@@ -547,6 +547,12 @@
                     <i class="fas fa-newspaper"></i>
                     Kelola Artikel
                 </a>
+
+                <a href="{{ route('admin.item_potensi.index') }}" class="nav-item">
+    <i class="fas fa-file-alt"></i>
+    Kelola Potensi
+</a>
+
                 <a href="#" class="nav-item">
                     <i class="fas fa-file-alt"></i>
                     Laporan

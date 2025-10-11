@@ -11,6 +11,10 @@ use App\Http\Controllers\GaleriPublikController;
 use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\Admin\AdminPengaduanController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\KategoriPotensiController;
+use App\Http\Controllers\Admin\SubkategoriPotensiController;
+use App\Http\Controllers\Admin\ItemPotensiController;
+use App\Http\Controllers\PotensiPublicController;
 
 // Halaman utama (landing page)
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -99,5 +103,39 @@ Route::get('/artikel/{seo}', [ArtikelController::class, 'publicShow'])->name('ar
 // --- Publik Galeri ---
 Route::get('/galeri', [GaleriPublikController::class, 'index'])->name('galeri.index');
 Route::get('/galeri/{id}', [GaleriPublikController::class, 'show'])->name('galeri.show');
+
+Route::get('/potensi', [PotensiPublicController::class, 'index'])
+    ->name('potensi.public.index');
+
+// ==================== Route Admin ====================
+// Middleware 'auth' dipakai agar hanya user login (admin) bisa akses
+Route::prefix('admin')->middleware('auth')->group(function () {
+
+    // --- Kategori Potensi ---
+    Route::get('/kategori-potensi', [KategoriPotensiController::class, 'index'])->name('admin.kategori_potensi.index');
+    Route::get('/kategori-potensi/create', [KategoriPotensiController::class, 'create'])->name('admin.kategori_potensi.create');
+    Route::post('/kategori-potensi', [KategoriPotensiController::class, 'store'])->name('admin.kategori_potensi.store');
+    Route::get('/kategori-potensi/{id}/edit', [KategoriPotensiController::class, 'edit'])->name('admin.kategori_potensi.edit');
+    Route::put('/kategori-potensi/{id}', [KategoriPotensiController::class, 'update'])->name('admin.kategori_potensi.update');
+    Route::delete('/kategori-potensi/{id}', [KategoriPotensiController::class, 'destroy'])->name('admin.kategori_potensi.destroy');
+
+    // --- Subkategori Potensi ---
+    Route::get('/subkategori-potensi', [SubkategoriPotensiController::class, 'index'])->name('admin.subkategori_potensi.index');
+    Route::get('/subkategori-potensi/create', [SubkategoriPotensiController::class, 'create'])->name('admin.subkategori_potensi.create');
+    Route::post('/subkategori-potensi', [SubkategoriPotensiController::class, 'store'])->name('admin.subkategori_potensi.store');
+    Route::get('/subkategori-potensi/{id}/edit', [SubkategoriPotensiController::class, 'edit'])->name('admin.subkategori_potensi.edit');
+    Route::put('/subkategori-potensi/{id}', [SubkategoriPotensiController::class, 'update'])->name('admin.subkategori_potensi.update');
+    Route::delete('/subkategori-potensi/{id}', [SubkategoriPotensiController::class, 'destroy'])->name('admin.subkategori_potensi.destroy');
+
+    // --- Item Potensi ---
+    Route::get('/item-potensi', [ItemPotensiController::class, 'index'])->name('admin.item_potensi.index');
+    Route::get('/item-potensi/create', [ItemPotensiController::class, 'create'])->name('admin.item_potensi.create');
+    Route::post('/item-potensi', [ItemPotensiController::class, 'store'])->name('admin.item_potensi.store');
+    Route::get('/item-potensi/{id}/edit', [ItemPotensiController::class, 'edit'])->name('admin.item_potensi.edit');
+    Route::put('/item-potensi/{id}', [ItemPotensiController::class, 'update'])->name('admin.item_potensi.update');
+    Route::delete('/item-potensi/{id}', [ItemPotensiController::class, 'destroy'])->name('admin.item_potensi.destroy');
+
+});
+
 
 require __DIR__.'/auth.php';

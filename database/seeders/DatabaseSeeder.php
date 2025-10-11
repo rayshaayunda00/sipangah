@@ -33,5 +33,12 @@ class DatabaseSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
+
+         // 2. Seeder Kategori Potensi
+        $this->call(KategoriPotensiSeeder::class);
+
+        // 3. Seeder Subkategori Potensi
+        $this->call(SubkategoriPotensiSeeder::class);
     }
+
 }
