@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\KategoriPotensiController;
 use App\Http\Controllers\Admin\SubkategoriPotensiController;
 use App\Http\Controllers\Admin\ItemPotensiController;
 use App\Http\Controllers\PotensiPublicController;
+use App\Http\Controllers\TentangKelurahanController;
+
 
 // Halaman utama (landing page)
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -104,6 +106,7 @@ Route::get('/artikel/{seo}', [ArtikelController::class, 'publicShow'])->name('ar
 Route::get('/galeri', [GaleriPublikController::class, 'index'])->name('galeri.index');
 Route::get('/galeri/{id}', [GaleriPublikController::class, 'show'])->name('galeri.show');
 
+
 Route::get('/potensi', [PotensiPublicController::class, 'index'])
     ->name('potensi.public.index');
 
@@ -136,6 +139,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::delete('/item-potensi/{id}', [ItemPotensiController::class, 'destroy'])->name('admin.item_potensi.destroy');
 
 });
+
+
+
+Route::get('/tentang-kelurahan', [TentangKelurahanController::class, 'index'])->name('tentang_kelurahan.index');
 
 
 require __DIR__.'/auth.php';

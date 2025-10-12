@@ -27,5 +27,20 @@ class PotensiPublicController extends Controller
 
         return view('public.potensi.index', compact('kategori', 'items', 'kategoriAktif'));
 
+
+    }
+//🏡 Halaman Homepage (menampilkan potensi terbaru di beranda)
+    public function home()
+    {
+        // Ambil 4 potensi terbaru yang sudah dipublikasikan
+        $items = ItemPotensi::where('status_publikasi', 'published')
+            ->latest()
+            ->take(4)
+            ->get();
+
+        // Ambil semua kategori untuk filter/keperluan lain
+        $kategori = KategoriPotensi::all();
+
+        return view('welcome', compact('items', 'kategori'));
     }
 }

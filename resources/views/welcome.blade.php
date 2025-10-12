@@ -108,10 +108,11 @@
    Potensi
 </a>
 
-                            <a href="#"
-                                class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
-                                Tentang
-                            </a>
+                            <a href="{{ route('tentang_kelurahan.index') }}"
+   class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
+   Tentang
+</a>
+
                         </div>
                     </div>
 
@@ -394,9 +395,6 @@
     </div>
 
 </div>
-
-
-
             </div>
         </section>
 
@@ -503,10 +501,11 @@
                 </div>
 
                 <div class="text-center mt-12">
-                    <a href="#" class="inline-flex justify-center items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 transition duration-150 ease-in-out">
-                        Lihat Semua Potensi
-                    </a>
-                </div>
+                    <a href="{{ route('potensi.public.index') }}"
+   class="inline-flex justify-center items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 transition duration-150 ease-in-out">
+    Lihat Semua Potensi
+</a>
+
             </div>
         </section>
 
