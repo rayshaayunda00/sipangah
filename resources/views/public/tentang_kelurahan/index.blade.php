@@ -131,7 +131,7 @@
                     Informasi lengkap mengenai visi & misi, sejarah, struktur organisasi, dan peta wilayah kelurahan.
                 </p>
 
-                <!-- Quick Stats -->
+                {{-- <!-- Quick Stats -->
                 <div class="flex flex-wrap justify-center gap-4 md:gap-6 mt-8">
                     <div class="glass-card rounded-2xl px-4 py-3 text-center min-w-[120px]">
                         <div class="text-xl md:text-2xl font-bold text-teal-800 mb-1">40+</div>
@@ -145,7 +145,7 @@
                         <div class="text-xl md:text-2xl font-bold text-teal-800 mb-1">5</div>
                         <div class="text-xs md:text-sm text-teal-600 font-medium">Program</div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
 
@@ -172,7 +172,7 @@
                         </div>
                         <div class="p-4 md:p-6">
                             <p class="text-gray-700 leading-relaxed text-sm md:text-base">
-                                "Menjadi kelurahan yang maju, mandiri, dan nyaman bagi seluruh masyarakat melalui pembangunan yang inklusif dan berkelanjutan."
+                                Terwujudnya masyarakat kelurahan yang berpendidikan, sejahtera, religius, dan berbudaya.
                             </p>
                         </div>
                     </div>
@@ -190,20 +190,20 @@
                         <div class="p-4 md:p-6">
                             <ul class="space-y-3">
                                 <li class="mission-item text-gray-700 text-sm md:text-base">
-                                    Meningkatkan pelayanan publik secara transparan dan akuntabel
+                                    Mewujudkan pendidikan yang berkualitas (produktif, partisipatif, dan kompetitif).
                                 </li>
                                 <li class="mission-item text-gray-700 text-sm md:text-base">
-                                    Mendorong partisipasi masyarakat dalam pembangunan kelurahan
+                                    Meningkatkan kesejahteraan masyarakat dan pengembangan ekonomi kerakyatan.
                                 </li>
                                 <li class="mission-item text-gray-700 text-sm md:text-base">
-                                    Memelihara lingkungan dan fasilitas publik yang bersih dan nyaman
+                                    Menciptakan masyarakat kelurahan yang religius dengan memperhatikan budaya lokal.
                                 </li>
-                                <li class="mission-item text-gray-700 text-sm md:text-base">
+                                {{-- <li class="mission-item text-gray-700 text-sm md:text-base">
                                     Mengembangkan ekonomi lokal dan UMKM setempat
                                 </li>
                                 <li class="mission-item text-gray-700 text-sm md:text-base">
                                     Meningkatkan kualitas pendidikan dan kesehatan masyarakat
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </div>
@@ -270,19 +270,23 @@
                             <tbody>
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Lurah</td>
-                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Budi Santoso</td>
+                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Saidul Bahri, SH</td>
                                 </tr>
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Sekretaris Kelurahan</td>
-                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Siti Aminah</td>
+                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Nefrita sari, SE.MM</td>
                                 </tr>
                                 <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Kepala Bagian Pelayanan</td>
-                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Agus Wijaya</td>
+                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Seksi Tapem</td>
+                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Meli Chairani, A.md</td>
                                 </tr>
                                 <tr class="hover:bg-gray-50 transition-colors">
-                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Kepala Bagian Administrasi</td>
-                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Dewi Lestari</td>
+                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Seksi PM dan KESOS</td>
+                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Rasnanelly</td>
+                                </tr>
+                                 <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Seksi Trantibum dan PB</td>
+                                    <td class="px-3 py-3 md:px-4 md:py-4 border-b text-gray-700 text-sm md:text-base">Safarin, S.AP</td>
                                 </tr>
                             </tbody>
                         </table>

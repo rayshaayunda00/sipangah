@@ -90,9 +90,15 @@
     @endauth
 
     @guest
+        {{-- Kalau belum login tampil Masuk + Daftar --}}
         <a href="{{ route('login') }}"
-           class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900">
-            Login
+           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 transition duration-150 ease-in-out">
+            Masuk
+        </a>
+
+        <a href="{{ route('register') }}"
+           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-teal-700 bg-white hover:bg-gray-100 transition duration-150 ease-in-out">
+            Daftar
         </a>
     @endguest
 </div>
