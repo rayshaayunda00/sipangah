@@ -398,116 +398,67 @@
             </div>
         </section>
 
-        {{-- =================================== --}}
-        {{-- BAGIAN POTENSI (JELAJAHI CUPAK TANGAH) --}}
-        {{-- =================================== --}}
-        <section class="py-20 bg-gray-50 border-t border-gray-100">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-800">Jelajahi Cupak Tangah</h2>
-                    <p class="text-gray-500 mt-2">Temukan berbagai potensi dan kekayaan yang dimiliki Kelurahan Cupak Tangah</p>
+{{-- =================================== --}}
+{{-- BAGIAN POTENSI (JELAJAHI CUPAK TANGAH) --}}
+{{-- =================================== --}}
+<section class="py-20 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800">Jelajahi Cupak Tangah</h2>
+            <p class="text-gray-500 mt-2">Temukan berbagai potensi dan kekayaan yang dimiliki Kelurahan Cupak Tangah</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @foreach ($latestPotensi as $item)
+            <div class="potensi-card bg-white h-full rounded-2xl shadow hover:shadow-lg transition-all duration-300 flex flex-col">
+                <!-- Gambar -->
+                <div class="relative h-48 rounded-t-2xl overflow-hidden">
+                    <img class="w-full h-full object-cover absolute"
+                         src="{{ $item->url_gambar_utama ? asset('storage/' . $item->url_gambar_utama) : 'https://via.placeholder.com/400x300' }}"
+                         alt="{{ $item->nama_item }}">
+                    <div class="absolute bottom-2 left-2 bg-teal-600/70 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                        {{ $item->subkategori->kategori->nama_kategori ?? 'Tanpa Kategori' }}
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-                    {{-- Kartu 1: Potensi Ekonomi (Warna Biru) --}}
-                    <div class="potensi-card bg-white h-full">
-                        <div class="relative h-40">
-                            <img class="w-full h-full object-cover absolute"
-                                 src="https://placehold.co/400x300/3b82f6/ffffff?text=Ekonomi"
-                                 alt="Potensi Ekonomi">
-                            <div class="overlay overlay-blue flex-col justify-end items-start p-4">
-                                <svg class="w-8 h-8 text-white mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0v1a2 2 0 002 2h2a2 2 0 002-2v-1m-10 0h10"></path></svg>
-                                <span class="bg-blue-600/70 text-white text-xs font-semibold px-2 py-1 rounded-full">150+ UMKM</span>
-                            </div>
-                        </div>
-                        <div class="p-4 flex flex-col justify-between h-[calc(100%-160px)]">
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900 mt-2">Potensi Ekonomi</h3>
-                                <p class="text-sm text-gray-600 mt-1">Sektor pertanian, perdagangan, dan jasa yang berkembang pesat.</p>
-                            </div>
-                            <a href="#" class="mt-3 inline-flex items-center text-teal-600 text-sm font-medium hover:text-teal-800">
-                                Pelajari Lebih Lanjut &rarr;
-                            </a>
-                        </div>
+                <!-- Konten -->
+                <div class="p-4 flex-1 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mt-2 line-clamp-2">{{ $item->nama_item }}</h3>
+                        <p class="text-sm text-gray-600 mt-1 line-clamp-3">
+                            {{ Str::limit($item->deskripsi_singkat, 80) }}
+                        </p>
                     </div>
 
-                    {{-- Kartu 2: UMKM Unggulan (Warna Hijau Cerah) --}}
-                    <div class="potensi-card bg-white h-full">
-                        <div class="relative h-40">
-                            <img class="w-full h-full object-cover absolute"
-                                 src="https://placehold.co/400x300/22c55e/ffffff?text=UMKM"
-                                 alt="UMKM Unggulan">
-                            <div class="overlay overlay-green flex-col justify-end items-start p-4">
-                                <svg class="w-8 h-8 text-white mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                                <span class="bg-green-600/70 text-white text-xs font-semibold px-2 py-1 rounded-full">85% Aktif</span>
-                            </div>
-                        </div>
-                        <div class="p-4 flex flex-col justify-between h-[calc(100%-160px)]">
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900 mt-2">UMKM Unggulan</h3>
-                                <p class="text-sm text-gray-600 mt-1">Usaha mikro kecil menengah yang menjadi andalan daerah.</p>
-                            </div>
-                            <a href="#" class="mt-3 inline-flex items-center text-teal-600 text-sm font-medium hover:text-teal-800">
-                                Pelajari Lebih Lanjut &rarr;
-                            </a>
-                        </div>
-                    </div>
-
-                    {{-- Kartu 3: Wisata & Budaya (Warna Ungu) --}}
-                    <div class="potensi-card bg-white h-full">
-                        <div class="relative h-40">
-                            <img class="w-full h-full object-cover absolute"
-                                 src="https://placehold.co/400x300/a855f7/ffffff?text=Wisata"
-                                 alt="Wisata & Budaya">
-                            <div class="overlay overlay-purple flex-col justify-end items-start p-4">
-                                <svg class="w-8 h-8 text-white mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0v-4m0 4h4m-4 0h4m0 0v-4m0 4v-4m0 4h4m-4 0h4m4 4v-4m0 0v-4m0 4h4m-4 0h4m0 0v-4m0 4v-4m0 4h4m-4 0h4"></path></svg>
-                                <span class="bg-violet-600/70 text-white text-xs font-semibold px-2 py-1 rounded-full">12 Objek Wisata</span>
-                            </div>
-                        </div>
-                        <div class="p-4 flex flex-col justify-between h-[calc(100%-160px)]">
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900 mt-2">Wisata & Budaya</h3>
-                                <p class="text-sm text-gray-600 mt-1">Objek wisata alam dan budaya tradisional Minangkabau.</p>
-                            </div>
-                            <a href="#" class="mt-3 inline-flex items-center text-teal-600 text-sm font-medium hover:text-teal-800">
-                                Pelajari Lebih Lanjut &rarr;
-                            </a>
-                        </div>
-                    </div>
-
-                    {{-- Kartu 4: Sumber Daya Alam (Warna Hijau Lumut) --}}
-                    <div class="potensi-card bg-white h-full">
-                        <div class="relative h-40">
-                            <img class="w-full h-full object-cover absolute"
-                                 src="https://placehold.co/400x300/84cc16/ffffff?text=SDA"
-                                 alt="Sumber Daya Alam">
-                            <div class="overlay overlay-lime flex-col justify-end items-start p-4">
-                                <svg class="w-8 h-8 text-white mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                <span class="bg-lime-600/70 text-white text-xs font-semibold px-2 py-1 rounded-full">85% Lahan Hijau</span>
-                            </div>
-                        </div>
-                        <div class="p-4 flex flex-col justify-between h-[calc(100%-160px)]">
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900 mt-2">Sumber Daya Alam</h3>
-                                <p class="text-sm text-gray-600 mt-1">Potensi alam yang dapat dikembangkan secara berkelanjutan.</p>
-                            </div>
-                            <a href="#" class="mt-3 inline-flex items-center text-teal-600 text-sm font-medium hover:text-teal-800">
-                                Pelajari Lebih Lanjut &rarr;
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="text-center mt-12">
-                    <a href="{{ route('potensi.public.index') }}"
-   class="inline-flex justify-center items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 transition duration-150 ease-in-out">
-    Lihat Semua Potensi
+                    <!-- Tombol aksi -->
+                    <div class="mt-4 flex justify-between items-center">
+                        <a href="{{ route('public.potensi.show', $item) }}"
+   class="inline-flex items-center px-4 py-2 bg-teal-600 text-white text-sm font-medium rounded-lg shadow hover:bg-teal-700 transition">
+    Lihat Detail <i class="fas fa-arrow-right ml-2"></i>
 </a>
 
+
+                        <a href="{{ route('potensi.public.index', ['kategori' => $item->subkategori->kategori->nama_kategori ?? '']) }}"
+                           class="text-teal-600 text-sm font-medium hover:text-teal-800">
+                            Pelajari Lebih Lanjut &rarr;
+                        </a>
+                    </div>
+                </div>
             </div>
-        </section>
+            @endforeach
+        </div>
+
+        <!-- Tombol lihat semua -->
+        <div class="text-center mt-12">
+            <a href="{{ route('potensi.public.index') }}"
+               class="inline-flex justify-center items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 transition duration-150 ease-in-out">
+                Lihat Semua Potensi
+            </a>
+        </div>
+    </div>
+</section>
+
+
 
         {{-- =================================== --}}
         {{-- BAGIAN LAYANAN ADMINISTRASI (APA YANG BISA KAMI BANTU?) --}}
@@ -854,8 +805,8 @@
                                 Lurah
                             </span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-800">Drs. Ahmad Suhendra, M.Si</h3>
-                        <p class="text-sm text-gray-600">Kepala Kelurahan</p>
+                        <h3 class="text-lg font-bold text-gray-800">SAIDUL BAHRI,SH</h3>
+                        <p class="text-sm text-teal-600 font-semibold">LURAH</p>
                         <div class="mt-4 text-left space-y-1 text-sm text-gray-600">
                             <p class="flex items-center justify-center">
                                 <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
@@ -877,8 +828,8 @@
                             <span class="absolute top-0 right-0 bg-yellow-500/0 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
                             </span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-800">Siti Rahmawati, S.Sos</h3>
-                        <p class="text-sm text-teal-600 font-semibold">Sekretaris</p>
+                        <h3 class="text-lg font-bold text-gray-800">NEFRITA SARI,SE.MM</h3>
+                        <p class="text-sm text-teal-600 font-semibold">SEKRETARIS</p>
                         <p class="text-sm text-gray-600">Sekretariat</p>
                         <div class="mt-4 text-left space-y-1 text-sm text-gray-600">
                             <p class="flex items-center justify-center">
@@ -901,8 +852,8 @@
                             <span class="absolute top-0 right-0 bg-yellow-500/0 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
                             </span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-800">Budi Santoso, S.Ap</h3>
-                        <p class="text-sm text-teal-600 font-semibold">Kepala Seksi Pemerintahan</p>
+                        <h3 class="text-lg font-bold text-gray-800">MELI CHAIRANI,A.MD</h3>
+                        <p class="text-sm text-teal-600 font-semibold">SAKSI TAPEM</p>
                         <p class="text-sm text-gray-600">Seksi Pemerintahan</p>
                         <div class="mt-4 text-left space-y-1 text-sm text-gray-600">
                             <p class="flex items-center justify-center">

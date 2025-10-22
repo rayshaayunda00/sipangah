@@ -26,4 +26,10 @@ class ItemPotensi extends Model
     {
         return $this->belongsTo(SubkategoriPotensi::class, 'id_subkategori_potensi');
     }
+
+    // 🔧 Tambahkan ini agar Laravel tahu key-nya bukan "id"
+    public function getRouteKeyName()
+    {
+        return 'id_item_potensi';
+    }
 }

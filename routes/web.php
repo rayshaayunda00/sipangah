@@ -109,6 +109,11 @@ Route::get('/galeri/{id}', [GaleriPublikController::class, 'show'])->name('galer
 
 Route::get('/potensi', [PotensiPublicController::class, 'index'])
     ->name('potensi.public.index');
+Route::get('/potensi/load-more', [PotensiPublicController::class, 'loadMore'])->name('potensi.public.loadMore');
+Route::get('/potensi/ajax-search', [PotensiPublicController::class, 'ajaxSearch'])->name('potensi.ajaxSearch');
+Route::get('/potensi/{item}', [PotensiPublicController::class, 'show'])
+    ->name('public.potensi.show');
+
 
 // ==================== Route Admin ====================
 // Middleware 'auth' dipakai agar hanya user login (admin) bisa akses
