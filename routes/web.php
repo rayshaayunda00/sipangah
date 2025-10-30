@@ -16,7 +16,7 @@ use App\Http\Controllers\Admin\SubkategoriPotensiController;
 use App\Http\Controllers\Admin\ItemPotensiController;
 use App\Http\Controllers\PotensiPublicController;
 use App\Http\Controllers\TentangKelurahanController;
-
+use App\Http\Controllers\Admin\UserController;
 
 // Halaman utama (landing page)
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -118,6 +118,17 @@ Route::get('/potensi/{item}', [PotensiPublicController::class, 'show'])
 // ==================== Route Admin ====================
 // Middleware 'auth' dipakai agar hanya user login (admin) bisa akses
 Route::prefix('admin')->middleware('auth')->group(function () {
+
+
+Route::middleware(['auth', AdminMiddleware::class])
+     ->prefix('admin')
+     ->name('admin.')
+     ->group(function () {
+         Route::get('/users', [UserController::class, 'index'])->name('users.index');
+         Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+     });
+
+
 
     // --- Kategori Potensi ---
     Route::get('/kategori-potensi', [KategoriPotensiController::class, 'index'])->name('admin.kategori_potensi.index');

@@ -8,14 +8,21 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-dark: #4338ca;
-            --secondary: #10b981;
-            --dark: #1f2937;
-            --light: #f9fafb;
-            --gray: #6b7280;
+            /* Warna UI Modern */
+            --primary: #7c3aed; /* Ungu */
+            --primary-light: #8b5cf6;
+            --primary-dark: #6d28d9;
+            --secondary: #ec4899; /* Pink */
+            --accent: #06b6d4; /* Cyan */
+            --success: #10b981;
             --danger: #ef4444;
-            --danger-dark: #dc2626;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --purple-grad: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+            --blue-grad: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --green-grad: linear-gradient(135deg, #10b981 0%, #84cc16 100%);
         }
 
         * {
@@ -26,9 +33,10 @@
         }
 
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: #334155;
             line-height: 1.6;
+            min-height: 100vh;
         }
 
         .admin-container {
@@ -36,19 +44,31 @@
             min-height: 100vh;
         }
 
-        /* Sidebar Styles */
+        /* --- Sidebar Styles (Modernized) --- */
         .sidebar {
-            width: 260px;
-            background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+            width: 280px; /* Lebar baru */
+            background: var(--purple-grad); /* Gradasi baru */
             color: white;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.2);
             z-index: 100;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--success));
         }
 
         .sidebar-header {
-            padding: 1.5rem 1.5rem 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.75rem 1.5rem 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
             text-align: center;
         }
 
@@ -56,150 +76,184 @@
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 0.25rem;
+            letter-spacing: 0.5px;
         }
 
         .sidebar-header p {
             font-size: 0.875rem;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         .sidebar-nav {
-            padding: 1rem 0.75rem;
+            padding: 1.5rem 0.75rem;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            padding: 0.75rem 1rem;
+            padding: 0.875rem 1rem;
             margin-bottom: 0.5rem;
-            border-radius: 0.5rem;
-            color: rgba(255, 255, 255, 0.9);
+            border-radius: 0.75rem;
+            color: rgba(255, 255, 255, 0.95);
             text-decoration: none;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-item:hover::before {
+            left: 100%;
         }
 
         .nav-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.15);
             color: white;
             transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         .nav-item.active {
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgba(255, 255, 255, 0.2);
             color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .nav-item i {
-            margin-right: 0.75rem;
+            margin-right: 0.875rem;
             font-size: 1.125rem;
             width: 24px;
             text-align: center;
         }
 
+        .logout-btn button {
+             display: flex;
+             align-items: center;
+             padding: 0;
+        }
+
         .logout-btn {
             margin-top: 2rem;
-            background-color: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            color: rgba(255, 255, 255, 0.9);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: rgba(255, 255, 255, 0.95);
         }
 
         .logout-btn:hover {
-            background-color: var(--danger);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
             transform: none;
         }
 
-        /* Main Content Styles */
+        /* --- Main Content & Header Styles --- */
         .main-content {
             flex: 1;
-            padding: 1.5rem;
+            padding: 2rem;
             overflow-y: auto;
+            background: transparent;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray-light);
         }
 
         .page-title {
-            font-size: 1.875rem;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: 800;
             color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--purple-grad);
+            border-radius: 2px;
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            background-color: white;
-            padding: 0.75rem 1.25rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            background: white;
+            padding: 0.875rem 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        .user-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.15);
         }
 
         .user-info i {
-            margin-right: 0.75rem;
+            margin-right: 0.875rem;
             color: var(--primary);
-            font-size: 1.25rem;
+            font-size: 1.5rem;
         }
 
         .user-name {
-            font-weight: 600;
-            color: var(--dark);
+            font-weight: 700;
+            color: var(--primary);
         }
 
-        /* Content Area */
         .content-area {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+             background-color: transparent;
+             box-shadow: none;
+             padding: 0;
+             margin-bottom: 1.5rem;
         }
 
-        /* Responsive */
+        /* --- Responsive Styles (Mobile) --- */
         @media (max-width: 768px) {
-            .admin-container {
-                flex-direction: column;
-            }
+            .admin-container { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; }
+            .sidebar-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem; }
+            .nav-item { flex: 1; min-width: 140px; justify-content: center; padding: 0.6rem 0.5rem; }
 
-            .sidebar {
-                width: 100%;
-                height: auto;
-            }
+            /* Sembunyikan label di mobile, kecuali Logout */
+            .nav-item span { display: none; }
+            .nav-item.logout-btn span { display: inline; margin-left: 0.5rem; }
+            .nav-item i { margin-right: 0; font-size: 1.2rem; width: auto; }
+            .nav-item:hover { transform: none; }
 
-            .sidebar-nav {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
+            .logout-btn { margin-top: 1rem; min-width: 100px; justify-content: center; }
 
-            .nav-item {
-                flex: 1;
-                min-width: 140px;
-                justify-content: center;
-            }
+            .main-content { padding: 1rem; }
 
-            .logout-btn {
-                margin-top: 1rem;
-            }
-
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
+            .header { flex-direction: column; align-items: flex-start; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; }
+            .page-title { font-size: 1.5rem; margin-bottom: 0.5rem; }
+            .page-title::after { bottom: -5px; height: 3px; }
         }
     </style>
 </head>
 <body>
     <div class="admin-container">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h1>Admin Panel</h1>
@@ -208,48 +262,52 @@
             <nav class="sidebar-nav">
                 <a href="{{ route('admin.dashboard') }}" class="nav-item active">
                     <i class="fas fa-chart-bar"></i>
-                    Dashboard
+                    <span>Dashboard</span>
                 </a>
-                 <a href="{{ route('admin.galeri.index') }}" class="nav-item">
-    <i class="fas fa-images"></i>
-    Kelola Galeri
-</a>
+                <a href="{{ route('admin.galeri.index') }}" class="nav-item">
+                    <i class="fas fa-images"></i>
+                    <span>Kelola Galeri</span>
+                </a>
 
-               <a href="{{ route('admin.pengaduan.index') }}" class="nav-item flex items-center space-x-2 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md transition">
-    <i class="fas fa-concierge-bell text-teal-600"></i>
-    <span>Kelola Layanan Pengaduan</span>
-</a>
+                {{-- Tautan Pengaduan disinkronkan ke gaya nav-item --}}
+                <a href="{{ route('admin.pengaduan.index') }}" class="nav-item">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span>Kelola Layanan Pengaduan</span>
+                </a>
 
                 <a href="{{ route('admin.artikel.index') }}" class="nav-item">
                     <i class="fas fa-newspaper"></i>
-                    Kelola Artikel
+                    <span>Kelola Artikel</span>
                 </a>
 
-               <a href="{{ route('admin.item_potensi.index') }}" class="nav-item flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded">
-    <i class="fas fa-file-alt"></i>
-    <span>Kelola Potensi</span>
+                {{-- Tautan Potensi disinkronkan ke gaya nav-item --}}
+                <a href="{{ route('admin.item_potensi.index') }}" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Kelola Potensi</span>
+                </a>
+
+                <a href="{{ route('admin.users.index') }}" class="nav-item">
+    <i class="fas fa-users"></i>
+    <span>Kelola Pengguna</span>
 </a>
 
 
                 <a href="#" class="nav-item">
                     <i class="fas fa-file-alt"></i>
-                    Laporan
+                    <span>Laporan</span>
                 </a>
-
 
                 <form method="POST" action="{{ route('logout') }}" class="nav-item logout-btn">
                     @csrf
-                    <button type="submit" class="logout-btn" style="background: none; border: none; color: inherit; width: 100%; text-align: left; cursor: pointer;">
+                    <button type="submit" style="background: none; border: none; color: inherit; width: 100%; text-align: left; cursor: pointer; display: flex; align-items: center;">
                         <i class="fas fa-sign-out-alt"></i>
-                        Logout
+                        <span>Logout</span>
                     </button>
                 </form>
             </nav>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Header -->
             <div class="header">
                 <h2 class="page-title">@yield('title', 'Dashboard Admin')</h2>
                 <div class="user-info">
@@ -258,7 +316,6 @@
                 </div>
             </div>
 
-            <!-- Content -->
             <div class="content-area">
                 @yield('content')
             </div>
@@ -268,16 +325,42 @@
     <script>
         // Menambahkan interaktivitas sederhana
         document.addEventListener('DOMContentLoaded', function() {
-            // Menambahkan efek aktif pada menu yang diklik
             const navItems = document.querySelectorAll('.nav-item');
+
+            // 1. Memastikan semua teks menu dibungkus <span> (Hanya untuk tombol logout yang menggunakan button)
             navItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    navItems.forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                });
+                const button = item.querySelector('button');
+                if (button) {
+                     // Wrap button content with <span> if not already present
+                     if (!button.querySelector('span')) {
+                        const icon = button.querySelector('i');
+                        const text = Array.from(button.childNodes).find(node => node.nodeType === 3 && node.textContent.trim().length > 0);
+                        if (text) {
+                            const span = document.createElement('span');
+                            span.textContent = text.textContent.trim();
+                            text.replaceWith(span);
+                        }
+                        if (icon) {
+                            // Ensure the button elements are properly aligned inside the flex container
+                            button.style.textAlign = 'left';
+                        }
+                    }
+                }
             });
 
-            // Menambahkan animasi pada konten
+            // 2. Logika active class saat klik/navigasi
+            navItems.forEach(item => {
+                if (item.getAttribute('href') || item.querySelector('button')) {
+                    item.addEventListener('click', function() {
+                        if (!this.classList.contains('logout-btn')) {
+                            navItems.forEach(i => i.classList.remove('active'));
+                            this.classList.add('active');
+                        }
+                    });
+                }
+            });
+
+            // 3. Menambahkan animasi pada konten
             const contentArea = document.querySelector('.content-area');
             if (contentArea) {
                 contentArea.style.opacity = '0';

@@ -336,95 +336,82 @@
             }
 
             /* Search Bar Responsive Fix */
-.search-container {
-    width: 100%;
-    max-width: 100%;
-}
+            .search-container {
+                width: 100%;
+                max-width: 100%;
+            }
 
-@media (min-width: 640px) {
-    .search-container {
-        width: 83.333%;
-    }
-}
+            @media (min-width: 640px) {
+                .search-container {
+                    width: 83.333%;
+                }
+            }
 
-@media (min-width: 768px) {
-    .search-container {
-        width: 66.666%;
-    }
-}
+            @media (min-width: 768px) {
+                .search-container {
+                    width: 66.666%;
+                }
+            }
 
-@media (min-width: 1024px) {
-    .search-container {
-        width: 50%;
-    }
-}
+            @media (min-width: 1024px) {
+                .search-container {
+                    width: 50%;
+                }
+            }
 
-/* Search Input Responsive */
-.search-input {
-    width: 100%;
-    padding: 0.75rem 1rem 0.75rem 2.5rem;
-    font-size: 0.875rem;
-    border-radius: 0.75rem;
-}
+            /* Search Input Responsive */
+            .search-input {
+                width: 100%;
+                padding: 0.75rem 1rem;
+                font-size: 0.875rem;
+                border-radius: 0.75rem;
+            }
 
-@media (min-width: 768px) {
-    .search-input {
-        padding: 1rem 1.25rem 1rem 3rem;
-        font-size: 1rem;
-        border-radius: 1rem;
-    }
-}
+            @media (min-width: 768px) {
+                .search-input {
+                    padding: 1rem 1.25rem;
+                    font-size: 1rem;
+                    border-radius: 1rem;
+                }
+            }
 
-/* Search Icon Responsive */
-.search-icon {
-    left: 0.75rem;
-    font-size: 0.875rem;
-}
+            /* Filter Buttons Responsive */
+            .filter-btn {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.75rem;
+                border-radius: 0.5rem;
+                flex: 1;
+                min-width: fit-content;
+                text-align: center;
+            }
 
-@media (min-width: 768px) {
-    .search-icon {
-        left: 1rem;
-        font-size: 1rem;
-    }
-}
+            @media (min-width: 768px) {
+                .filter-btn {
+                    padding: 0.625rem 1.25rem;
+                    font-size: 0.875rem;
+                    border-radius: 0.75rem;
+                    flex: none;
+                }
+            }
 
-/* Filter Buttons Responsive */
-.filter-btn {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.75rem;
-    border-radius: 0.5rem;
-    flex: 1;
-    min-width: fit-content;
-    text-align: center;
-}
+            @media (max-width: 480px) {
+                .filter-btn {
+                    flex: 0 0 calc(50% - 0.25rem);
+                    font-size: 0.7rem;
+                    padding: 0.5rem 0.375rem;
+                }
 
-@media (min-width: 768px) {
-    .filter-btn {
-        padding: 0.625rem 1.25rem;
-        font-size: 0.875rem;
-        border-radius: 0.75rem;
-        flex: none;
-    }
-}
+                .filter-btn i {
+                    margin-right: 0.25rem;
+                }
+            }
 
-@media (max-width: 480px) {
-    .filter-btn {
-        flex: 0 0 calc(50% - 0.25rem);
-        font-size: 0.7rem;
-        padding: 0.5rem 0.375rem;
-    }
-
-    .filter-btn i {
-        margin-right: 0.25rem;
-    }
-}
-
-@media (max-width: 360px) {
-    .filter-btn {
-        flex: 0 0 100%;
-        font-size: 0.65rem;
-    }
-}
+            @media (max-width: 360px) {
+                .filter-btn {
+                    flex: 0 0 100%;
+                    font-size: 0.65rem;
+                }
+            }
         }
     </style>
 </head>
@@ -480,33 +467,31 @@
                    name="search"
                    value="{{ request('search') }}"
                    placeholder="Cari potensi berdasarkan judul atau deskripsi..."
-                   class="w-full px-5 py-3 rounded-2xl shadow-sm border border-teal-200 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 placeholder-gray-400 text-sm sm:text-base">
-            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-teal-500"></i>
-
-            <!-- Pertahankan kategori saat search -->
-            @if(request('kategori'))
-                <input type="hidden" name="kategori" value="{{ request('kategori') }}">
-            @endif
+                   class="search-input w-full px-5 py-3 rounded-2xl shadow-sm border border-teal-200 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 placeholder-gray-400 text-sm sm:text-base">
+            <!-- Ikon search telah dihapus sesuai permintaan -->
         </div>
     </form>
 
+    <!-- Pertahankan kategori saat search -->
+    @if(request('kategori'))
+        <input type="hidden" name="kategori" value="{{ request('kategori') }}">
+    @endif
 
+    <!-- Tombol Filter Kategori -->
+    <div class="flex flex-wrap justify-center gap-3 filter-container">
+        <a href="{{ route('potensi.public.index', ['search' => request('search')]) }}"
+           class="filter-btn px-5 py-2.5 rounded-xl font-semibold {{ !$kategoriAktif ? 'active-filter text-white bg-teal-600' : 'text-teal-700 bg-white/80 border border-teal-200 shadow-sm hover:shadow-md' }}">
+            <i class="fas fa-th-large mr-2"></i>Semua Potensi
+        </a>
 
-        <!-- Tombol Filter Kategori -->
-        <div class="flex flex-wrap justify-center gap-3 filter-container">
-            <a href="{{ route('potensi.public.index', ['search' => request('search')]) }}"
-               class="filter-btn px-5 py-2.5 rounded-xl font-semibold {{ !$kategoriAktif ? 'active-filter text-white bg-teal-600' : 'text-teal-700 bg-white/80 border border-teal-200 shadow-sm hover:shadow-md' }}">
-                <i class="fas fa-th-large mr-2"></i>Semua Potensi
-            </a>
-
-            @foreach ($kategori as $kat)
-            <a href="{{ route('potensi.public.index', ['kategori' => $kat->nama_kategori, 'search' => request('search')]) }}"
-               class="filter-btn px-5 py-2.5 rounded-xl font-semibold {{ $kategoriAktif == $kat->nama_kategori ? 'active-filter text-white bg-teal-600' : 'text-teal-700 bg-white/80 border border-teal-200 shadow-sm hover:shadow-md' }}">
-               <i class="fas fa-tag mr-2"></i>{{ $kat->nama_kategori }}
-            </a>
-            @endforeach
-        </div>
-    </section>
+        @foreach ($kategori as $kat)
+        <a href="{{ route('potensi.public.index', ['kategori' => $kat->nama_kategori, 'search' => request('search')]) }}"
+           class="filter-btn px-5 py-2.5 rounded-xl font-semibold {{ $kategoriAktif == $kat->nama_kategori ? 'active-filter text-white bg-teal-600' : 'text-teal-700 bg-white/80 border border-teal-200 shadow-sm hover:shadow-md' }}">
+           <i class="fas fa-tag mr-2"></i>{{ $kat->nama_kategori }}
+        </a>
+        @endforeach
+    </div>
+</section>
 
     <!-- Potensi Grid -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
@@ -610,7 +595,6 @@
 </section>
 
 </div>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

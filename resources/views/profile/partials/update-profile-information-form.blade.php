@@ -25,6 +25,15 @@
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
+        <!-- NIK -->
+<div class="mt-4">
+    <x-input-label for="nik" :value="__('NIK')" />
+    <x-text-input id="nik" name="nik" type="text" class="mt-1 block w-full"
+        :value="old('nik', $user->nik)" autocomplete="nik" />
+    <x-input-error class="mt-2" :messages="$errors->get('nik')" />
+</div>
+
+
         <!-- Email -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
