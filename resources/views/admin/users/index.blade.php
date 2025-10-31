@@ -1,51 +1,56 @@
-@extends('layouts.admin') {{-- sesuaikan dengan nama file layout adminmu --}}
+@extends('layouts.admin')
 
 @section('title', 'Kelola Pengguna')
 
 @section('content')
 <div class="bg-white rounded-xl shadow-md p-6">
-    <form method="GET" action="{{ route('admin.users.index') }}" class="mb-4 flex gap-2">
-        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, NIK, atau email..."
-               class="border-gray-300 rounded-md shadow-sm w-1/3 px-3 py-2">
-        <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md">
-            <i class="fas fa-search mr-2"></i>Cari
-        </button>
-    </form>
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold text-purple-700">Daftar Pengguna</h2>
+        <a href="{{ route('admin.users.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+            + Tambah Pengguna
+        </a>
+    </div>
 
-    <table class="min-w-full border border-gray-200 rounded-lg">
-        <thead class="bg-purple-600 text-white">
+    @if (session('success'))
+        <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <table class="w-full border-collapse border border-gray-300">
+        <thead class="bg-gray-100">
             <tr>
-                <th class="py-2 px-4 text-left">Nama</th>
-                <th class="py-2 px-4 text-left">NIK</th>
-                <th class="py-2 px-4 text-left">Alamat</th>
-                <th class="py-2 px-4 text-left">No. Telepon</th>
-                <th class="py-2 px-4 text-left">Email</th>
-                <th class="py-2 px-4 text-left">Aksi</th>
+                <th class="border p-2">Nama</th>
+                <th class="border p-2">NIK</th>
+                <th class="border p-2">Alamat</th>
+                <th class="border p-2">No Telepon</th>
+                <th class="border p-2">Email</th>
+                <th class="border p-2 text-center">Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($users as $user)
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="py-2 px-4">{{ $user->name }}</td>
-                    <td class="py-2 px-4">{{ $user->nik }}</td>
-                    <td class="py-2 px-4">{{ $user->alamat }}</td>
-                    <td class="py-2 px-4">{{ $user->no_telepon }}</td>
-                    <td class="py-2 px-4">{{ $user->email }}</td>
-                    <td class="py-2 px-4">
-                        <a href="{{ route('admin.users.show', $user->id) }}"
-                           class="text-blue-600 hover:underline">Detail</a>
+            @foreach ($users as $user)
+                <tr class="hover:bg-gray-50">
+                    <td class="border p-2">{{ $user->name }}</td>
+                    <td class="border p-2">{{ $user->nik }}</td>
+                    <td class="border p-2">{{ $user->alamat }}</td>
+                    <td class="border p-2">{{ $user->no_telepon }}</td>
+                    <td class="border p-2">{{ $user->email }}</td>
+                    <td class="border p-2 text-center space-x-2">
+                        <a href="{{ route('admin.users.show', $user->id) }}" class="px-3 py-1 bg-purple-600 text-white rounded hover:bg-purple-700">
+                            Detail
+                        </a>
+                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin hapus pengguna ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">Hapus</button>
+                        </form>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="6" class="text-center py-3 text-gray-500">Tidak ada pengguna ditemukan</td>
-                </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
 
-    <div class="mt-4">
-        {{ $users->links() }}
-    </div>
+    <div class="mt-4">{{ $users->links() }}</div>
 </div>
 @endsection

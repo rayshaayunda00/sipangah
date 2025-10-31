@@ -18,6 +18,7 @@ use App\Http\Controllers\PotensiPublicController;
 use App\Http\Controllers\TentangKelurahanController;
 use App\Http\Controllers\Admin\UserController;
 
+
 // Halaman utama (landing page)
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -120,13 +121,24 @@ Route::get('/potensi/{item}', [PotensiPublicController::class, 'show'])
 Route::prefix('admin')->middleware('auth')->group(function () {
 
 
-Route::middleware(['auth', AdminMiddleware::class])
-     ->prefix('admin')
-     ->name('admin.')
-     ->group(function () {
-         Route::get('/users', [UserController::class, 'index'])->name('users.index');
-         Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
-     });
+
+
+
+
+Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
+    // Daftar pengguna
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+    // Tambah pengguna
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+
+    // Detail pengguna
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+
+    // Hapus pengguna
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+});
 
 
 
