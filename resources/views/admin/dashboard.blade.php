@@ -9,20 +9,21 @@
 
     <style>
         :root {
-            /* Warna UI Modern (diambil dari file kedua) */
-            --primary: #7c3aed; /* Ungu */
-            --primary-light: #8b5cf6;
-            --primary-dark: #6d28d9;
-            --secondary: #ec4899; /* Pink */
+            /* Warna UI Modern - Skema Teal/Emerald */
+            --primary: #0f766e; /* Teal */
+            --primary-light: #0d9488;
+            --primary-dark: #115e59;
+            --secondary: #f59e0b; /* Amber */
             --accent: #06b6d4; /* Cyan */
             --success: #10b981;
             --danger: #ef4444;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --gray-light: #e2e8f0;
-            --purple-grad: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
-            --blue-grad: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --dark: #111827;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --teal-grad: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+            --amber-grad: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            --cyan-grad: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
             --green-grad: linear-gradient(135deg, #10b981 0%, #84cc16 100%);
         }
 
@@ -35,8 +36,8 @@
 
         body {
             /* Background yang lebih terang dan elegan */
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            color: #334155;
+            background: linear-gradient(135deg, #f0fdfa 0%, #f8fafc 50%, #ecfdf5 100%);
+            color: #374151;
             line-height: 1.6;
             min-height: 100vh;
         }
@@ -49,9 +50,9 @@
         /* --- Sidebar Styles (Disertakan untuk tampilan penuh) --- */
         .sidebar {
             width: 280px;
-            background: var(--purple-grad);
+            background: var(--teal-grad);
             color: white;
-            box-shadow: 0 0 30px rgba(124, 58, 237, 0.2);
+            box-shadow: 0 0 30px rgba(15, 118, 110, 0.2);
             z-index: 100;
             transition: all 0.3s ease;
             position: relative;
@@ -117,14 +118,14 @@
         }
         .page-title::after {
             content: ''; position: absolute; bottom: -10px; left: 0; width: 60px; height: 4px;
-            background: var(--purple-grad); border-radius: 2px;
+            background: var(--teal-grad); border-radius: 2px;
         }
         .user-info {
             display: flex; align-items: center; background: white; padding: 0.875rem 1.5rem;
-            border-radius: 1rem; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.1); transition: all 0.3s ease;
-            border: 1px solid rgba(124, 58, 237, 0.1);
+            border-radius: 1rem; box-shadow: 0 4px 15px rgba(15, 118, 110, 0.1); transition: all 0.3s ease;
+            border: 1px solid rgba(15, 118, 110, 0.1);
         }
-        .user-info:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(124, 58, 237, 0.15); }
+        .user-info:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(15, 118, 110, 0.15); }
         .user-info i { margin-right: 0.875rem; color: var(--primary); font-size: 1.5rem; }
         .user-name { font-weight: 700; color: var(--primary); }
         .content-area { background-color: transparent; box-shadow: none; padding: 0; margin-bottom: 1.5rem; }
@@ -138,10 +139,10 @@
             transition: all 0.4s ease; position: relative; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.8);
         }
         .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; }
-        .stat-card.user-card::before { background: var(--purple-grad); }
-        .stat-card.service-card::before { background: var(--blue-grad); }
+        .stat-card.user-card::before { background: var(--teal-grad); }
+        .stat-card.service-card::before { background: var(--cyan-grad); }
         .stat-card.article-card::before { background: var(--green-grad); }
-        .stat-card:nth-child(4)::before { background: linear-gradient(135deg, #ec4899 0%, #f59e0b 100%); }
+        .stat-card.gallery-card::before { background: var(--amber-grad); }
         .stat-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); }
         .stat-card h3 {
             font-size: 1rem; font-weight: 600; color: var(--gray); margin-bottom: 0.75rem;
@@ -151,7 +152,7 @@
         .user-card h3 i { color: var(--primary); }
         .service-card h3 i { color: var(--accent); }
         .article-card h3 i { color: var(--success); }
-        .stat-card:nth-child(4) h3 i { color: var(--secondary); }
+        .gallery-card h3 i { color: var(--secondary); }
         .stat-card .stat-value {
             font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem;
             background: linear-gradient(135deg, var(--dark) 0%, var(--gray) 100%);
@@ -176,9 +177,9 @@
         }
         .menu-card::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--purple-grad); opacity: 0; transition: opacity 0.4s ease;
+            background: var(--teal-grad); opacity: 0; transition: opacity 0.4s ease;
         }
-        .menu-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(124, 58, 237, 0.2); color: white; }
+        .menu-card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(15, 118, 110, 0.2); color: white; }
         .menu-card:hover::before { opacity: 1; }
         .menu-card:hover h4, .menu-card:hover p, .menu-card:hover .card-icon { color: white; z-index: 2; position: relative; }
         .menu-card h4 {
@@ -192,15 +193,18 @@
             color: var(--primary); transition: all 0.4s ease; z-index: 1;
         }
         .menu-card:hover .card-icon { opacity: 0.2; transform: scale(1.2) rotate(5deg); }
-        .menu-card:nth-child(1):hover { box-shadow: 0 15px 35px rgba(124, 58, 237, 0.25); }
+        .menu-card:nth-child(1):hover { box-shadow: 0 15px 35px rgba(15, 118, 110, 0.25); }
         .menu-card:nth-child(2):hover { box-shadow: 0 15px 35px rgba(6, 182, 212, 0.25); }
         .menu-card:nth-child(3):hover { box-shadow: 0 15px 35px rgba(16, 185, 129, 0.25); }
-        .menu-card:nth-child(4):hover { box-shadow: 0 15px 35px rgba(236, 72, 153, 0.25); }
-        .menu-card:nth-child(1)::before { background: var(--purple-grad); }
-        .menu-card:nth-child(2)::before { background: var(--blue-grad); }
+        .menu-card:nth-child(4):hover { box-shadow: 0 15px 35px rgba(245, 158, 11, 0.25); }
+        .menu-card:nth-child(5):hover { box-shadow: 0 15px 35px rgba(239, 68, 68, 0.25); }
+        .menu-card:nth-child(1)::before { background: var(--teal-grad); }
+        .menu-card:nth-child(2)::before { background: var(--cyan-grad); }
         .menu-card:nth-child(3)::before { background: var(--green-grad); }
-        .menu-card:nth-child(4)::before { background: linear-gradient(135deg, #ec4899 0%, #f59e0b 100%); }
+        .menu-card:nth-child(4)::before { background: var(--amber-grad); }
+        .menu-card:nth-child(5)::before { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
         .menu-card:nth-child(4) h4 i { color: var(--secondary); }
+        .menu-card:nth-child(5) h4 i { color: var(--danger); }
 
         /* Elements dekoratif */
         .floating-shapes { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
@@ -271,10 +275,9 @@
                 </a>
 
                 <a href="{{ route('admin.users.index') }}" class="nav-item">
-    <i class="fas fa-users"></i>
-    <span>Kelola Pengguna</span>
-</a>
-
+                    <i class="fas fa-users"></i>
+                    <span>Kelola Pengguna</span>
+                </a>
 
                 <a href="#" class="nav-item">
                     <i class="fas fa-file-alt"></i>
@@ -326,8 +329,7 @@
                             <span>5 artikel baru</span>
                         </div>
                     </div>
-                    {{-- Card ke-4 --}}
-                    <div class="stat-card" style="grid-column: span 1 / span 1;">
+                    <div class="stat-card gallery-card">
                         <h3><i class="fas fa-image"></i> Total Galeri</h3>
                         <div class="stat-value">45</div>
                         <div class="stat-trend trend-up">
@@ -358,6 +360,12 @@
                         <h4><i class="fas fa-leaf"></i> Kelola Potensi</h4>
                         <p>Input dan atur data potensi daerah.</p>
                         <i class="fas fa-file-alt card-icon"></i>
+                    </a>
+                    <!-- Card baru untuk Kelola Pengguna -->
+                    <a href="{{ route('admin.users.index') }}" class="menu-card">
+                        <h4><i class="fas fa-users"></i> Kelola Pengguna</h4>
+                        <p>Kelola data pengguna dan akses sistem.</p>
+                        <i class="fas fa-user-cog card-icon"></i>
                     </a>
                 </div>
             </div>

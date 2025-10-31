@@ -8,20 +8,20 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
-            /* Warna UI Modern */
-            --primary: #7c3aed; /* Ungu */
-            --primary-light: #8b5cf6;
-            --primary-dark: #6d28d9;
-            --secondary: #ec4899; /* Pink */
+            /* Warna UI Modern - Skema Teal/Emerald */
+            --primary: #0f766e; /* Teal */
+            --primary-light: #0d9488;
+            --primary-dark: #115e59;
+            --secondary: #f59e0b; /* Amber */
             --accent: #06b6d4; /* Cyan */
             --success: #10b981;
             --danger: #ef4444;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --gray-light: #e2e8f0;
-            --purple-grad: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
-            --blue-grad: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --dark: #111827;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --gray-light: #e5e7eb;
+            --teal-grad: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+            --amber-grad: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
             --green-grad: linear-gradient(135deg, #10b981 0%, #84cc16 100%);
         }
 
@@ -33,8 +33,8 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            color: #334155;
+            background: linear-gradient(135deg, #f0fdfa 0%, #f8fafc 50%, #ecfdf5 100%);
+            color: #374151;
             line-height: 1.6;
             min-height: 100vh;
         }
@@ -46,10 +46,10 @@
 
         /* --- Sidebar Styles (Modernized) --- */
         .sidebar {
-            width: 280px; /* Lebar baru */
-            background: var(--purple-grad); /* Gradasi baru */
+            width: 280px;
+            background: var(--teal-grad);
             color: white;
-            box-shadow: 0 0 30px rgba(124, 58, 237, 0.2);
+            box-shadow: 0 0 30px rgba(15, 118, 110, 0.2);
             z-index: 100;
             transition: all 0.3s ease;
             position: relative;
@@ -191,7 +191,7 @@
             left: 0;
             width: 60px;
             height: 4px;
-            background: var(--purple-grad);
+            background: var(--teal-grad);
             border-radius: 2px;
         }
 
@@ -201,14 +201,14 @@
             background: white;
             padding: 0.875rem 1.5rem;
             border-radius: 1rem;
-            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.1);
+            box-shadow: 0 4px 15px rgba(15, 118, 110, 0.1);
             transition: all 0.3s ease;
-            border: 1px solid rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(15, 118, 110, 0.1);
         }
 
         .user-info:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.15);
+            box-shadow: 0 8px 25px rgba(15, 118, 110, 0.15);
         }
 
         .user-info i {
@@ -287,10 +287,9 @@
                 </a>
 
                 <a href="{{ route('admin.users.index') }}" class="nav-item">
-    <i class="fas fa-users"></i>
-    <span>Kelola Pengguna</span>
-</a>
-
+                    <i class="fas fa-users"></i>
+                    <span>Kelola Pengguna</span>
+                </a>
 
                 <a href="#" class="nav-item">
                     <i class="fas fa-file-alt"></i>
