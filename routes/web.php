@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\ItemPotensiController;
 use App\Http\Controllers\PotensiPublicController;
 use App\Http\Controllers\TentangKelurahanController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ArsipController;
 
 
 // Halaman utama (landing page)
@@ -166,6 +167,19 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     Route::put('/item-potensi/{id}', [ItemPotensiController::class, 'update'])->name('admin.item_potensi.update');
     Route::delete('/item-potensi/{id}', [ItemPotensiController::class, 'destroy'])->name('admin.item_potensi.destroy');
 
+});
+
+    Route::prefix('admin')->middleware('auth')->group(function () {
+    // ... rute admin lama
+
+    Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admin.')->group(function () {
+    // ... rute users, potensi, dll.
+
+    // CRUD ARSIP (Kebutuhan Baru)
+    Route::resource('arsip', ArsipController::class); // <- Tambahkan Resource Route ini
+
+        // ... rute potensi lainnya
+    });
 });
 
 

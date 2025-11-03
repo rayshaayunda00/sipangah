@@ -291,6 +291,11 @@
                     <span>Kelola Pengguna</span>
                 </a>
 
+                <a href="{{ route('admin.arsip.index') }}" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Kelola Arsip</span>
+                </a>
+
                 <a href="#" class="nav-item">
                     <i class="fas fa-file-alt"></i>
                     <span>Laporan</span>
