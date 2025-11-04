@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | @yield('title', 'Dashboard')</title>
+    <!-- Judul halaman akan diganti sesuai section 'title', default 'Dashboard' -->
+
+    <!-- Font Awesome untuk icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Vite untuk CSS & JS (Mengambil file dari folder build Vite) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         :root {
             /* Warna UI Modern - Skema Teal/Emerald */
+            /* Variabel CSS untuk konsistensi tema warna */
             --primary: #0f766e; /* Teal */
             --primary-light: #0d9488;
             --primary-dark: #115e59;
@@ -29,10 +34,12 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /* Tumpukan font modern dengan fallback sans-serif */
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
         }
 
         body {
+            /* Latar belakang gradient halus */
             background: linear-gradient(135deg, #f0fdfa 0%, #f8fafc 50%, #ecfdf5 100%);
             color: #374151;
             line-height: 1.6;
@@ -47,7 +54,7 @@
         /* --- Sidebar Styles (Modernized) --- */
         .sidebar {
             width: 280px;
-            background: var(--teal-grad);
+            background: var(--teal-grad); /* Background gradient dari variabel */
             color: white;
             box-shadow: 0 0 30px rgba(15, 118, 110, 0.2);
             z-index: 100;
@@ -57,6 +64,7 @@
         }
 
         .sidebar::before {
+            /* Garis dekoratif atas sidebar */
             content: '';
             position: absolute;
             top: 0;
@@ -68,7 +76,7 @@
 
         .sidebar-header {
             padding: 1.75rem 1.5rem 1.25rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Garis pemisah transparan */
             text-align: center;
         }
 
@@ -99,11 +107,12 @@
             transition: all 0.3s ease;
             font-weight: 500;
             position: relative;
-            overflow: hidden;
+            overflow: hidden; /* Untuk efek hover::before */
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-item::before {
+            /* Efek 'shine' saat hover */
             content: '';
             position: absolute;
             top: 0;
@@ -115,17 +124,18 @@
         }
 
         .nav-item:hover::before {
-            left: 100%;
+            left: 100%; /* Pindahkan efek 'shine' dari kiri ke kanan */
         }
 
         .nav-item:hover {
             background-color: rgba(255, 255, 255, 0.15);
             color: white;
-            transform: translateX(5px);
+            transform: translateX(5px); /* Efek 'lift' kecil saat hover */
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
             border-color: rgba(255, 255, 255, 0.2);
         }
 
+        /* Style untuk item menu yang sedang aktif */
         .nav-item.active {
             background-color: rgba(255, 255, 255, 0.2);
             color: white;
@@ -141,12 +151,14 @@
         }
 
         .logout-btn button {
+             /* Reset style button agar menyatu dengan form .nav-item */
              display: flex;
              align-items: center;
              padding: 0;
         }
 
         .logout-btn {
+            /* Style khusus untuk tombol logout */
             margin-top: 2rem;
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
             border: 1px solid rgba(239, 68, 68, 0.3);
@@ -154,16 +166,16 @@
         }
 
         .logout-btn:hover {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); /* Warna merah solid saat hover */
             color: white;
-            transform: none;
+            transform: none; /* Hilangkan transform 'lift' khusus untuk logout */
         }
 
         /* --- Main Content & Header Styles --- */
         .main-content {
-            flex: 1;
+            flex: 1; /* Mengisi sisa ruang */
             padding: 2rem;
-            overflow-y: auto;
+            overflow-y: auto; /* Scroll jika konten panjang */
             background: transparent;
         }
 
@@ -185,6 +197,7 @@
         }
 
         .page-title::after {
+            /* Garis dekoratif di bawah judul halaman */
             content: '';
             position: absolute;
             bottom: -10px;
@@ -207,7 +220,7 @@
         }
 
         .user-info:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px); /* Efek 'lift' pada info user */
             box-shadow: 0 8px 25px rgba(15, 118, 110, 0.15);
         }
 
@@ -223,6 +236,7 @@
         }
 
         .content-area {
+             /* Area konten utama, style minimalis */
              background-color: transparent;
              box-shadow: none;
              padding: 0;
@@ -231,16 +245,16 @@
 
         /* --- Responsive Styles (Mobile) --- */
         @media (max-width: 768px) {
-            .admin-container { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; }
+            .admin-container { flex-direction: column; } /* Ubah jadi layout kolom di mobile */
+            .sidebar { width: 100%; height: auto; } /* Sidebar jadi full-width di atas */
+            /* Navigasi di mobile menjadi horizontal dan wrap */
             .sidebar-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem; }
             .nav-item { flex: 1; min-width: 140px; justify-content: center; padding: 0.6rem 0.5rem; }
 
-            /* Sembunyikan label di mobile, kecuali Logout */
-            .nav-item span { display: none; }
-            .nav-item.logout-btn span { display: inline; margin-left: 0.5rem; }
-            .nav-item i { margin-right: 0; font-size: 1.2rem; width: auto; }
-            .nav-item:hover { transform: none; }
+            .nav-item span { display: none; } /* Sembunyikan teks menu di mobile */
+            .nav-item.logout-btn span { display: inline; margin-left: 0.5rem; } /* Kecuali logout */
+            .nav-item i { margin-right: 0; font-size: 1.2rem; width: auto; } /* Icon jadi pusat menu */
+            .nav-item:hover { transform: none; } /* Hilangkan efek 'lift' di mobile */
 
             .logout-btn { margin-top: 1rem; min-width: 100px; justify-content: center; }
 
@@ -250,126 +264,235 @@
             .page-title { font-size: 1.5rem; margin-bottom: 0.5rem; }
             .page-title::after { bottom: -5px; height: 3px; }
         }
+
+        /* --- Dashboard Stats & Quick Menu Styles (CSS TAMBAHAN) --- */
+        /* Style ini mungkin digunakan di halaman dashboard.blade.php */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            padding: 1.75rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(15, 118, 110, 0.08);
+            border: 1px solid rgba(15, 118, 110, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(15, 118, 110, 0.12);
+        }
+
+        .stat-card h3 {
+            font-size: 1rem;
+            color: var(--gray);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .stat-card h3 i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+            font-size: 1.125rem;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-trend {
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+        }
+        .stat-trend.trend-up { color: var(--success); }
+        .stat-trend.trend-down { color: var(--danger); }
+        .stat-trend i { margin-right: 0.25rem; }
+
+        /* Card background accents */
+        /* Style ini memberi border kiri berwarna sesuai kategori card */
+        .user-card { border-left: 5px solid var(--accent); }
+        .service-card { border-left: 5px solid var(--secondary); }
+        .article-card { border-left: 5px solid var(--primary); }
+        .gallery-card { border-left: 5px solid var(--success); }
+
+
+        /* Quick Menu */
+        /* Style ini mungkin digunakan di halaman dashboard.blade.php */
+        .quick-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .menu-card {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(15, 118, 110, 0.05);
+            border: 1px solid rgba(15, 118, 110, 0.1);
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(15, 118, 110, 0.1);
+            border-color: var(--primary);
+        }
+
+        .menu-card h4 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        .menu-card h4 i {
+            margin-right: 0.6rem;
+            color: var(--primary-dark);
+        }
+
+        .menu-card p {
+            font-size: 0.875rem;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        .menu-card .card-icon {
+            /* Ikon dekoratif besar di background card */
+            position: absolute;
+            right: 1.5rem;
+            bottom: 1.5rem;
+            font-size: 3rem;
+            color: var(--primary);
+            opacity: 0.07;
+            transform: rotate(-10deg);
+            transition: all 0.3s ease;
+        }
+
+        .menu-card:hover .card-icon {
+            opacity: 0.1;
+            transform: rotate(0deg) scale(1.05);
+        }
+
     </style>
 </head>
 <body>
     <div class="admin-container">
+        <!-- SIDEBAR -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <h1>Admin Panel</h1>
                 <p>Kelurahan Sipangah</p>
             </div>
+
             <nav class="sidebar-nav">
-                <a href="{{ route('admin.dashboard') }}" class="nav-item active">
+                <!-- Menu Dashboard -->
+                {{--
+                  Cek jika route saat ini adalah 'admin.dashboard'.
+                  Jika ya, tambahkan class 'active'
+                --}}
+                <a href="{{ route('admin.dashboard') }}" class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="fas fa-chart-bar"></i>
                     <span>Dashboard</span>
                 </a>
-                <a href="{{ route('admin.galeri.index') }}" class="nav-item">
+
+                <!-- Menu Kelola Galeri -->
+                {{-- request()->routeIs('admin.galeri.*') akan 'active' di halaman index, create, edit galeri --}}
+                <a href="{{ route('admin.galeri.index') }}" class="nav-item {{ request()->routeIs('admin.galeri.*') ? 'active' : '' }}">
                     <i class="fas fa-images"></i>
                     <span>Kelola Galeri</span>
                 </a>
 
-                {{-- Tautan Pengaduan disinkronkan ke gaya nav-item --}}
-                <a href="{{ route('admin.pengaduan.index') }}" class="nav-item">
+                <!-- Menu Kelola Layanan Pengaduan -->
+                <a href="{{ route('admin.pengaduan.index') }}" class="nav-item {{ request()->routeIs('admin.pengaduan.*') ? 'active' : '' }}">
                     <i class="fas fa-concierge-bell"></i>
                     <span>Kelola Layanan Pengaduan</span>
                 </a>
 
-                <a href="{{ route('admin.artikel.index') }}" class="nav-item">
+                <!-- Menu Kelola Artikel -->
+                <a href="{{ route('admin.artikel.index') }}" class="nav-item {{ request()->routeIs('admin.artikel.*') ? 'active' : '' }}">
                     <i class="fas fa-newspaper"></i>
                     <span>Kelola Artikel</span>
                 </a>
 
-                {{-- Tautan Potensi disinkronkan ke gaya nav-item --}}
-                <a href="{{ route('admin.item_potensi.index') }}" class="nav-item">
+                <!-- Menu Kelola Potensi -->
+                <a href="{{ route('admin.item_potensi.index') }}" class="nav-item {{ request()->routeIs('admin.item_potensi.*') ? 'active' : '' }}">
                     <i class="fas fa-file-alt"></i>
                     <span>Kelola Potensi</span>
                 </a>
 
-                <a href="{{ route('admin.users.index') }}" class="nav-item">
+                <!-- Menu Kelola Pengguna -->
+                <a href="{{ route('admin.users.index') }}" class="nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                     <i class="fas fa-users"></i>
                     <span>Kelola Pengguna</span>
                 </a>
 
-                <a href="{{ route('admin.arsip.index') }}" class="nav-item">
-                    <i class="fas fa-users"></i>
+                <!-- Menu Kelola Arsip -->
+                <a href="{{ route('admin.arsip.index') }}" class="nav-item {{ request()->routeIs('admin.arsip.*') ? 'active' : '' }}">
+                    <i class="fas fa-users"></i> <!-- Ganti icon jika perlu, misal fas fa-archive -->
                     <span>Kelola Arsip</span>
                 </a>
 
-                <a href="#" class="nav-item">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Laporan</span>
-                </a>
-
+                <!-- Form Logout -->
                 <form method="POST" action="{{ route('logout') }}" class="nav-item logout-btn">
                     @csrf
-                    <button type="submit" style="background: none; border: none; color: inherit; width: 100%; text-align: left; cursor: pointer; display: flex; align-items: center;">
+                    <button type"submit" style="background: none; border: none; color: inherit; width: 100%; text-align: left; cursor: pointer; display: flex; align-items: center;">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Logout</span>
                     </button>
                 </form>
             </nav>
-        </aside>
+            </aside>
 
+        <!-- MAIN CONTENT -->
         <main class="main-content">
             <div class="header">
+                {{-- Menampilkan section 'title' (judul halaman) --}}
                 <h2 class="page-title">@yield('title', 'Dashboard Admin')</h2>
                 <div class="user-info">
                     <i class="fas fa-user-circle"></i>
+                    {{-- Menampilkan nama pengguna yang sedang login --}}
                     <span>Halo, <span class="user-name">{{ auth()->user()->name }}</span></span>
                 </div>
             </div>
 
+            <!-- AREA UNTUK HALAMAN KONTEN -->
             <div class="content-area">
+                {{-- Di sinilah konten dari file lain (seperti index_item.blade.php) akan dimasukkan --}}
                 @yield('content')
             </div>
-        </main>
+            </main>
     </div>
 
     <script>
-        // Menambahkan interaktivitas sederhana
         document.addEventListener('DOMContentLoaded', function() {
-            const navItems = document.querySelectorAll('.nav-item');
+            // Logika 'active' class sudah ditangani oleh Blade di sisi server
 
-            // 1. Memastikan semua teks menu dibungkus <span> (Hanya untuk tombol logout yang menggunakan button)
-            navItems.forEach(item => {
-                const button = item.querySelector('button');
-                if (button) {
-                     // Wrap button content with <span> if not already present
-                     if (!button.querySelector('span')) {
-                        const icon = button.querySelector('i');
-                        const text = Array.from(button.childNodes).find(node => node.nodeType === 3 && node.textContent.trim().length > 0);
-                        if (text) {
-                            const span = document.createElement('span');
-                            span.textContent = text.textContent.trim();
-                            text.replaceWith(span);
-                        }
-                        if (icon) {
-                            // Ensure the button elements are properly aligned inside the flex container
-                            button.style.textAlign = 'left';
-                        }
-                    }
-                }
-            });
-
-            // 2. Logika active class saat klik/navigasi
-            navItems.forEach(item => {
-                if (item.getAttribute('href') || item.querySelector('button')) {
-                    item.addEventListener('click', function() {
-                        if (!this.classList.contains('logout-btn')) {
-                            navItems.forEach(i => i.classList.remove('active'));
-                            this.classList.add('active');
-                        }
-                    });
-                }
-            });
-
-            // 3. Menambahkan animasi pada konten
+            // Animasi masuk halaman sederhana
             const contentArea = document.querySelector('.content-area');
             if (contentArea) {
+                // Atur style awal (transparan dan sedikit ke bawah)
                 contentArea.style.opacity = '0';
                 contentArea.style.transform = 'translateY(10px)';
 
+                // Setelah sedikit delay, animasikan ke style akhir (terlihat dan posisi normal)
                 setTimeout(() => {
                     contentArea.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
                     contentArea.style.opacity = '1';
@@ -380,3 +503,4 @@
     </script>
 </body>
 </html>
+
