@@ -407,10 +407,11 @@
                         </div>
                     </div>
                     <div class="p-0">
-                       <iframe
+                       {{-- <iframe
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3981.987654321!2d100.430987!3d-0.935987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e2d3b4e8a9b2b5b%3A0xabcdef1234567890!2sKantor%20Lurah%20Cupak%20Tangah!5e0!3m2!1sid!2sid!4v1697083200000!5m2!1sid!2sid"
                             width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy">
-                        </iframe>
+                        </iframe> --}}
+                        <div id="map" style="height: 450px; width: 100%; border-radius: 0 0 1rem 1rem;"></div>
 
                         <!-- Koordinat -->
                         <div class="text-center py-4 bg-gray-50 text-gray-700 text-sm font-medium">
@@ -465,5 +466,40 @@
         });
     </script>
     @endsection
+       @push('scripts')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Inisialisasi peta
+    var map = L.map('map').setView([-0.9360, 100.4310], 14);
+
+    // Tambahkan layer dasar (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Ambil file GeoJSON dari folder public/geojson
+    fetch('{{ asset('geojson/cupak_tangah.json') }}')
+        .then(response => response.json())
+        .then(data => {
+            var geojsonLayer = L.geoJSON(data, {
+                style: {
+                    color: '#0f766e',      // Warna garis batas
+                    weight: 2,             // Ketebalan garis
+                    fillColor: '#0d9488',  // Warna isian (arsiran)
+                    fillOpacity: 0.3       // Transparansi arsiran
+                }
+            }).addTo(map);
+
+            // Sesuaikan tampilan peta dengan area GeoJSON
+            map.fitBounds(geojsonLayer.getBounds());
+        })
+        .catch(err => console.error('Gagal memuat GeoJSON:', err));
+});
+</script>
+@endpush
+@stack('scripts')
 </body>
 </html>

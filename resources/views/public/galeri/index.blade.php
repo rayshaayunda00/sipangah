@@ -286,9 +286,9 @@
                         <!-- Hover Overlay -->
                         <div class="absolute inset-0 bg-gradient-to-t from-teal-900/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-start p-6">
                             <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                <span class="text-white text-sm font-medium bg-teal-600/80 px-3 py-1 rounded-full">
+                                {{-- <span class="text-white text-sm font-medium bg-teal-600/80 px-3 py-1 rounded-full">
                                     Lihat Detail
-                                </span>
+                                </span> --}}
                             </div>
                         </div>
                     </div>

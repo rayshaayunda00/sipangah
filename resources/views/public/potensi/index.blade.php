@@ -545,16 +545,17 @@
                     @endif
 
                     <div class="flex space-x-2">
-                        <!-- Tombol Hubungi -->
+                        {{-- <!-- Tombol Hubungi -->
                         <button class="contact-btn inline-flex items-center text-teal-600 font-semibold text-sm px-3 py-1.5 rounded-lg bg-teal-50 border border-teal-100">
                             Hubungi <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
-                        </button>
+                        </button> --}}
 
                         <!-- Tombol Lihat Detail -->
                         <a href="{{ route('public.potensi.show', $item) }}"
-   class="inline-flex items-center text-white bg-teal-600 px-3 py-1.5 rounded-lg font-semibold shadow hover:bg-teal-700 transition">
-    Lihat Detail <i class="fas fa-eye ml-2"></i>
-</a>
+   class="read-more inline-flex items-center text-teal-600 font-semibold text-sm px-3 py-1.5 rounded-lg bg-teal-50 border border-teal-100">
+                                Lihat Detail <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
+                            </a>
+
 
                     </div>
                 </div>

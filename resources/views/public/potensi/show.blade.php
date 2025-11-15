@@ -402,11 +402,11 @@
                 <!-- Action Buttons dengan style galeri -->
                 <div class="flex flex-col sm:flex-row gap-4 action-buttons pt-6 border-t border-gray-200">
                     @if ($item->no_hp)
-                    <button class="contact-btn inline-flex items-center justify-center text-teal-600 font-semibold text-sm md:text-base px-6 py-3 rounded-xl bg-teal-50 border border-teal-100 shadow-sm">
+                    {{-- <button class="contact-btn inline-flex items-center justify-center text-teal-600 font-semibold text-sm md:text-base px-6 py-3 rounded-xl bg-teal-50 border border-teal-100 shadow-sm">
                         <i class="fas fa-phone mr-2"></i>
                         Hubungi Sekarang
                         <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-1"></i>
-                    </button>
+                    </button> --}}
                     @endif
 
                     <a href="{{ route('potensi.public.index') }}"

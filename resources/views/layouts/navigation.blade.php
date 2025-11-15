@@ -23,35 +23,59 @@
     </a>
 
 <div x-data="{ open: false }" class="relative">
+    {{-- 1. Tombol Parent Dropdown --}}
+    {{-- Ini akan aktif jika rute APAPUN yang dimulai dengan 'layanan' aktif --}}
     <button @click="open = !open"
-        class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300 inline-flex items-center">
+            class="px-3 py-2 text-sm font-medium inline-flex items-center {{ request()->routeIs('layanan*') ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-500 hover:text-gray-900 border-b-2 border-transparent hover:border-gray-300' }}">
         Layanan
         <svg class="ml-1 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
-            viewBox="0 0 24 24" stroke="currentColor">
+             viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M19 9l-7 7-7-7" />
+                  d="M19 9l-7 7-7-7" />
         </svg>
     </button>
 
+    {{-- 2. Konten Dropdown --}}
     <div x-show="open" @click.away="open = false"
-        class="absolute bg-white shadow-lg rounded-lg mt-2 w-48 z-50">
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 transform scale-95"
+         x-transition:enter-end="opacity-100 transform scale-100"
+         x-transition:leave="transition ease-in duration-75"
+         x-transition:leave-start="opacity-100 transform scale-100"
+         x-transition:leave-end="opacity-0 transform scale-95"
+         class="absolute bg-white shadow-lg rounded-lg mt-2 w-48 z-50 origin-top-right"
+         style="display: none;"> {{-- style="display: none;" untuk mencegah FOUC --}}
+
+        {{-- Tautan Child: Pengaduan --}}
         <a href="{{ route('layanan.pengaduan') }}"
-            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+           class="block px-4 py-2 text-sm hover:bg-gray-100 {{ request()->routeIs('layanan.pengaduan*') ? 'font-semibold text-teal-600' : 'text-gray-700' }}">
             Pengaduan
         </a>
+
+        {{-- Tautan Child: Administrasi --}}
+        {{-- Logika ini mengasumsikan rute 'layanan' BUKAN 'layanan.pengaduan' --}}
         <a href="{{ route('layanan') }}"
-            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+           class="block px-4 py-2 text-sm hover:bg-gray-100 {{ request()->routeIs('layanan') || (request()->routeIs('layanan*') && !request()->routeIs('layanan.pengaduan*')) ? 'font-semibold text-teal-600' : 'text-gray-700' }}">
             Administrasi
         </a>
     </div>
 </div>
-                     <a href="{{ route('galeri.index') }}" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Galeri</a>
+                     {{-- Tautan Galeri --}}
+<a href="{{ route('galeri.index') }}"
+   class="px-3 py-2 text-sm font-medium {{ request()->routeIs('galeri.*') ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-500 hover:text-gray-900' }}">
+    Galeri
+</a>
 
-                    <a href="{{ route('potensi.public.index') }}" class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium">Potensi</a>
+{{-- Tautan Potensi --}}
+<a href="{{ route('potensi.public.index') }}"
+   class="px-3 py-2 text-sm font-medium {{ request()->routeIs('potensi.public.*') ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-500 hover:text-gray-900' }}">
+    Potensi
+</a>
 
-                    <a href="{{ route('tentang_kelurahan.index') }}"
-   class="text-gray-500 hover:text-gray-900 px-3 py-2 text-sm font-medium border-b-2 border-transparent hover:border-gray-300">
-   Tentang
+{{-- Tautan Tentang --}}
+<a href="{{ route('tentang_kelurahan.index') }}"
+   class="px-3 py-2 text-sm font-medium {{ request()->routeIs('tentang_kelurahan.*') ? 'text-teal-600 border-b-2 border-teal-600' : 'text-gray-500 hover:text-gray-900' }}">
+    Tentang
 </a>
                 </div>
             </div>

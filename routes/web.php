@@ -18,10 +18,20 @@ use App\Http\Controllers\PotensiPublicController;
 use App\Http\Controllers\TentangKelurahanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ArsipController;
+use App\Http\Controllers\HomeController;
 
 
-// Halaman utama (landing page)
-Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+// Halaman utama publik (landing page)
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
+// Halaman dashboard admin
+Route::get('/admin/dashboard', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
+
 
 // Halaman layanan (hanya untuk user terdaftar)
 Route::get('/layanan', function () {
@@ -40,13 +50,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-
-// Route::middleware(['auth', 'admin'])->group(function () {
-//     Route::get('/admin/pengaduan', [AdminPengaduanController::class, 'index'])->name('admin.pengaduan.index');
-//     Route::get('/admin/pengaduan/{id_pengaduan}', [AdminPengaduanController::class, 'show'])->name('admin.pengaduan.show');
-//     Route::post('/admin/pengaduan/{id_pengaduan}/status', [AdminPengaduanController::class, 'updateStatus'])->name('admin.pengaduan.updateStatus');
-//     Route::delete('/admin/pengaduan/{id_pengaduan}', [AdminPengaduanController::class, 'destroy'])->name('admin.pengaduan.destroy');
-// });
 Route::prefix('admin')->middleware(['auth', AdminMiddleware::class])->name('admin.')->group(function () {
     Route::get('/pengaduan', [AdminPengaduanController::class, 'index'])->name('pengaduan.index');
     Route::get('/pengaduan/{id_pengaduan}', [AdminPengaduanController::class, 'show'])->name('pengaduan.show');
@@ -182,6 +185,19 @@ Route::middleware(['auth', AdminMiddleware::class])->prefix('admin')->name('admi
     });
 });
 
+
+// Halaman publik
+Route::get('/', [DashboardController::class, 'index'])->name('home');
+
+// Halaman admin dashboard
+Route::get('/admin/dashboard', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// ✅ Dashboard admin (setelah login)
+Route::get('/admin/dashboard', [DashboardController::class, 'adminDashboard'])
+    ->middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
+    ->name('admin.dashboard');
 
 
 Route::get('/tentang-kelurahan', [TentangKelurahanController::class, 'index'])->name('tentang_kelurahan.index');

@@ -445,10 +445,11 @@
                 </a>
 
                 <!-- Menu Kelola Arsip -->
-                <a href="{{ route('admin.arsip.index') }}" class="nav-item {{ request()->routeIs('admin.arsip.*') ? 'active' : '' }}">
-                    <i class="fas fa-users"></i> <!-- Ganti icon jika perlu, misal fas fa-archive -->
-                    <span>Kelola Arsip</span>
-                </a>
+<a href="{{ route('admin.arsip.index') }}" class="nav-item {{ request()->routeIs('admin.arsip.*') ? 'active' : '' }}">
+    <i class="fa-solid fa-box-archive"></i>
+    <span>Kelola Arsip</span>
+</a>
+
 
                 <!-- Form Logout -->
                 <form method="POST" action="{{ route('logout') }}" class="nav-item logout-btn">

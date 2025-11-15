@@ -8,37 +8,39 @@
 @section('content')
 
     <div class="stats-grid">
-        <div class="stat-card user-card">
-            <h3><i class="fas fa-users"></i> Jumlah User</h3>
-            <div class="stat-value">120</div> {{-- Ganti dengan data asli, cth: {{ $jumlahUser }} --}}
-            <div class="stat-trend trend-up">
-                <i class="fas fa-arrow-up"></i>
-                <span>12% dari bulan lalu</span>
+       <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-blue-500 hover:shadow-lg transition">
+                <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
+                    <i class="fas fa-users text-blue-500 mr-2"></i> Jumlah User
+                </h3>
+                <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahUser }}</div>
+                <div class="text-green-500 mt-1 text-sm">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>12% dari bulan lalu</span>
+                </div>
             </div>
-        </div>
-        <div class="stat-card service-card">
-            <h3><i class="fas fa-concierge-bell"></i> Layanan</h3>
-            <div class="stat-value">8</div> {{-- Ganti dengan data asli --}}
-            <div class="stat-trend trend-up">
-                <i class="fas fa-arrow-up"></i>
-                <span>2 layanan baru</span>
+
+            <!-- Card Jumlah Artikel -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-indigo-500 hover:shadow-lg transition">
+                <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
+                    <i class="fas fa-newspaper text-indigo-500 mr-2"></i> Jumlah Artikel
+                </h3>
+                <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahArtikel }}</div>
+                <div class="text-green-500 mt-1 text-sm">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>5 artikel baru</span>
+                </div>
             </div>
-        </div>
-        <div class="stat-card article-card">
-            <h3><i class="fas fa-newspaper"></i> Artikel</h3>
-            <div class="stat-value">15</div> {{-- Ganti dengan data asli --}}
-            <div class="stat-trend trend-up">
-                <i class="fas fa-arrow-up"></i>
-                <span>5 artikel baru</span>
-            </div>
-        </div>
-        <div class="stat-card gallery-card">
-            <h3><i class="fas fa-image"></i> Total Galeri</h3>
-            <div class="stat-value">45</div> {{-- Ganti dengan data asli --}}
-            <div class="stat-trend trend-up">
-                <i class="fas fa-arrow-up"></i>
-                <span>10 foto baru</span>
-            </div>
+
+            <!-- Card Jumlah Potensi -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-green-500 hover:shadow-lg transition">
+                <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
+                    <i class="fas fa-seedling text-green-500 mr-2"></i> Jumlah Potensi
+                </h3>
+                <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahPotensi }}</div>
+                <div class="text-green-500 mt-1 text-sm">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>3 potensi baru</span>
+                </div>
         </div>
     </div>
 
