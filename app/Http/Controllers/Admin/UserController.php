@@ -38,29 +38,31 @@ class UserController extends Controller
 
     // ✅ Simpan pengguna baru
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name'        => 'required|string|max:255',
-            'nik'         => 'required|string|max:20|unique:users,nik',
-            'alamat'      => 'required|string|max:255',
-            'no_telepon'  => 'required|string|max:20',
-            'email'       => 'required|email|unique:users,email',
-            'password'    => 'required|min:6',
-        ]);
+{
+    $validated = $request->validate([
+        'name'        => 'required|string|max:255',
+        'nik'         => 'required|string|max:20|unique:users,nik',
+        'alamat'      => 'required|string|max:255',
+        'no_telepon'  => 'required|string|max:20',
+        'email'       => 'required|email|unique:users,email',
+        'password'    => 'required|min:6',
+        'is_admin'    => 'required|in:0,1', // ⬅ Tambah validasi role
+    ]);
 
-        User::create([
-            'name'        => $validated['name'],
-            'nik'         => $validated['nik'],
-            'alamat'      => $validated['alamat'],
-            'no_telepon'  => $validated['no_telepon'],
-            'email'       => $validated['email'],
-            'password'    => Hash::make($validated['password']),
-            'is_admin'    => false, // supaya default jadi pengguna biasa
-        ]);
+    User::create([
+        'name'        => $validated['name'],
+        'nik'         => $validated['nik'],
+        'alamat'      => $validated['alamat'],
+        'no_telepon'  => $validated['no_telepon'],
+        'email'       => $validated['email'],
+        'password'    => Hash::make($validated['password']),
+        'is_admin'    => $request->is_admin, // ⬅ Perbaikan utama
+    ]);
 
-        return redirect()->route('admin.users.index')
-                         ->with('success', 'Pengguna baru berhasil ditambahkan.');
-    }
+    return redirect()->route('admin.users.index')
+                     ->with('success', 'Pengguna baru berhasil ditambahkan.');
+}
+
 
     // ✅ Tampilkan detail pengguna
     public function show($id)

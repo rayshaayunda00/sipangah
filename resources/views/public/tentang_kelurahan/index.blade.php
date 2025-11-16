@@ -403,7 +403,7 @@
                             <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-4">
                                 <i class="fas fa-map-marked-alt text-xl"></i>
                             </div>
-                            <h3 class="text-xl md:text-2xl font-bold">Lokasi Kelurahan</h3>
+                            <h3 class="text-xl md:text-2xl font-bold">Wilayah Cupak Tangah</h3>
                         </div>
                     </div>
                     <div class="p-0">
