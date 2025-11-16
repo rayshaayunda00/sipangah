@@ -13,18 +13,18 @@
         </div>
 
         {{-- Form Card --}}
-        <div class="bg-white shadow-sm border rounded-xl flex flex-col gap-6"> {{-- Card --}}
+        <div class="bg-white shadow-sm border rounded-xl flex flex-col gap-6">
             <form action="{{ route('admin.arsip.update', $arsip->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                @method('PUT') {{-- Penting untuk edit --}}
+                @method('PUT')
 
-                <div class="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6"> {{-- CardHeader --}}
+                <div class="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6">
                     <h4 class="leading-none text-lg font-semibold">Formulir Edit Arsip</h4>
                 </div>
 
-                {{-- CardContent (Form Fields) --}}
                 <div class="px-6 [&:last-child]:pb-6 grid gap-4 py-4">
 
+                    {{-- Nomor Arsip --}}
                     <div class="grid gap-2">
                         <label for="nomor_arsip" class="flex items-center gap-2 text-sm leading-none font-medium">Nomor Arsip</label>
                         <input id="nomor_arsip" name="nomor_arsip"
@@ -33,6 +33,7 @@
                         @error('nomor_arsip') <p class="text-xs text-destructive">{{ $message }}</p> @enderror
                     </div>
 
+                    {{-- Judul Arsip --}}
                     <div class="grid gap-2">
                         <label for="judul_arsip" class="flex items-center gap-2 text-sm leading-none font-medium">Judul Arsip *</label>
                         <input id="judul_arsip" name="judul_arsip"
@@ -42,6 +43,7 @@
                         @error('judul_arsip') <p class="text-xs text-destructive">{{ $message }}</p> @enderror
                     </div>
 
+                    {{-- Kategori --}}
                     <div class="grid gap-2">
                         <label for="kategori" class="flex items-center gap-2 text-sm leading-none font-medium">Kategori Arsip *</label>
                         <select id="kategori" name="kategori"
@@ -54,6 +56,7 @@
                         @error('kategori') <p class="text-xs text-destructive">{{ $message }}</p> @enderror
                     </div>
 
+                    {{-- Deskripsi --}}
                     <div class="grid gap-2">
                         <label for="deskripsi" class="flex items-center gap-2 text-sm leading-none font-medium">Deskripsi Arsip</label>
                         <textarea id="deskripsi" name="deskripsi"
@@ -63,6 +66,7 @@
                         @error('deskripsi') <p class="text-xs text-destructive">{{ $message }}</p> @enderror
                     </div>
 
+                    {{-- Tanggal Arsip --}}
                     <div class="grid gap-2">
                         <label for="tanggal_arsip" class="flex items-center gap-2 text-sm leading-none font-medium">Tanggal Arsip *</label>
                         <input id="tanggal_arsip" name="tanggal_arsip" type="date"
@@ -71,6 +75,7 @@
                         @error('tanggal_arsip') <p class="text-xs text-destructive">{{ $message }}</p> @enderror
                     </div>
 
+                    {{-- Status --}}
                     <div class="flex items-center justify-between">
                         <div class="space-y-0.5">
                             <label for="status" class="flex items-center gap-2 text-sm leading-none font-medium">Status Arsip</label>
@@ -82,17 +87,42 @@
                                {{ old('status', $arsip->status) == 'Aktif' ? 'checked' : '' }}>
                     </div>
 
+                    {{-- FILE LAMPIRAN --}}
                     <div class="grid gap-2">
-                        <label for="file_lampiran" class="flex items-center gap-2 text-sm leading-none font-medium">File Lampiran Baru (Opsional)</label>
+                        <label for="file_lampiran" class="flex items-center gap-2 text-sm leading-none font-medium">
+                            File Lampiran Baru (Opsional)
+                        </label>
+
                         <input id="file_lampiran" name="file_lampiran" type="file"
                                class="flex h-9 w-full min-w-0 rounded-md border border-input bg-input-background px-3 py-1 text-base file:font-medium file:border-0 file:bg-transparent file:text-sm @error('file_lampiran') border-destructive @enderror">
+
+                        {{-- PREVIEW FILE LAMA --}}
                         @if ($arsip->file_lampiran)
+                            @php
+                                $fileUrl = Storage::url($arsip->file_lampiran);
+                                $ext = strtolower(pathinfo($arsip->file_lampiran, PATHINFO_EXTENSION));
+                                $isImage = in_array($ext, ['jpg','jpeg','png','gif','webp']);
+                            @endphp
+
                             <p class="text-xs text-gray-500">File saat ini:
-                                <a href="{{ Storage::url($arsip->file_lampiran) }}" target="_blank" class="text-primary hover:underline">
-                                    {{ $arsip->file_lampiran }}
+                                <a href="{{ $fileUrl }}" target="_blank" class="text-primary hover:underline">
+                                    {{ basename($arsip->file_lampiran) }}
                                 </a>
                             </p>
+
+                            @if($isImage)
+                                <div class="mt-3">
+                                    <img src="{{ $fileUrl }}"
+                                         alt="Preview File"
+                                         class="w-40 h-auto rounded-md border shadow-sm">
+                                </div>
+                            @endif
                         @endif
+
+                        {{-- PREVIEW FILE BARU --}}
+                        <p class="text-xs font-semibold mt-3">Preview File Baru:</p>
+                        <div id="previewContainer" class="mt-2"></div>
+
                         <p class="text-xs text-gray-500">Biarkan kosong jika tidak ingin mengubah file.</p>
                         @error('file_lampiran') <p class="text-xs text-destructive">{{ $message }}</p> @enderror
                     </div>
@@ -112,4 +142,41 @@
             </form>
         </div>
     </div>
+
+    {{-- 🔥 SCRIPT PREVIEW FILE BARU --}}
+    <script>
+        document.getElementById('file_lampiran').addEventListener('change', function(event) {
+            let file = event.target.files[0];
+            let previewContainer = document.getElementById('previewContainer');
+
+            previewContainer.innerHTML = "";
+
+            if (!file) return;
+
+            let fileType = file.type;
+
+            if (fileType.includes('image')) {
+                let img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.className = "w-40 rounded-md border shadow-sm";
+                previewContainer.appendChild(img);
+            }
+            else if (fileType === "application/pdf") {
+                let iframe = document.createElement('iframe');
+                iframe.src = URL.createObjectURL(file);
+                iframe.className = "w-full h-64 border rounded";
+                previewContainer.appendChild(iframe);
+            }
+            else {
+                let div = document.createElement('div');
+                div.className = "p-3 bg-gray-100 rounded border text-sm";
+                div.innerHTML = `
+                    File dipilih: <strong>${file.name}</strong><br>
+                    (Preview tidak tersedia untuk tipe file ini)
+                `;
+                previewContainer.appendChild(div);
+            }
+        });
+    </script>
+
 @endsection

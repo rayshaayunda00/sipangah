@@ -75,23 +75,98 @@
                     </div>
 
                     {{-- Baris Detail --}}
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-                        <div class="text-sm text-gray-500">File Lampiran</div>
-                        <div class="col-span-2 flex items-center gap-2">
-                            @if($arsip->file_lampiran)
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-gray-400"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
-                                {{-- Menampilkan nama file saja --}}
-                                <span class="text-sm text-gray-900">{{ basename($arsip->file_lampiran) }}</span>
-                                {{-- Link untuk membuka/download file --}}
-                                <a href="{{ Storage::url($arsip->file_lampiran) }}" target="_blank"
-                                   class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border bg-background text-foreground hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0" title="Unduh File">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                                </a>
-                            @else
-                                <span class="text-sm text-gray-500">- Tidak ada file -</span>
-                            @endif
+                   {{-- Baris Detail --}}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+    <div class="text-sm text-gray-500">File Lampiran</div>
+
+    <div class="col-span-2">
+        @if ($arsip->file_lampiran)
+            @php
+                $fileUrl = Storage::url($arsip->file_lampiran);
+                $ext = strtolower(pathinfo($arsip->file_lampiran, PATHINFO_EXTENSION));
+                $isImage = in_array($ext, ['jpg','jpeg','png','gif','webp']);
+            @endphp
+
+            <div class="w-full rounded-lg border bg-gray-50 p-4 flex flex-col gap-4">
+
+                {{-- Bagian atas: ikon + nama file + tombol --}}
+                <div class="flex items-center justify-between">
+
+                    {{-- Kiri: ikon + nama file --}}
+                    <div class="flex items-center gap-3">
+                        {{-- Ikon file --}}
+                        <div class="p-2 rounded-md bg-white border shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="20" height="20" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="text-gray-700">
+                                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                            </svg>
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">
+                                {{ basename($arsip->file_lampiran) }}
+                            </p>
+                            <p class="text-xs text-gray-500 uppercase">{{ $ext }}</p>
                         </div>
                     </div>
+
+                    {{-- Kanan: tombol aksi --}}
+                    <div class="flex items-center gap-2">
+
+                        {{-- Tombol download --}}
+                        <a href="{{ $fileUrl }}" download
+                            class="h-9 px-3 rounded-md border text-sm bg-white hover:bg-gray-100 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="18" height="18" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Unduh
+                        </a>
+
+                        {{-- Tombol lihat --}}
+                        <a href="{{ $fileUrl }}" target="_blank"
+                            class="h-9 px-3 rounded-md border text-sm bg-white hover:bg-gray-100 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="18" height="18" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/>
+                            </svg>
+                            Preview
+                        </a>
+                    </div>
+
+                </div>
+
+                {{-- Preview gambar jika image --}}
+                @if ($isImage)
+                    <div class="mt-2">
+                        <img src="{{ $fileUrl }}"
+                             class="w-60 rounded-lg border shadow-sm"
+                             alt="Preview Lampiran">
+                    </div>
+                @endif
+
+            </div>
+
+        @else
+            <span class="text-sm text-gray-500">- Tidak ada file -</span>
+        @endif
+    </div>
+</div>
+
                 </div>
             </div>
 
