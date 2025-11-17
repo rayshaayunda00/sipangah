@@ -618,20 +618,20 @@
         {{-- =================================== --}}
         {{-- BAGIAN PETA ADMINISTRASI --}}
         {{-- =================================== --}}
-        <section class="py-20 bg-gray-50 border-t border-gray-100">
+        {{-- <section class="py-20 bg-gray-50 border-t border-gray-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold text-gray-800">Peta Administrasi Cupak Tangah</h2>
                     <p class="text-gray-500 mt-2">Jelajahi fasilitas dan *landmark* penting di wilayah kami</p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8"> --}}
 
                     {{-- Blok Kiri: Peta Interaktif (Placeholder) --}}
-                    <div class="lg:col-span-2 bg-green-50/50 rounded-xl shadow-lg p-6 flex flex-col h-[500px]">
+                    {{-- <div class="lg:col-span-2 bg-green-50/50 rounded-xl shadow-lg p-6 flex flex-col h-[500px]"> --}}
 
                         {{-- Legend (Marker List) --}}
-                        <div class="flex flex-wrap gap-2 mb-4">
+                        {{-- <div class="flex flex-wrap gap-2 mb-4">
                             <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-300">
                                 <span class="w-2 h-2 rounded-full bg-blue-800 mr-2"></span>
                                 Kantor Kelurahan
@@ -644,10 +644,10 @@
                                 <span class="w-2 h-2 rounded-full bg-purple-800 mr-2"></span>
                                 Sekolah
                             </span>
-                        </div>
+                        </div> --}}
 
                         {{-- Area Peta Placeholder --}}
-                        <div class="flex-grow flex flex-col items-center justify-center bg-white border border-gray-300 rounded-lg shadow-inner text-center">
+                        {{-- <div class="flex-grow flex flex-col items-center justify-center bg-white border border-gray-300 rounded-lg shadow-inner text-center">
                             <div class="p-6">
                                 <svg class="w-12 h-12 text-teal-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 <p class="text-lg font-semibold text-gray-800">Peta Interaktif</p>
@@ -658,14 +658,14 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div> --}}
 
                     {{-- Blok Kanan: Daftar Fasilitas --}}
-                    <div class="space-y-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Fasilitas Umum</h3>
+                    {{-- <div class="space-y-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Fasilitas Umum</h3> --}}
 
                         {{-- Item Fasilitas 1: Kantor Kelurahan --}}
-                        <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
+                        {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
                             <div class="flex items-center">
                                 <span class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-4">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h-2M5 21h2m0 0h10M5 21v-4a2 2 0 012-2h10a2 2 0 012 2v4"></path></svg>
@@ -676,10 +676,10 @@
                                 </div>
                             </div>
                             <span class="text-xl font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">1</span>
-                        </div>
+                        </div> --}}
 
                         {{-- Item Fasilitas 2: Pasar Tradisional --}}
-                        <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
+                        {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
                             <div class="flex items-center">
                                 <span class="bg-green-100 text-green-600 p-2 rounded-lg mr-4">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
@@ -690,10 +690,10 @@
                                 </div>
                             </div>
                             <span class="text-xl font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">3</span>
-                        </div>
+                        </div> --}}
 
                         {{-- Item Fasilitas 3: Sekolah --}}
-                        <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
+                        {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
                             <div class="flex items-center">
                                 <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-4">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M5 3v18h14V3M7 3h10v6H7V3z"></path></svg>
@@ -704,10 +704,10 @@
                                 </div>
                             </div>
                             <span class="text-xl font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">8</span>
-                        </div>
+                        </div> --}}
 
                         {{-- Item Fasilitas 4: Masjid --}}
-                        <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
+                        {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
                             <div class="flex items-center">
                                 <span class="bg-orange-100 text-orange-600 p-2 rounded-lg mr-4">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H9a1 1 0 01-1-1v-1a2 2 0 00-2-2H6a2 2 0 00-2 2v1a1 1 0 01-1 1h18a1 1 0 011-1v-1a2 2 0 00-2-2h-2a2 2 0 00-2 2v1a1 1 0 01-1 1z"></path></svg>
@@ -718,10 +718,10 @@
                                 </div>
                             </div>
                             <span class="text-xl font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">12</span>
-                        </div>
+                        </div> --}}
 
                         {{-- Item Fasilitas 5: PLTA --}}
-                        <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
+                        {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
                             <div class="flex items-center">
                                 <span class="bg-yellow-100 text-yellow-600 p-2 rounded-lg mr-4">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -732,10 +732,10 @@
                                 </div>
                             </div>
                             <span class="text-xl font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">2</span>
-                        </div>
+                        </div> --}}
 
                         {{-- Item Fasilitas 6: Objek Wisata --}}
-                        <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
+                        {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
                             <div class="flex items-center">
                                 <span class="bg-teal-100 text-teal-600 p-2 rounded-lg mr-4">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.667 9.818c0-3.92-3.177-7.098-7.098-7.098S5.471 5.898 5.471 9.818c0 3.738 2.871 6.848 6.551 7.07l.076.004c3.682-.222 6.553-3.332 6.553-7.07z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18v3m3-3h-6m6 0h-6"></path></svg>
@@ -746,12 +746,12 @@
                                 </div>
                             </div>
                             <span class="text-xl font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">5</span>
-                        </div>
+                        </div> --}}
 
-                    </div>
+                    {{-- </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
 
 
         {{-- =================================== --}}
