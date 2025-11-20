@@ -58,6 +58,7 @@
                     <div class="flex">
                         {{-- Logo dan Nama Kelurahan --}}
                         <a href="/" class="flex-shrink-0 flex items-center">
+
                             <span class="text-xl font-extrabold text-teal-600 mr-2">CT</span>
                             <span class="text-lg font-semibold text-gray-800">Sipangah Cupak Tangah</span>
                         </a>
@@ -736,7 +737,7 @@
 
                         {{-- Item Fasilitas 6: Objek Wisata --}}
                         {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
-                            <div class="flex items-center">
+                              <div class="flex items-center">
                                 <span class="bg-teal-100 text-teal-600 p-2 rounded-lg mr-4">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.667 9.818c0-3.92-3.177-7.098-7.098-7.098S5.471 5.898 5.471 9.818c0 3.738 2.871 6.848 6.551 7.07l.076.004c3.682-.222 6.553-3.332 6.553-7.07z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18v3m3-3h-6m6 0h-6"></path></svg>
                                 </span>
@@ -768,7 +769,7 @@
 
                 {{-- Statistik 2: Luas Wilayah --}}
                 <div class="bg-white p-6 rounded-xl shadow-lg text-center border border-gray-200">
-                    <p class="text-4xl font-extrabold text-teal-600">45.2 km²</p>
+                    <p class="text-4xl font-extrabold text-teal-600">2,99 km²</p>
                     <p class="text-sm text-gray-600 mt-2">Luas Wilayah</p>
                 </div>
 

@@ -19,7 +19,7 @@ use App\Http\Controllers\TentangKelurahanController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ArsipController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\GoogleController;
 
 // Halaman utama publik (landing page)
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -27,6 +27,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard/user', [UserController::class, 'dashboard'])->name('user.dashboard');
 
 
 // Halaman dashboard admin
@@ -201,6 +203,16 @@ Route::get('/admin/dashboard', [DashboardController::class, 'adminDashboard'])
 
 
 Route::get('/tentang-kelurahan', [TentangKelurahanController::class, 'index'])->name('tentang_kelurahan.index');
+
+
+Route::get('/auth/google', [GoogleController::class, 'redirect'])->name('google.redirect');
+Route::get('/auth/google/callback', [GoogleController::class, 'callback']);
+
+
+Route::get('/user/dashboard', [UserController::class, 'dashboard'])
+    ->middleware(['auth'])
+    ->name('user.dashboard');
+
 
 
 require __DIR__.'/auth.php';

@@ -80,4 +80,10 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')
                          ->with('success', 'Pengguna berhasil dihapus.');
     }
+
+    public function dashboard()
+{
+    return view('dashboard');
+}
+
 }
