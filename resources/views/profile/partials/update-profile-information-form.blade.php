@@ -9,6 +9,19 @@
         </p>
     </header>
 
+    @if (session('status') === 'profile-updated')
+    <div
+        x-data="{ show: true }"
+        x-show="show"
+        x-transition
+        x-init="setTimeout(() => show = false, 2500)"
+        class="mb-4 p-3 rounded bg-green-100 text-green-800 border border-green-300"
+    >
+        Profil berhasil diperbarui.
+    </div>
+@endif
+
+
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
     </form>
@@ -25,11 +38,13 @@
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
-        <!-- NIK -->
-<div class="mt-4">
+       <!-- NIK -->
+<div>
     <x-input-label for="nik" :value="__('NIK')" />
-    <x-text-input id="nik" name="nik" type="text" class="mt-1 block w-full"
-        :value="old('nik', $user->nik)" autocomplete="nik" />
+    <x-text-input id="nik" name="nik" type="text"
+        class="mt-1 block w-full"
+        :value="old('nik', $user->nik)"
+        autocomplete="nik" />
     <x-input-error class="mt-2" :messages="$errors->get('nik')" />
 </div>
 
@@ -70,12 +85,14 @@
         </div>
 
         <!-- Nomor Telepon -->
-        <div>
-            <x-input-label for="no_telepon" :value="__('No. Telepon')" />
-            <x-text-input id="no_telepon" name="no_telepon" type="text" class="mt-1 block w-full"
-                :value="old('no_telepon', $user->no_telepon)" autocomplete="tel" />
-            <x-input-error class="mt-2" :messages="$errors->get('no_telepon')" />
-        </div>
+<div>
+    <x-input-label for="no_telepon" :value="__('No. Telepon')" />
+    <x-text-input id="no_telepon" name="no_telepon" type="text"
+        class="mt-1 block w-full"
+        :value="old('no_telepon', $user->no_telepon)"
+        autocomplete="tel" />
+    <x-input-error class="mt-2" :messages="$errors->get('no_telepon')" />
+</div>
 
         <!-- Tombol Simpan -->
         <div class="flex items-center gap-4">

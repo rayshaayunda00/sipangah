@@ -263,7 +263,7 @@
                                 </span>
                                 <div>
                                     <p class="text-sm text-gray-500">RT/RW</p>
-                                    <p class="font-semibold text-gray-800">45 RT / 12 RW</p>
+                                    <p class="font-semibold text-gray-800">21 RT / 6 RW</p>
                                 </div>
                             </div>
 
@@ -763,7 +763,7 @@
 
                 {{-- Statistik 1: RT/RW --}}
                 <div class="bg-white p-6 rounded-xl shadow-lg text-center border border-gray-200">
-                    <p class="text-4xl font-extrabold text-teal-600">12</p>
+                    <p class="text-4xl font-extrabold text-teal-600">12/6</p>
                     <p class="text-sm text-gray-600 mt-2">RT/RW</p>
                 </div>
 

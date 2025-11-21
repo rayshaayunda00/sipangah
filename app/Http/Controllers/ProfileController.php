@@ -24,15 +24,9 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(Request $request)
+public function update(ProfileUpdateRequest $request)
 {
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255|unique:users,email,' . $request->user()->id,
-        'nik' => 'nullable|string|max:20',
-        'alamat' => 'nullable|string|max:255',
-        'no_telepon' => 'nullable|string|max:20',
-    ]);
+    $validated = $request->validated();
 
     $user = $request->user();
     $user->fill($validated);
@@ -40,6 +34,7 @@ class ProfileController extends Controller
 
     return redirect()->back()->with('status', 'profile-updated');
 }
+
 
     /**
      * Delete the user's account.
