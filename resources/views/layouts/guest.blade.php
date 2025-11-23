@@ -399,13 +399,14 @@
             <!-- Logo Section -->
             <div class="logo-section">
                 <div class="logo-container">
-                    @if(file_exists(public_path('images/logo-kelurahan.png')))
-                        <img src="{{ asset('images/logo-kelurahan.png') }}" alt="Logo Kelurahan">
-                    @else
-                        <div class="logo-placeholder">
-                            <i class="fas fa-landmark"></i>
-                        </div>
-                    @endif
+                    @if(file_exists(public_path('images/sipangah-logo.png')))
+    <img src="{{ asset('images/sipangah-logo.png') }}" alt="Logo Kelurahan">
+@else
+    <div class="logo-placeholder">
+        <i class="fas fa-landmark"></i>
+    </div>
+@endif
+
                 </div>
                 <h1 class="app-title">SIPANGAH</h1>
                 <p class="app-subtitle">Sistem Informasi Kelurahan</p>

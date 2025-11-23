@@ -320,17 +320,17 @@
                 @endforeach
             </div>
 
-            <!-- Load More Button -->
+            {{-- <!-- Load More Button -->
             <div class="text-center mt-16">
                 <button class="load-more-btn px-8 py-4 text-white font-bold rounded-2xl text-lg">
                     Muat Lebih Banyak Kegiatan
                     <i class="fas fa-chevron-down ml-3 transition-transform duration-300 group-hover:translate-y-1"></i>
-                </button>
+                </button> --}}
 
-                {{-- <!-- Progress Indicator -->
+                <!-- Progress Indicator -->
                 <div class="mt-6 text-sm text-teal-600 font-medium">
-                    Menampilkan {{ count($galeri) }} dari {{ $totalKegiatan ?? '50' }} kegiatan
-                </div> --}}
+                    Menampilkan {{ count($galeri) }} kegiatan
+                </div>
             </div>
         </div>
     </div>

@@ -582,11 +582,11 @@
 
     <!-- Load More Button -->
     @if ($items->count() > 0)
-    <div class="text-center mt-16 fade-in-up">
+    {{-- <div class="text-center mt-16 fade-in-up">
         <button class="load-more-btn px-8 py-4 text-white font-bold rounded-2xl text-lg">
             Muat Lebih Banyak Potensi
             <i class="fas fa-chevron-down ml-3 transition-transform duration-300"></i>
-        </button>
+        </button> --}}
 
         <div class="mt-6 text-sm text-teal-600 font-medium">
             Menampilkan {{ $items->count() }} potensi
