@@ -383,10 +383,10 @@
                                     <i class="fas fa-heart text-red-500 mr-1 text-xs"></i>
                                     <span class="text-xs">{{ number_format($a->jumlah_suka, 0, ',', '.') }}</span>
                                 </div> --}}
-                                <div class="flex items-center">
+                                {{-- <div class="flex items-center">
                                     <i class="fas fa-share text-blue-500 mr-1 text-xs"></i>
                                     <span class="text-xs">{{ number_format($a->jumlah_dibagikan, 0, ',', '.') }}</span>
-                                </div>
+                                </div> --}}
                             </div>
 
                             {{-- Tombol "Baca" --}}

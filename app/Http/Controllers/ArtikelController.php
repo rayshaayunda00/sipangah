@@ -39,18 +39,17 @@ class ArtikelController extends Controller
         }
 
         Artikel::create([
-            'judul' => $request->judul,
-            'url_seo' => Str::slug($request->judul),
-            'isi_konten' => $request->isi_konten,
-            'url_gambar_utama' => $path,
-            'id_kategori' => $request->id_kategori,
-            'id_penulis' => $request->id_penulis,
-            'jumlah_dibaca' => 0,
-            'jumlah_suka' => 0,
-            'jumlah_dibagikan' => 0,
-            'tanggal_publikasi' => now(),
-            'status_publikasi' => 'published',
-        ]);
+    'judul' => $request->judul,
+    'url_seo' => Str::slug($request->judul),
+    'isi_konten' => $request->isi_konten,
+    'url_gambar_utama' => $path,
+    'id_kategori' => $request->id_kategori,
+    'id_penulis' => $request->id_penulis,
+    'jumlah_dibaca' => 0,
+    'tanggal_publikasi' => now(),
+    'status_publikasi' => 'published',
+]);
+
 
         return redirect()->route('admin.artikel.index')->with('success','Artikel berhasil ditambahkan!');
     }

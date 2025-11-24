@@ -388,11 +388,12 @@
         @endforeach
 
         {{-- Tombol Lihat Semua Artikel --}}
-        <div class="pt-4">
-            <a href="{{ route('artikel.public.index') }}" class="w-full inline-flex justify-center items-center px-6 py-3 border border-teal-600 text-base font-medium rounded-lg text-teal-600 bg-white hover:bg-teal-50 transition duration-150 ease-in-out">
-                Lihat Semua Artikel
-            </a>
-        </div>
+<div class="pt-4">
+    <a href="{{ route('artikel.public.index') }}"
+       class="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-teal-600 hover:bg-teal-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out">
+        Lihat Semua Artikel <i class="fas fa-arrow-right ml-2"></i>
+    </a>
+</div>
     </div>
 
 </div>
@@ -411,37 +412,28 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach ($latestPotensi as $item)
-            <div class="potensi-card bg-white h-full rounded-2xl shadow hover:shadow-lg transition-all duration-300 flex flex-col">
-                <!-- Gambar -->
+            <div class="potensi-card bg-white h-full rounded-2xl shadow hover:shadow-lg transition-all duration-300 flex flex-col group">
                 <div class="relative h-48 rounded-t-2xl overflow-hidden">
-                    <img class="w-full h-full object-cover absolute"
+                    <img class="w-full h-full object-cover absolute group-hover:scale-105 transition-transform duration-500"
                          src="{{ $item->url_gambar_utama ? asset('storage/' . $item->url_gambar_utama) : 'https://via.placeholder.com/400x300' }}"
                          alt="{{ $item->nama_item }}">
-                    <div class="absolute bottom-2 left-2 bg-teal-600/70 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                    <div class="absolute bottom-2 left-2 bg-teal-600/90 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-sm">
                         {{ $item->subkategori->kategori->nama_kategori ?? 'Tanpa Kategori' }}
                     </div>
                 </div>
 
-                <!-- Konten -->
-                <div class="p-4 flex-1 flex flex-col justify-between">
+                <div class="p-5 flex-1 flex flex-col justify-between">
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 mt-2 line-clamp-2">{{ $item->nama_item }}</h3>
-                        <p class="text-sm text-gray-600 mt-1 line-clamp-3">
+                        <h3 class="text-lg font-bold text-gray-900 mt-1 line-clamp-2 group-hover:text-teal-600 transition-colors">{{ $item->nama_item }}</h3>
+                        <p class="text-sm text-gray-600 mt-2 line-clamp-3 leading-relaxed">
                             {{ Str::limit($item->deskripsi_singkat, 80) }}
                         </p>
                     </div>
 
-                    <!-- Tombol aksi -->
-                    <div class="mt-4 flex justify-between items-center">
+                    <div class="mt-5">
                         <a href="{{ route('public.potensi.show', $item) }}"
-   class="inline-flex items-center px-4 py-2 bg-teal-600 text-white text-sm font-medium rounded-lg shadow hover:bg-teal-700 transition">
-    Lihat Detail <i class="fas fa-arrow-right ml-2"></i>
-</a>
-
-
-                        <a href="{{ route('potensi.public.index', ['kategori' => $item->subkategori->kategori->nama_kategori ?? '']) }}"
-                           class="text-teal-600 text-sm font-medium hover:text-teal-800">
-                            Pelajari Lebih Lanjut &rarr;
+                           class="inline-flex items-center justify-center w-full px-4 py-2.5 bg-teal-600 text-white text-sm font-medium rounded-xl shadow-sm hover:bg-teal-700 hover:shadow-md transition-all duration-200">
+                            Lihat Detail <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
                 </div>
@@ -449,11 +441,10 @@
             @endforeach
         </div>
 
-        <!-- Tombol lihat semua -->
         <div class="text-center mt-12">
             <a href="{{ route('potensi.public.index') }}"
-               class="inline-flex justify-center items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 transition duration-150 ease-in-out">
-                Lihat Semua Potensi
+               class="inline-flex justify-center items-center px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-teal-600 hover:bg-teal-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out">
+                Lihat Semua Potensi <i class="fas fa-arrow-right ml-2"></i>
             </a>
         </div>
     </div>
@@ -464,539 +455,413 @@
         {{-- =================================== --}}
         {{-- BAGIAN LAYANAN ADMINISTRASI (APA YANG BISA KAMI BANTU?) --}}
         {{-- =================================== --}}
-        <section class="py-20 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+    <!-- Bagian Layanan Administrasi -->
+    <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
-                    {{-- Blok Kiri: Teks dan Checklist --}}
-                    <div>
-                        <h2 class="text-4xl font-extrabold text-gray-800 mb-6">Apa yang Bisa Kami Bantu?</h2>
-                        <p class="text-lg text-gray-600 mb-8">
-                            Dapatkan berbagai layanan administrasi dengan mudah dan cepat melalui sistem *online* yang terintegrasi. Kami siap melayani kebutuhan dokumen Anda.
-                        </p>
+            <div class="flex flex-col justify-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Apa yang Bisa Kami Bantu?</h2>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    Dapatkan berbagai layanan administrasi dengan mudah dan cepat melalui sistem <span class="font-medium">online</span> yang terintegrasi. Kami siap melayani kebutuhan dokumen Anda.
+                </p>
 
-                        {{-- Checklist Fitur --}}
-                        <div class="grid grid-cols-2 gap-4 text-gray-700 font-medium mb-10">
-                            <div class="flex items-center">
-                                <svg class="w-5 h-5 text-teal-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Layanan 24/7 *Online*
-                            </div>
-                            <div class="flex items-center">
-                                <svg class="w-5 h-5 text-teal-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                Proses Cepat & Mudah
-                            </div>
-                            <div class="flex items-center">
-                                <svg class="w-5 h-5 text-teal-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                *Tracking Status Real-time*
-                            </div>
-                            <div class="flex items-center">
-                                <svg class="w-5 h-5 text-teal-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                *Upload* Dokumen Digital
-                            </div>
-                        </div>
-
-                        {{-- Tombol Mulai --}}
-                        <a href="#" class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-teal-600 hover:bg-teal-700 transition duration-150 ease-in-out">
-                            Mulai Sekarang &rarr;
-                        </a>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 mb-10">
+                    <div class="flex items-center py-1">
+                        <svg class="w-5 h-5 text-teal-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Layanan 24/7 <span class="font-medium ml-1">Online</span>
                     </div>
-
-                    {{-- Blok Kanan: Daftar Kartu Layanan --}}
-                    <div class="grid grid-cols-2 gap-6">
-
-                        {{-- Kartu Layanan 1: Surat Domisili --}}
-                        <div class="bg-white p-4 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition duration-200">
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="bg-blue-100 text-blue-600 p-2 rounded-lg">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                </span>
-                                <span class="text-xs font-medium text-green-600 bg-green-100 px-3 py-1 rounded-full">Tersedia</span>
-                            </div>
-                            <h3 class="font-semibold text-gray-900">Surat Domisili</h3>
-                            <p class="text-xs text-gray-500 my-2">Pengurusan surat keterangan domisili untuk berbagai keperluan</p>
-                            <div class="flex justify-between items-center pt-2 border-t border-gray-100">
-                                <span class="flex items-center text-sm text-gray-500">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    2-3 Hari
-                                </span>
-                                <a href="#" class="text-teal-600 hover:text-teal-800 transition">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                </a>
-                            </div>
-                        </div>
-
-                        {{-- Kartu Layanan 2: SKTM --}}
-                        <div class="bg-white p-4 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition duration-200">
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="bg-green-100 text-green-600 p-2 rounded-lg">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                                </span>
-                                <span class="text-xs font-medium text-green-600 bg-green-100 px-3 py-1 rounded-full">Tersedia</span>
-                            </div>
-                            <h3 class="font-semibold text-gray-900">SKTM</h3>
-                            <p class="text-xs text-gray-500 my-2">Surat Keterangan Tidak Mampu untuk bantuan sosial</p>
-                            <div class="flex justify-between items-center pt-2 border-t border-gray-100">
-                                <span class="flex items-center text-sm text-gray-500">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    1-2 Hari
-                                </span>
-                                <a href="#" class="text-teal-600 hover:text-teal-800 transition">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                </a>
-                            </div>
-                        </div>
-
-                        {{-- Kartu Layanan 3: Akta Kelahiran --}}
-                        <div class="bg-white p-4 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition duration-200">
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="bg-violet-100 text-violet-600 p-2 rounded-lg">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                                </span>
-                                <span class="text-xs font-medium text-green-600 bg-green-100 px-3 py-1 rounded-full">Tersedia</span>
-                            </div>
-                            <h3 class="font-semibold text-gray-900">Akta Kelahiran</h3>
-                            <p class="text-xs text-gray-500 my-2">Pengurusan akta kelahiran dan kematian</p>
-                            <div class="flex justify-between items-center pt-2 border-t border-gray-100">
-                                <span class="flex items-center text-sm text-gray-500">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    3-5 Hari
-                                </span>
-                                <a href="#" class="text-teal-600 hover:text-teal-800 transition">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                </a>
-                            </div>
-                        </div>
-
-                        {{-- Kartu Layanan 4: Izin Kegiatan --}}
-                        <div class="bg-white p-4 rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition duration-200">
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="bg-red-100 text-red-600 p-2 rounded-lg">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                </span>
-                                <span class="text-xs font-medium text-green-600 bg-green-100 px-3 py-1 rounded-full">Tersedia</span>
-                            </div>
-                            <h3 class="font-semibold text-gray-900">Izin Kegiatan</h3>
-                            <p class="text-xs text-gray-500 my-2">Perizinan untuk berbagai kegiatan dan acara</p>
-                            <div class="flex justify-between items-center pt-2 border-t border-gray-100">
-                                <span class="flex items-center text-sm text-gray-500">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    1-3 Hari
-                                </span>
-                                <a href="#" class="text-teal-600 hover:text-teal-800 transition">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                                </a>
-                            </div>
-                        </div>
+                    <div class="flex items-center py-1">
+                        <svg class="w-5 h-5 text-teal-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Proses Cepat & Mudah
+                    </div>
+                    <div class="flex items-center py-1">
+                        <svg class="w-5 h-5 text-teal-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="font-medium">Tracking Status Real-time</span>
+                    </div>
+                    <div class="flex items-center py-1">
+                        <svg class="w-5 h-5 text-teal-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="font-medium mr-1">Upload</span> Dokumen Digital
                     </div>
                 </div>
             </div>
-        </section>
 
-        {{-- =================================== --}}
-        {{-- BAGIAN CTA (BUTUH BANTUAN) --}}
-        {{-- =================================== --}}
-        {{-- <section class="mb-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="bg-teal-600 text-white p-8 md:p-12 rounded-xl shadow-2xl text-center">
-                    <h3 class="text-2xl font-bold mb-3">Butuh Bantuan Lebih Lanjut?</h3>
-                    <p class="mb-8 max-w-3xl mx-auto">
-                        Tim *customer service* kami siap membantu Anda 24/7. Hubungi kami untuk konsultasi gratis mengenai layanan yang tersedia.
-                    </p>
-                    <div class="flex justify-center space-x-4">
-                        <a href="#" class="inline-flex items-center px-6 py-3 border border-white text-base font-medium rounded-lg text-white bg-transparent hover:bg-white/10 transition duration-150 ease-in-out">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            Ajukan Pengaduan
-                        </a>
-                        <a href="#" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-teal-600 bg-white hover:bg-gray-100 transition duration-150 ease-in-out">
-                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                            Hubungi CS
-                        </a>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+
+                <div class="bg-white p-5 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-200 h-full flex flex-col">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-blue-50 text-blue-600 p-2 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </span>
+                        <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Tersedia</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 text-lg mb-2">Surat Domisili</h3>
+                    <p class="text-sm text-gray-500 mb-4 flex-grow">Pengurusan surat keterangan domisili untuk berbagai keperluan</p>
+                    <div class="pt-3 border-t border-gray-100">
+                        <span class="flex items-center text-sm text-gray-500">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            2-3 Hari
+                        </span>
                     </div>
                 </div>
-            </div>
-        </section> --}}
 
-        {{-- =================================== --}}
-        {{-- BAGIAN PETA ADMINISTRASI --}}
-        {{-- =================================== --}}
-        {{-- <section class="py-20 bg-gray-50 border-t border-gray-100">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-800">Peta Administrasi Cupak Tangah</h2>
-                    <p class="text-gray-500 mt-2">Jelajahi fasilitas dan *landmark* penting di wilayah kami</p>
+                <div class="bg-white p-5 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-200 h-full flex flex-col">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-green-50 text-green-600 p-2 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </span>
+                        <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Tersedia</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 text-lg mb-2">SKTM</h3>
+                    <p class="text-sm text-gray-500 mb-4 flex-grow">Surat Keterangan Tidak Mampu untuk bantuan sosial</p>
+                    <div class="pt-3 border-t border-gray-100">
+                        <span class="flex items-center text-sm text-gray-500">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            1-2 Hari
+                        </span>
+                    </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8"> --}}
-
-                    {{-- Blok Kiri: Peta Interaktif (Placeholder) --}}
-                    {{-- <div class="lg:col-span-2 bg-green-50/50 rounded-xl shadow-lg p-6 flex flex-col h-[500px]"> --}}
-
-                        {{-- Legend (Marker List) --}}
-                        {{-- <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-300">
-                                <span class="w-2 h-2 rounded-full bg-blue-800 mr-2"></span>
-                                Kantor Kelurahan
-                            </span>
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-300">
-                                <span class="w-2 h-2 rounded-full bg-green-800 mr-2"></span>
-                                Pasar
-                            </span>
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-300">
-                                <span class="w-2 h-2 rounded-full bg-purple-800 mr-2"></span>
-                                Sekolah
-                            </span>
-                        </div> --}}
-
-                        {{-- Area Peta Placeholder --}}
-                        {{-- <div class="flex-grow flex flex-col items-center justify-center bg-white border border-gray-300 rounded-lg shadow-inner text-center">
-                            <div class="p-6">
-                                <svg class="w-12 h-12 text-teal-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                <p class="text-lg font-semibold text-gray-800">Peta Interaktif</p>
-                                <p class="text-sm text-gray-500 mt-1">Peta Google Maps akan ditampilkan di sini dengan *marker* fasilitas umum dan batas administrasi</p>
-                                <span class="mt-3 inline-block bg-teal-600 text-white text-xs font-medium px-3 py-1 rounded-full">
-                                    Koordinat: -0.8471°S, 100.4338°E
-                                </span>
-                            </div>
-                        </div>
-
-                    </div> --}}
-
-                    {{-- Blok Kanan: Daftar Fasilitas --}}
-                    {{-- <div class="space-y-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Fasilitas Umum</h3> --}}
-
-                        {{-- Item Fasilitas 1: Kantor Kelurahan --}}
-                        {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
-                            <div class="flex items-center">
-                                <span class="bg-blue-100 text-blue-600 p-2 rounded-lg mr-4">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h-2M5 21h2m0 0h10M5 21v-4a2 2 0 012-2h10a2 2 0 012 2v4"></path></svg>
-                                </span>
-                                <div>
-                                    <p class="font-medium text-gray-800">Kantor Kelurahan</p>
-                                    <p class="text-sm text-gray-500">1 lokasi</p>
-                                </div>
-                            </div>
-                            <span class="text-xl font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">1</span>
-                        </div> --}}
-
-                        {{-- Item Fasilitas 2: Pasar Tradisional --}}
-                        {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
-                            <div class="flex items-center">
-                                <span class="bg-green-100 text-green-600 p-2 rounded-lg mr-4">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                                </span>
-                                <div>
-                                    <p class="font-medium text-gray-800">Pasar Tradisional</p>
-                                    <p class="text-sm text-gray-500">3 lokasi</p>
-                                </div>
-                            </div>
-                            <span class="text-xl font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">3</span>
-                        </div> --}}
-
-                        {{-- Item Fasilitas 3: Sekolah --}}
-                        {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
-                            <div class="flex items-center">
-                                <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-4">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M5 3v18h14V3M7 3h10v6H7V3z"></path></svg>
-                                </span>
-                                <div>
-                                    <p class="font-medium text-gray-800">Sekolah</p>
-                                    <p class="text-sm text-gray-500">8 lokasi</p>
-                                </div>
-                            </div>
-                            <span class="text-xl font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">8</span>
-                        </div> --}}
-
-                        {{-- Item Fasilitas 4: Masjid --}}
-                        {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
-                            <div class="flex items-center">
-                                <span class="bg-orange-100 text-orange-600 p-2 rounded-lg mr-4">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H9a1 1 0 01-1-1v-1a2 2 0 00-2-2H6a2 2 0 00-2 2v1a1 1 0 01-1 1h18a1 1 0 011-1v-1a2 2 0 00-2-2h-2a2 2 0 00-2 2v1a1 1 0 01-1 1z"></path></svg>
-                                </span>
-                                <div>
-                                    <p class="font-medium text-gray-800">Masjid</p>
-                                    <p class="text-sm text-gray-500">12 lokasi</p>
-                                </div>
-                            </div>
-                            <span class="text-xl font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">12</span>
-                        </div> --}}
-
-                        {{-- Item Fasilitas 5: PLTA --}}
-                        {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
-                            <div class="flex items-center">
-                                <span class="bg-yellow-100 text-yellow-600 p-2 rounded-lg mr-4">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                </span>
-                                <div>
-                                    <p class="font-medium text-gray-800">PLTA</p>
-                                    <p class="text-sm text-gray-500">2 lokasi</p>
-                                </div>
-                            </div>
-                            <span class="text-xl font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">2</span>
-                        </div> --}}
-
-                        {{-- Item Fasilitas 6: Objek Wisata --}}
-                        {{-- <div class="bg-white p-4 rounded-xl shadow-md border border-gray-200 flex justify-between items-center hover:shadow-lg transition duration-200">
-                              <div class="flex items-center">
-                                <span class="bg-teal-100 text-teal-600 p-2 rounded-lg mr-4">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.667 9.818c0-3.92-3.177-7.098-7.098-7.098S5.471 5.898 5.471 9.818c0 3.738 2.871 6.848 6.551 7.07l.076.004c3.682-.222 6.553-3.332 6.553-7.07z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18v3m3-3h-6m6 0h-6"></path></svg>
-                                </span>
-                                <div>
-                                    <p class="font-medium text-gray-800">Objek Wisata</p>
-                                    <p class="text-sm text-gray-500">5 lokasi</p>
-                                </div>
-                            </div>
-                            <span class="text-xl font-bold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">5</span>
-                        </div> --}}
-
-                    {{-- </div>
+                <div class="bg-white p-5 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-200 h-full flex flex-col">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-violet-50 text-violet-600 p-2 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                            </svg>
+                        </span>
+                        <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Tersedia</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 text-lg mb-2">Akta Kelahiran</h3>
+                    <p class="text-sm text-gray-500 mb-4 flex-grow">Pengurusan akta kelahiran dan kematian</p>
+                    <div class="pt-3 border-t border-gray-100">
+                        <span class="flex items-center text-sm text-gray-500">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            3-5 Hari
+                        </span>
+                    </div>
                 </div>
-            </div>
-        </section> --}}
 
+                <div class="bg-white p-5 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-200 h-full flex flex-col">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-red-50 text-red-600 p-2 rounded-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </span>
+                        <span class="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">Tersedia</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 text-lg mb-2">Izin Kegiatan</h3>
+                    <p class="text-sm text-gray-500 mb-4 flex-grow">Perizinan untuk berbagai kegiatan dan acara</p>
+                    <div class="pt-3 border-t border-gray-100">
+                        <span class="flex items-center text-sm text-gray-500">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            1-3 Hari
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
 
         {{-- =================================== --}}
         {{-- BAGIAN RINGKASAN STATISTIK WILAYAH (Dipindahkan ke bawah PETA) --}}
         {{-- =================================== --}}
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-                {{-- Statistik 1: RT/RW --}}
-                <div class="bg-white p-6 rounded-xl shadow-lg text-center border border-gray-200">
-                    <p class="text-4xl font-extrabold text-teal-600">12/6</p>
-                    <p class="text-sm text-gray-600 mt-2">RT/RW</p>
-                </div>
-
-                {{-- Statistik 2: Luas Wilayah --}}
-                <div class="bg-white p-6 rounded-xl shadow-lg text-center border border-gray-200">
-                    <p class="text-4xl font-extrabold text-teal-600">2,99 km²</p>
-                    <p class="text-sm text-gray-600 mt-2">Luas Wilayah</p>
-                </div>
-
-                {{-- Statistik 3: Ketinggian Rata-rata --}}
-                <div class="bg-white p-6 rounded-xl shadow-lg text-center border border-gray-200">
-                    <p class="text-4xl font-extrabold text-teal-600">850m</p>
-                    <p class="text-sm text-gray-600 mt-2">Ketinggian Rata-rata</p>
-                </div>
-
+        {{-- Statistik 1: RT/RW --}}
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition duration-300 text-center group">
+            <div class="inline-flex items-center justify-center w-14 h-14 bg-teal-50 text-teal-600 rounded-full mb-4 group-hover:scale-110 transition duration-300">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
             </div>
-        </section>
+            {{-- Ubah ukuran (text-4xl) dan warna (text-teal-600) --}}
+            <p class="text-4xl font-extrabold text-teal-600 mb-2">12 / 6</p>
+            <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Jumlah RT / RW</p>
+        </div>
+
+        {{-- Statistik 2: Luas Wilayah --}}
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition duration-300 text-center group">
+            <div class="inline-flex items-center justify-center w-14 h-14 bg-teal-50 text-teal-600 rounded-full mb-4 group-hover:scale-110 transition duration-300">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                </svg>
+            </div>
+            {{-- Ubah ukuran (text-4xl) dan warna (text-teal-600) --}}
+            <p class="text-4xl font-extrabold text-teal-600 mb-2">2,99 <span class="text-xl text-teal-500/80">km²</span></p>
+            <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Luas Wilayah</p>
+        </div>
+
+    </div>
+</section>
 
 
 
         {{-- =================================== --}}
-        {{-- BAGIAN BARU: STRUKTUR ORGANISASI TATA KERJA --}}
-        {{-- =================================== --}}
-        <section class="py-20 bg-white border-t border-gray-100">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-800">Struktur Organisasi Tata Kerja</h2>
-                    <p class="text-gray-500 mt-2">Tim pemimpin dan aparatur yang siap melayani masyarakat Cupak Tangah</p>
+{{-- BAGIAN BARU: STRUKTUR ORGANISASI TATA KERJA --}}
+{{-- =================================== --}}
+<section class="py-16 bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+            <span class="text-teal-600 font-semibold tracking-wide uppercase text-xs">Pemerintahan</span>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mt-2">Struktur Organisasi</h2>
+            <p class="text-gray-500 mt-2 text-sm max-w-2xl mx-auto">Tim pemimpin dan aparatur profesional Kelurahan Cupak Tangah.</p>
+        </div>
+
+        {{-- Container Flexbox: justify-center agar otomatis ke tengah --}}
+        <div class="flex flex-wrap justify-center gap-6">
+
+            {{-- Card 1: Lurah --}}
+            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-1.5rem)] max-w-[280px] bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 p-6 text-center transition-all duration-300 hover:-translate-y-1 group">
+                <div class="relative inline-block mb-4">
+                    <div class="p-1 rounded-full bg-gradient-to-tr from-teal-500 to-emerald-500">
+                        <img class="w-24 h-24 rounded-full object-cover border-4 border-white"
+                             src="https://placehold.co/100x100/10B981/ffffff?text=AH"
+                             alt="SAIDUL BAHRI,SH">
+                    </div>
+                    <span class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm tracking-wide uppercase">
+                        Pemimpin
+                    </span>
                 </div>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors leading-tight">SAIDUL BAHRI, SH</h3>
+                <p class="text-xs text-teal-600 font-bold uppercase tracking-wider mt-1">LURAH</p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-                    {{-- Card 1: Lurah --}}
-                    <div class="bg-green-50/50 rounded-xl shadow-lg p-6 text-center border border-green-100">
-                        <div class="relative inline-block mb-4">
-                            <img class="w-24 h-24 rounded-full object-cover mx-auto"
-                                 src="https://placehold.co/100x100/10B981/ffffff?text=AH"
-                                 alt="Drs. Ahmad Suhendra, M.Si">
-                            <span class="absolute top-0 right-0 bg-yellow-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
-                                Lurah
-                            </span>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800">SAIDUL BAHRI,SH</h3>
-                        <p class="text-sm text-teal-600 font-semibold">LURAH</p>
-                        <div class="mt-4 text-left space-y-1 text-sm text-gray-600">
-                            <p class="flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                lurah@cupaktangah.co.id
-                            </p>
-                            <p class="flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                +62 751 123456
-                            </p>
-                        </div>
+                <div class="mt-4 pt-4 border-t border-gray-50 space-y-2 text-xs text-gray-500">
+                    <div class="flex items-center justify-center gap-2 hover:text-teal-600 transition-colors">
+                        <i class="fas fa-envelope text-teal-500"></i>
+                        <span class="truncate">lurah@cupaktangah.co.id</span>
                     </div>
-
-                    {{-- Card 2: Sekretaris --}}
-                    <div class="bg-green-50/50 rounded-xl shadow-lg p-6 text-center border border-green-100">
-                        <div class="relative inline-block mb-4">
-                            <img class="w-24 h-24 rounded-full object-cover mx-auto"
-                                 src="https://placehold.co/100x100/10B981/ffffff?text=SR"
-                                 alt="Siti Rahmawati, S.Sos">
-                            <span class="absolute top-0 right-0 bg-yellow-500/0 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
-                            </span>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800">NEFRITA SARI,SE.MM</h3>
-                        <p class="text-sm text-teal-600 font-semibold">SEKRETARIS</p>
-                        <p class="text-sm text-gray-600">Sekretariat</p>
-                        <div class="mt-4 text-left space-y-1 text-sm text-gray-600">
-                            <p class="flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                sekretaris@cupaktangah.co.id
-                            </p>
-                            <p class="flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                +62 751 123457
-                            </p>
-                        </div>
+                    <div class="flex items-center justify-center gap-2 hover:text-teal-600 transition-colors">
+                        <i class="fas fa-phone text-teal-500"></i>
+                        <span>+62 751 123456</span>
                     </div>
-
-                    {{-- Card 3: Kepala Seksi Pemerintahan --}}
-                    <div class="bg-green-50/50 rounded-xl shadow-lg p-6 text-center border border-green-100">
-                        <div class="relative inline-block mb-4">
-                            <img class="w-24 h-24 rounded-full object-cover mx-auto"
-                                 src="https://placehold.co/100x100/10B981/ffffff?text=BS"
-                                 alt="Budi Santoso, S.Ap">
-                            <span class="absolute top-0 right-0 bg-yellow-500/0 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
-                            </span>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800">MELI CHAIRANI,A.MD</h3>
-                        <p class="text-sm text-teal-600 font-semibold">SAKSI TAPEM</p>
-                        <p class="text-sm text-gray-600">Seksi Pemerintahan</p>
-                        <div class="mt-4 text-left space-y-1 text-sm text-gray-600">
-                            <p class="flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                pemerintahan@cupaktangah.co.id
-                            </p>
-                            <p class="flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                +62 751 123458
-                            </p>
-                        </div>
-                    </div>
-
-                    {{-- Card 4: Kepala Seksi Kesejahteraan --}}
-                    <div class="bg-green-50/50 rounded-xl shadow-lg p-6 text-center border border-green-100">
-                        <div class="relative inline-block mb-4">
-                            <img class="w-24 h-24 rounded-full object-cover mx-auto"
-                                 src="https://placehold.co/100x100/10B981/ffffff?text=RM"
-                                 alt="Rina Marlina, S.E">
-                            <span class="absolute top-0 right-0 bg-yellow-500/0 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
-                            </span>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800">Rina Marlina, S.E</h3>
-                        <p class="text-sm text-teal-600 font-semibold">Kepala Seksi Kesejahteraan</p>
-                        <p class="text-sm text-gray-600">Seksi Kesejahteraan</p>
-                        <div class="mt-4 text-left space-y-1 text-sm text-gray-600">
-                            <p class="flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                kesejahteraan@cupaktangah.co.id
-                            </p>
-                            <p class="flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                +62 751 123459
-                            </p>
-                        </div>
-                    </div>
-
-                    {{-- Card 5: Kepala Seksi Pelayanan --}}
-                    <div class="bg-green-50/50 rounded-xl shadow-lg p-6 text-center border border-green-100">
-                        <div class="relative inline-block mb-4">
-                            <img class="w-24 h-24 rounded-full object-cover mx-auto"
-                                 src="https://placehold.co/100x100/10B981/ffffff?text=IW"
-                                 alt="Indra Wijaya, S.T">
-                            <span class="absolute top-0 right-0 bg-yellow-500/0 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
-                            </span>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800">Indra Wijaya, S.T</h3>
-                        <p class="text-sm text-teal-600 font-semibold">Kepala Seksi Pelayanan</p>
-                        <p class="text-sm text-gray-600">Seksi Pelayanan</p>
-                        <div class="mt-4 text-left space-y-1 text-sm text-gray-600">
-                            <p class="flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                pelayanan@cupaktangah.co.id
-                            </p>
-                            <p class="flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                +62 751 123460
-                            </p>
-                        </div>
-                    </div>
-
-                    {{-- Card 6: Kepala Seksi Ekonomi --}}
-                    <div class="bg-green-50/50 rounded-xl shadow-lg p-6 text-center border border-green-100">
-                        <div class="relative inline-block mb-4">
-                            <img class="w-24 h-24 rounded-full object-cover mx-auto"
-                                 src="https://placehold.co/100x100/10B981/ffffff?text=MS"
-                                 alt="Maya Sari, S.Kom">
-                            <span class="absolute top-0 right-0 bg-yellow-500/0 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">
-                            </span>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800">Maya Sari, S.Kom</h3>
-                        <p class="text-sm text-teal-600 font-semibold">Kepala Seksi Ekonomi</p>
-                        <p class="text-sm text-gray-600">Seksi Ekonomi & Pembangunan</p>
-                        <div class="mt-4 text-left space-y-1 text-sm text-gray-600">
-                            <p class="flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                ekonomi@cupaktangah.co.id
-                            </p>
-                            <p class="flex items-center justify-center">
-                                <svg class="w-4 h-4 mr-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                +62 751 123461
-                            </p>
-                        </div>
-                    </div>
-
                 </div>
             </div>
-        </section>
+
+            {{-- Card 2: Sekretaris --}}
+            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-1.5rem)] max-w-[280px] bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 p-6 text-center transition-all duration-300 hover:-translate-y-1 group">
+                <div class="relative inline-block mb-4">
+                    <div class="p-1 rounded-full bg-gradient-to-tr from-teal-500 to-emerald-500">
+                        <img class="w-24 h-24 rounded-full object-cover border-4 border-white"
+                             src="https://placehold.co/100x100/10B981/ffffff?text=SR"
+                             alt="NEFRITA SARI,SE.MM">
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors leading-tight">NEFRITA SARI, SE.MM</h3>
+                <p class="text-xs text-teal-600 font-bold uppercase tracking-wider mt-1">SEKRETARIS</p>
+
+                <div class="mt-4 pt-4 border-t border-gray-50 space-y-2 text-xs text-gray-500">
+                    <div class="flex items-center justify-center gap-2 hover:text-teal-600 transition-colors">
+                        <i class="fas fa-envelope text-teal-500"></i>
+                        <span class="truncate">sekretaris@cupaktangah.co.id</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-2 hover:text-teal-600 transition-colors">
+                        <i class="fas fa-phone text-teal-500"></i>
+                        <span>+62 751 123457</span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Card 3: Kasi Pemerintahan --}}
+            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-1.5rem)] max-w-[280px] bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 p-6 text-center transition-all duration-300 hover:-translate-y-1 group">
+                <div class="relative inline-block mb-4">
+                    <div class="p-1 rounded-full bg-gradient-to-tr from-teal-500 to-emerald-500">
+                        <img class="w-24 h-24 rounded-full object-cover border-4 border-white"
+                             src="https://placehold.co/100x100/10B981/ffffff?text=MC"
+                             alt="MELI CHAIRANI,A.MD">
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors leading-tight">MELI CHAIRANI, A.MD</h3>
+                <p class="text-xs text-teal-600 font-bold uppercase tracking-wider mt-1">SEKSI TAPEM</p>
+
+                <div class="mt-4 pt-4 border-t border-gray-50 space-y-2 text-xs text-gray-500">
+                    <div class="flex items-center justify-center gap-2 hover:text-teal-600 transition-colors">
+                        <i class="fas fa-envelope text-teal-500"></i>
+                        <span class="truncate">pemerintahan@cupaktangah.co.id</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-2 hover:text-teal-600 transition-colors">
+                        <i class="fas fa-phone text-teal-500"></i>
+                        <span>+62 751 123458</span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Card 4: Kasi Kesejahteraan --}}
+            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-1.5rem)] max-w-[280px] bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 p-6 text-center transition-all duration-300 hover:-translate-y-1 group">
+                <div class="relative inline-block mb-4">
+                    <div class="p-1 rounded-full bg-gradient-to-tr from-teal-500 to-emerald-500">
+                        <img class="w-24 h-24 rounded-full object-cover border-4 border-white"
+                             src="https://placehold.co/100x100/10B981/ffffff?text=RS"
+                             alt="Rasnanelly">
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors leading-tight">Rasnanelly</h3>
+                <p class="text-xs text-teal-600 font-bold uppercase tracking-wider mt-1">SEKSI PM & KESOS</p>
+
+                <div class="mt-4 pt-4 border-t border-gray-50 space-y-2 text-xs text-gray-500">
+                    <div class="flex items-center justify-center gap-2 hover:text-teal-600 transition-colors">
+                        <i class="fas fa-envelope text-teal-500"></i>
+                        <span class="truncate">kesos@cupaktangah.co.id</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-2 hover:text-teal-600 transition-colors">
+                        <i class="fas fa-phone text-teal-500"></i>
+                        <span>+62 751 123459</span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Card 5: Kasi Pelayanan --}}
+            <div class="w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.33%-1.5rem)] max-w-[280px] bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 p-6 text-center transition-all duration-300 hover:-translate-y-1 group">
+                <div class="relative inline-block mb-4">
+                    <div class="p-1 rounded-full bg-gradient-to-tr from-teal-500 to-emerald-500">
+                        <img class="w-24 h-24 rounded-full object-cover border-4 border-white"
+                             src="https://placehold.co/100x100/10B981/ffffff?text=SF"
+                             alt="Safarin, S.AP">
+                    </div>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors leading-tight">Safarin, S.AP</h3>
+                <p class="text-xs text-teal-600 font-bold uppercase tracking-wider mt-1">SEKSI TRANTIBUM & PB</p>
+
+                <div class="mt-4 pt-4 border-t border-gray-50 space-y-2 text-xs text-gray-500">
+                    <div class="flex items-center justify-center gap-2 hover:text-teal-600 transition-colors">
+                        <i class="fas fa-envelope text-teal-500"></i>
+                        <span class="truncate">trantibum@cupaktangah.co.id</span>
+                    </div>
+                    <div class="flex items-center justify-center gap-2 hover:text-teal-600 transition-colors">
+                        <i class="fas fa-phone text-teal-500"></i>
+                        <span>+62 751 123460</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 
         {{-- =================================== --}}
         {{-- BAGIAN JAM PELAYANAN --}}
         {{-- =================================== --}}
-        <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 bg-white shadow-xl rounded-xl border border-gray-100 mb-12">
-            <div class="text-center mb-8">
-                <h2 class="text-2xl font-bold text-gray-800">Jam Pelayanan</h2>
+        <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900">Jam Operasional</h2>
+        <p class="text-gray-500 mt-2">Jadwal pelayanan kantor lurah dan layanan digital</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        {{-- Kartu 1: Jam Pelayanan Kantor (Tatap Muka) --}}
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            {{-- Header Kartu --}}
+            <div class="bg-teal-50 px-6 py-4 border-b border-teal-100 flex items-center gap-3">
+                <div class="bg-white p-2 rounded-lg text-teal-600 shadow-sm">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 text-lg">Pelayanan Tatap Muka</h3>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-
-                {{-- Kolom Kiri: Hari Kerja --}}
-                <div>
-                    <h3 class="text-lg font-bold text-gray-800 border-b pb-2 mb-4">Hari Kerja</h3>
-
-                    <div class="flex justify-between items-center py-2">
-                        <span class="font-semibold text-gray-700">Senin - Kamis</span>
-                        <span class="font-semibold text-gray-800">08:00 – 15:30 WIB</span>
-                    </div>
-
-                    <div class="flex justify-between items-center py-2 border-t border-gray-100">
-                        <span class="font-semibold text-gray-700">Jumat</span>
-                        <span class="font-semibold text-gray-800">08:00 – 11:30 WIB</span>
-                    </div>
-
-                    <div class="flex justify-between items-center py-2 border-t border-gray-100">
-                        <span class="font-semibold text-gray-700">Sabtu - Minggu</span>
-                        <span class="font-bold text-red-600">Tutup</span>
-                    </div>
+            {{-- Isi Kartu --}}
+            <div class="p-6 space-y-4">
+                {{-- Item --}}
+                <div class="flex justify-between items-center pb-4 border-b border-gray-50 last:border-0 last:pb-0">
+                    <span class="text-gray-600 font-medium flex items-center gap-2">
+                        <i class="far fa-calendar text-teal-400 w-5"></i> Senin - Kamis
+                    </span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">
+                        08:00 – 15:30 WIB
+                    </span>
                 </div>
 
-                {{-- Kolom Kanan: Layanan Online --}}
-                <div>
-                    <h3 class="text-lg font-bold text-gray-800 border-b pb-2 mb-4">Layanan Online</h3>
-
-                    <div class="flex justify-between items-center py-2">
-                        <span class="font-semibold text-teal-600 hover:underline">Portal Sipangah</span>
-                        <span class="font-bold text-green-600">24/7</span>
-                    </div>
-
-                    <div class="flex justify-between items-center py-2 border-t border-gray-100">
-                        <span class="font-semibold text-teal-600 hover:underline">WhatsApp CS</span>
-                        <span class="font-semibold text-gray-800">08:00 – 20:00 WIB</span>
-                    </div>
-
-                    <div class="flex justify-between items-center py-2 border-t border-gray-100">
-                        <span class="font-semibold text-teal-600 hover:underline">Email Support</span>
-                        <span class="font-bold text-green-600">24/7</span>
-                    </div>
+                {{-- Item --}}
+                <div class="flex justify-between items-center pb-4 border-b border-gray-50 last:border-0 last:pb-0">
+                    <span class="text-gray-600 font-medium flex items-center gap-2">
+                        <i class="far fa-calendar-check text-teal-400 w-5"></i> Jumat
+                    </span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">
+                        08:00 – 11:30 WIB
+                    </span>
                 </div>
 
+                {{-- Item --}}
+                <div class="flex justify-between items-center pb-4 border-b border-gray-50 last:border-0 last:pb-0">
+                    <span class="text-gray-600 font-medium flex items-center gap-2">
+                        <i class="far fa-calendar-times text-red-400 w-5"></i> Sabtu - Minggu
+                    </span>
+                    <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-bold">
+                        Tutup
+                    </span>
+                </div>
             </div>
-        </section>
+        </div>
 
+        {{-- Kartu 2: Layanan Digital (Online) --}}
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            {{-- Header Kartu --}}
+            <div class="bg-blue-50 px-6 py-4 border-b border-blue-100 flex items-center gap-3">
+                <div class="bg-white p-2 rounded-lg text-blue-600 shadow-sm">
+                    <i class="fas fa-laptop-medical"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 text-lg">Layanan Digital (Online)</h3>
+            </div>
+
+            {{-- Isi Kartu --}}
+            <div class="p-6 space-y-4">
+                {{-- Item --}}
+                <div class="flex justify-between items-center pb-4 border-b border-gray-50 last:border-0 last:pb-0">
+                    <span class="text-gray-600 font-medium flex items-center gap-2">
+                        <i class="fas fa-globe text-blue-400 w-5"></i> Portal Sipangah
+                    </span>
+                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> 24 Jam
+                    </span>
+                </div>
+
+                {{-- Item --}}
+                <div class="flex justify-between items-center pb-4 border-b border-gray-50 last:border-0 last:pb-0">
+                    <span class="text-gray-600 font-medium flex items-center gap-2">
+                        <i class="fab fa-whatsapp text-green-500 w-5"></i> WhatsApp CS
+                    </span>
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">
+                        08:00 – 20:00 WIB
+                    </span>
+                </div>
+
+                {{-- Item --}}
+                <div class="flex justify-between items-center pb-4 border-b border-gray-50 last:border-0 last:pb-0">
+                    <span class="text-gray-600 font-medium flex items-center gap-2">
+                        <i class="far fa-envelope text-blue-400 w-5"></i> Email Support
+                    </span>
+                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> 24 Jam
+                    </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
 
         {{-- =================================== --}}
         {{-- FOOTER --}}
