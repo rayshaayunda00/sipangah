@@ -2,9 +2,6 @@
   "type": "FeatureCollection",
   "features": [
     {
-  "type": "FeatureCollection",
-  "features": [
-    {
       "type": "Feature",
       "properties": {
         "name": "Kelurahan Cupak Tangah"
@@ -57,7 +54,5 @@
         ]
       }
     }
-  ]
-}
   ]
 }

@@ -401,22 +401,6 @@
                 <p class="hero-subtitle">
                     Akses berbagai layanan digital Kelurahan Sipangah untuk kemudahan administrasi Anda
                 </p>
-
-                {{-- <!-- Stats Grid -->
-                <div class="flex flex-wrap justify-center gap-6 mt-10">
-                    <div class="glass-card rounded-2xl px-6 py-4 min-w-[140px] text-center">
-                        <div class="text-2xl font-bold text-teal-800 mb-1">15+</div>
-                        <div class="text-sm text-teal-600 font-medium">Jenis Layanan</div>
-                    </div>
-                    <div class="glass-card rounded-2xl px-6 py-4 min-w-[140px] text-center">
-                        <div class="text-2xl font-bold text-teal-800 mb-1">24/7</div>
-                        <div class="text-sm text-teal-600 font-medium">Layanan Digital</div>
-                    </div>
-                    <div class="glass-card rounded-2xl px-6 py-4 min-w-[140px] text-center">
-                        <div class="text-2xl font-bold text-teal-800 mb-1">1000+</div>
-                        <div class="text-sm text-teal-600 font-medium">Pengguna</div>
-                    </div>
-                </div> --}}
             </div>
         </div>
     </section>

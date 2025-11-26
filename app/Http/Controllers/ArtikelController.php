@@ -10,6 +10,9 @@ use Illuminate\Support\Str;
 
 class ArtikelController extends Controller
 {
+    // ... (Method admin index, create, store, edit, update, destroy BIARKAN SAJA SEPERTI SEBELUMNYA) ...
+    // Saya tulis ulang bagian ADMIN agar file ini lengkap bisa langsung di-copy paste
+
     public function index()
     {
         $artikels = Artikel::with(['kategori','penulis'])->latest()->paginate(10);
@@ -39,17 +42,16 @@ class ArtikelController extends Controller
         }
 
         Artikel::create([
-    'judul' => $request->judul,
-    'url_seo' => Str::slug($request->judul),
-    'isi_konten' => $request->isi_konten,
-    'url_gambar_utama' => $path,
-    'id_kategori' => $request->id_kategori,
-    'id_penulis' => $request->id_penulis,
-    'jumlah_dibaca' => 0,
-    'tanggal_publikasi' => now(),
-    'status_publikasi' => 'published',
-]);
-
+            'judul' => $request->judul,
+            'url_seo' => Str::slug($request->judul),
+            'isi_konten' => $request->isi_konten,
+            'url_gambar_utama' => $path,
+            'id_kategori' => $request->id_kategori,
+            'id_penulis' => $request->id_penulis,
+            'jumlah_dibaca' => 0,
+            'tanggal_publikasi' => now(),
+            'status_publikasi' => 'published',
+        ]);
 
         return redirect()->route('admin.artikel.index')->with('success','Artikel berhasil ditambahkan!');
     }
@@ -100,26 +102,48 @@ class ArtikelController extends Controller
         return redirect()->route('admin.artikel.index')->with('success','Artikel berhasil dihapus!');
     }
 
-     // ================== PUBLIC ==================
-    public function publicIndex()
-    {
-        $artikels = Artikel::with(['penulis','kategori'])
-            ->where('status_publikasi','published')
-            ->latest()
-            ->paginate(6);
+    // ================== PUBLIC (BAGIAN INI YANG DIPERBAIKI) ==================
 
-        return view('public.artikel.index', compact('artikels'));
+    // Tambahkan 'Request $request' agar fitur search & filter berfungsi
+    public function publicIndex(Request $request)
+    {
+        // 1. Siapkan Query Dasar
+        $query = Artikel::with(['penulis', 'kategori'])
+            ->where('status_publikasi', 'published');
+
+        // 2. Logika Pencarian (Search)
+        if ($request->has('search') && $request->search != null) {
+            $query->where(function($q) use ($request) {
+                $q->where('judul', 'like', '%' . $request->search . '%')
+                  ->orWhere('isi_konten', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // 3. Logika Filter Kategori
+        if ($request->has('kategori') && $request->kategori != null) {
+            $query->whereHas('kategori', function($q) use ($request) {
+                $q->where('nama_kategori', $request->kategori);
+            });
+        }
+
+        // 4. Eksekusi Query & Pagination
+        $artikels = $query->latest()->paginate(6)->withQueryString();
+
+        // 5. AMBIL DATA KATEGORI (INI YANG SEBELUMNYA KURANG)
+        $kategori = Kategori::all();
+
+        // 6. Kirim $artikels DAN $kategori ke view
+        return view('public.artikel.index', compact('artikels', 'kategori'));
     }
 
     public function publicShow($seo)
     {
-        $artikel = Artikel::with(['penulis','kategori'])
-            ->where('url_seo',$seo)
+        $artikel = Artikel::with(['penulis', 'kategori'])
+            ->where('url_seo', $seo)
             ->firstOrFail();
 
         $artikel->increment('jumlah_dibaca');
 
         return view('public.artikel.show', compact('artikel'));
     }
-
 }

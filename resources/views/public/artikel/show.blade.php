@@ -9,12 +9,12 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         {{-- Link kembali --}}
-        <a href="{{ route('artikel.public.index') }}" class="text-teal-600 hover:text-teal-800 transition duration-150 inline-flex items-center mb-6">
+        {{-- <a href="{{ route('artikel.public.index') }}" class="text-teal-600 hover:text-teal-800 transition duration-150 inline-flex items-center mb-6">
             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
             Kembali ke daftar artikel
-        </a>
+        </a> --}}
 
         {{-- Card Utama Artikel --}}
         <article class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 p-6 sm:p-8 lg:p-10">
@@ -77,23 +77,6 @@
                               d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                     </svg>
                     Dibaca: <span class="font-semibold text-gray-700 ml-1">{{ number_format($artikel->jumlah_dibaca, 0, ',', '.') }}</span>
-                </span>
-
-                <span class="flex items-center">
-                    <svg class="w-5 h-5 mr-1 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                              d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                              clip-rule="evenodd"></path>
-                    </svg>
-                    Suka: <span class="font-semibold text-gray-700 ml-1">{{ number_format($artikel->jumlah_suka, 0, ',', '.') }}</span>
-                </span>
-
-                <span class="flex items-center">
-                    <svg class="w-5 h-5 mr-1 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M8.684 13.342C8.88 12.836 9 12.462 9 12c0-.462-.12-.836-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6.632l6.632-3.316m0 0a3 3 0 105.368-2.684 3 3 0 00-5.368 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
-                    </svg>
-                    Dibagikan: <span class="font-semibold text-gray-700 ml-1">{{ number_format($artikel->jumlah_dibagikan, 0, ',', '.') }}</span>
                 </span>
             </div>
         </article>

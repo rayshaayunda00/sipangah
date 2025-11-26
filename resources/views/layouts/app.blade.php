@@ -5,20 +5,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@yield('title', 'Homepage Default')</title>
+        <title>@yield('title', 'Sipangah - Kelurahan Cupak Tangah')</title>
 
-        <!-- Favicon -->
-<link rel="icon" href="{{ asset('favicon.ico') }}">
-
-        <!-- Fonts -->
+        <link rel="icon" type="image/png" href="{{ asset('images/logo-ct.png') }}">
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        {{-- Stack Styles --}}
+        @stack('styles')
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        {{--
+            UBAH 1: Tambahkan class 'flex flex-col'
+            Ini penting agar layout menggunakan Flexbox vertikal,
+            sehingga footer bisa didorong ke bawah.
+        --}}
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">
+
             @include('layouts.navigation')
 
             @isset($header)
@@ -29,7 +34,12 @@
                 </header>
             @endisset
 
-            <main>
+            {{--
+                UBAH 2: Tambahkan class 'flex-grow' pada <main>
+                Ini membuat area konten utama mengisi sisa ruang kosong
+                sehingga footer terdorong ke dasar halaman.
+            --}}
+            <main class="flex-grow">
                 @if (isset($slot))
                     {{ $slot }}
                 @else
@@ -37,6 +47,14 @@
                 @endif
             </main>
 
+            {{--
+                UBAH 3: Panggil Footer di sini (di dalam div wrapper)
+            --}}
+            @include('layouts.footer')
+
         </div>
+
+        {{-- Stack Scripts --}}
+        @stack('scripts')
     </body>
 </html>
