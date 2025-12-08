@@ -1,6 +1,4 @@
-{{-- resources/views/admin/arsip/index.blade.php --}}
-
-@extends('layouts.admin') {{-- Pastikan ini nama layout utama admin kamu --}}
+@extends('layouts.admin')
 
 @section('content')
     <div class="space-y-6">
@@ -19,16 +17,16 @@
 
         {{-- Session Success Message --}}
         @if (session('success'))
-            {{-- Notifikasi sukses (dari prototype arsip-page.tsx, tapi dibuat versi Blade) --}}
             <div class="relative w-full rounded-lg border px-4 py-3 text-sm bg-blue-100 border-blue-200 text-blue-800" role="alert">
                 {{ session('success') }}
             </div>
         @endif
 
-        {{-- Stats Cards (dari arsip-page.tsx baris 196-235) --}}
+        {{-- Stats Cards --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-white shadow-sm border rounded-xl flex flex-col gap-6"> {{-- Card --}}
-                <div class="px-6 [&:last-child]:pb-6 p-6"> {{-- CardContent --}}
+            {{-- Total Arsip --}}
+            <div class="bg-white shadow-sm border rounded-xl flex flex-col gap-6">
+                <div class="px-6 [&:last-child]:pb-6 p-6">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-gray-500">Total Arsip</p>
@@ -40,8 +38,9 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white shadow-sm border rounded-xl flex flex-col gap-6"> {{-- Card --}}
-                <div class="px-6 [&:last-child]:pb-6 p-6"> {{-- CardContent --}}
+            {{-- Surat Masuk --}}
+            <div class="bg-white shadow-sm border rounded-xl flex flex-col gap-6">
+                <div class="px-6 [&:last-child]:pb-6 p-6">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-gray-500">Surat Masuk</p>
@@ -53,8 +52,9 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white shadow-sm border rounded-xl flex flex-col gap-6"> {{-- Card --}}
-                <div class="px-6 [&:last-child]:pb-6 p-6"> {{-- CardContent --}}
+            {{-- Surat Keluar --}}
+            <div class="bg-white shadow-sm border rounded-xl flex flex-col gap-6">
+                <div class="px-6 [&:last-child]:pb-6 p-6">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-gray-500">Surat Keluar</p>
@@ -66,8 +66,9 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white shadow-sm border rounded-xl flex flex-col gap-6"> {{-- Card --}}
-                <div class="px-6 [&:last-child]:pb-6 p-6"> {{-- CardContent --}}
+            {{-- Dokumen Penting --}}
+            <div class="bg-white shadow-sm border rounded-xl flex flex-col gap-6">
+                <div class="px-6 [&:last-child]:pb-6 p-6">
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-gray-500">Dokumen Penting</p>
@@ -81,133 +82,118 @@
             </div>
         </div>
 
-        {{-- Filters and Table (dari arsip-page.tsx baris 238) --}}
-        <div class="bg-white shadow-sm border rounded-xl flex flex-col gap-6"> {{-- Card --}}
-            <div class="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6"> {{-- CardHeader --}}
-                <h4 class="leading-none text-lg font-semibold">Daftar Arsip</h4>
-                <p class="text-muted-foreground text-sm">Kelola dan cari arsip dokumen desa</p>
-            </div>
-            <div class="px-6 [&:last-child]:pb-6"> {{-- CardContent --}}
+        {{-- Filters and Table --}}
+        <div class="bg-white shadow-sm border rounded-xl flex flex-col gap-6">
+            <div class="px-6 pt-6">
+                <div class="flex flex-col gap-1">
+                    <h4 class="text-lg font-semibold">Daftar Arsip</h4>
+                    <p class="text-muted-foreground text-sm text-gray-500">Kelola dan cari arsip dokumen desa</p>
+                </div>
 
-                {{-- Form Filter & Search (Gabungan) --}}
-                <form action="{{ route('admin.arsip.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 mb-6">
-                    {{-- Search Input --}}
+                {{-- Form Filter & Search --}}
+                <form action="{{ route('admin.arsip.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 mt-6">
                     <div class="relative flex-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                         <input name="search"
                                placeholder="Cari nomor arsip, judul, atau kategori..."
-                               class="pl-10 flex h-9 w-full min-w-0 rounded-md border border-input bg-input-background px-3 py-1 text-base"
+                               class="pl-10 flex h-9 w-full rounded-md border border-input bg-input-background px-3 py-1 text-base"
                                value="{{ request('search') }}">
                     </div>
-
-                    {{-- Category Select --}}
-                    <select name="kategori" class="flex h-9 w-full md:w-[200px] items-center justify-between gap-2 rounded-md border border-input bg-input-background px-3 py-2 text-sm whitespace-nowrap">
+                    <select name="kategori" class="flex h-9 w-full md:w-[200px] rounded-md border border-input bg-input-background px-3 py-2 text-sm">
                         <option value="all" @if(request('kategori') == 'all') selected @endif>Semua Kategori</option>
                         <option value="Surat Masuk" @if(request('kategori') == 'Surat Masuk') selected @endif>Surat Masuk</option>
                         <option value="Surat Keluar" @if(request('kategori') == 'Surat Keluar') selected @endif>Surat Keluar</option>
                         <option value="Dokumen Penting" @if(request('kategori') == 'Dokumen Penting') selected @endif>Dokumen Penting</option>
                     </select>
-
-                    {{-- Submit Button --}}
-                    <button type="submit" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2">
+                    <button type="submit" class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2">
                         Filter
                     </button>
                 </form>
+            </div>
 
-
-                {{-- Table (dari arsip-page.tsx baris 274) --}}
+            <div class="px-6 pb-6">
                 <div class="relative w-full overflow-x-auto rounded-md border">
                     <table class="w-full caption-bottom text-sm">
                         <thead class="[&_tr]:border-b">
-                            <tr class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors">
-                                <th class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap">Nomor Arsip</th>
-                                <th class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap">Judul Arsip</th>
-                                <th class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap">Kategori</th>
-                                <th class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap">Tanggal</th>
-                                <th class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap">Status</th>
-                                <th class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap text-right">Aksi</th>
+                            <tr class="hover:bg-muted/50 border-b transition-colors bg-gray-50/50">
+                                <th class="h-10 px-4 text-left align-middle font-medium text-muted-foreground">Nomor Arsip</th>
+                                <th class="h-10 px-4 text-left align-middle font-medium text-muted-foreground">Judul</th>
+                                <th class="h-10 px-4 text-left align-middle font-medium text-muted-foreground">Kategori</th>
+                                <th class="h-10 px-4 text-left align-middle font-medium text-muted-foreground">Tanggal</th>
+                                <th class="h-10 px-4 text-left align-middle font-medium text-muted-foreground">Status</th>
+                                <th class="h-10 px-4 text-right align-middle font-medium text-muted-foreground">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="[&_tr:last-child]:border-0">
-                            @forelse ($arsips as $arsip) {{-- Variabel $arsips dari controller --}}
-                                <tr class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors">
-                                    <td class="p-2 align-middle whitespace-nowrap">{{ $arsip->nomor_arsip }}</td>
-                                    <td class="p-2 align-middle whitespace-nowrap">{{ $arsip->judul_arsip }}</td>
-                                    <td class="p-2 align-middle whitespace-nowrap">
-                                        {{-- Logika Badge Kategori (baris 154-169) --}}
-                                        @php
-                                            $kategoriClass = 'bg-gray-100 text-gray-800';
-                                            if ($arsip->kategori == 'Surat Masuk') $kategoriClass = 'bg-blue-100 text-blue-800';
-                                            if ($arsip->kategori == 'Surat Keluar') $kategoriClass = 'bg-green-100 text-green-800';
-                                            if ($arsip->kategori == 'Dokumen Penting') $kategoriClass = 'bg-purple-100 text-purple-800';
-                                        @endphp
-                                        <span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 {{ $kategoriClass }}">
+                            @forelse ($arsips as $arsip)
+                                <tr class="hover:bg-muted/50 border-b transition-colors">
+                                    <td class="p-4 align-middle font-medium">{{ $arsip->nomor_arsip }}</td>
+                                    <td class="p-4 align-middle">{{ $arsip->judul_arsip }}</td>
+                                    <td class="p-4 align-middle">
+                                        <span class="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
+                                            {{ $arsip->kategori == 'Surat Masuk' ? 'border-transparent bg-blue-100 text-blue-800' :
+                                              ($arsip->kategori == 'Surat Keluar' ? 'border-transparent bg-green-100 text-green-800' : 'border-transparent bg-purple-100 text-purple-800') }}">
                                             {{ $arsip->kategori }}
                                         </span>
                                     </td>
-                                    <td class="p-2 align-middle whitespace-nowrap">{{ \Carbon\Carbon::parse($arsip->tanggal_arsip)->format('d/m/Y') }}</td>
-                                    <td class="p-2 align-middle whitespace-nowrap">
-                                        {{-- Logika Badge Status (baris 171-175) --}}
-                                        @php
-                                            $statusClass = $arsip->status == 'Aktif' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800';
-                                        @endphp
-                                        <span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 {{ $statusClass }}">
+                                    <td class="p-4 align-middle text-muted-foreground">{{ \Carbon\Carbon::parse($arsip->tanggal_arsip)->format('d/m/Y') }}</td>
+                                    <td class="p-4 align-middle">
+                                        <span class="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
+                                            {{ $arsip->status == 'Aktif' ? 'border-transparent bg-green-100 text-green-800' : 'border-transparent bg-gray-100 text-gray-800' }}">
                                             {{ $arsip->status }}
                                         </span>
                                     </td>
-                                    <td class="p-2 align-middle whitespace-nowrap text-right">
+                                    <td class="p-4 align-middle text-right">
+                                        {{-- 🔥 LOGIKA NORMALISASI DATA (Anti Error Count String) --}}
+                                        @php
+                                            $files = $arsip->file_lampiran;
+                                            if (empty($files)) {
+                                                $files = [];
+                                            } elseif (is_string($files)) {
+                                                $decoded = json_decode($files, true);
+                                                $files = is_array($decoded) ? $decoded : [$files];
+                                            }
+                                        @endphp
 
-                                        {{-- Tombol View (BARU) --}}
-                                        <a href="{{ route('admin.arsip.show', $arsip->id) }}"
-                                           class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border bg-background text-foreground hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
-                                           title="Lihat Detail">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                                        </a>
-
-                                        {{-- Tombol Download File (Opsional) --}}
-                                        @if($arsip->file_lampiran)
-                                            <a href="{{ Storage::url($arsip->file_lampiran) }}" target="_blank"
-                                               class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border bg-background text-foreground hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
-                                               title="Unduh File">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                        <div class="flex items-center justify-end gap-2">
+                                            {{-- View --}}
+                                            <a href="{{ route('admin.arsip.show', $arsip->id) }}" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8" title="Lihat">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                                             </a>
-                                        @endif
 
-                                        {{-- Tombol Edit --}}
-                                        <a href="{{ route('admin.arsip.edit', $arsip->id) }}"
-                                           class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border bg-background text-foreground hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
-                                           title="Edit">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-                                        </a>
+                                            {{-- Download (File Pertama) --}}
+                                            @if(count($files) > 0)
+                                                <a href="{{ Storage::url($files[0]) }}" target="_blank" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8" title="Unduh">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                                </a>
+                                            @endif
 
-                                        {{-- Tombol Hapus --}}
-                                        <form action="{{ route('admin.arsip.destroy', $arsip->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus arsip ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                    class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium border bg-background text-red-600 hover:bg-accent h-8 w-8 p-0"
-                                                    title="Hapus">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-                                            </button>
-                                        </form>
+                                            {{-- Edit --}}
+                                            <a href="{{ route('admin.arsip.edit', $arsip->id) }}" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8" title="Edit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                                            </a>
+
+                                            {{-- Delete --}}
+                                            <form action="{{ route('admin.arsip.destroy', $arsip->id) }}" method="POST" class="inline" onsubmit="return confirm('Hapus arsip ini?');">
+                                                @csrf @method('DELETE')
+                                                <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent shadow-sm hover:bg-red-50 hover:text-red-600 h-8 w-8 text-red-500" title="Hapus">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
-                                <tr class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors">
-                                    <td colspan="6" class="p-2 align-middle whitespace-nowrap text-center py-8 text-gray-500">
-                                        Tidak ada arsip ditemukan
+                                <tr>
+                                    <td colspan="6" class="p-8 text-center text-muted-foreground text-sm">
+                                        Tidak ada arsip ditemukan.
                                     </td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-
-                {{-- Pagination Links --}}
-                <div class="mt-4">
-                    {{-- Ini PENTING: appends() akan menjaga filter tetap aktif saat pindah halaman --}}
-                    {{ $arsips->appends(request()->query())->links() }}
-                </div>
+                <div class="mt-4">{{ $arsips->appends(request()->query())->links() }}</div>
             </div>
         </div>
     </div>

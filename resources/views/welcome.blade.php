@@ -460,6 +460,44 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- 4. SEKSI PM DAN KESOS --}}
+                <div class="w-full md:w-[calc(50%-2rem)] lg:w-[calc(30%-2rem)] bg-white rounded-2xl shadow-lg hover:shadow-xl border-t-4 border-teal-500 p-6 text-center transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="relative inline-block mb-4">
+                        <div class="p-1.5 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 shadow-md">
+                            <img class="w-28 h-28 rounded-full object-cover border-4 border-white bg-white"
+                                 src="https://placehold.co/150x150/10B981/ffffff?text=PM+KESOS"
+                                 alt="RASNANELLY">
+                        </div>
+                        <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-gray-600 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-md tracking-wider uppercase">Seksi</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors">RASNANELLY</h3>
+                    <p class="text-xs text-teal-600 font-bold uppercase tracking-widest mt-1 mb-4">Seksi PM dan Kesos</p>
+                    <div class="border-t border-gray-100 pt-4 space-y-2 text-xs text-gray-500">
+                        <div class="flex items-center justify-center gap-2">
+                            <i class="fas fa-id-badge text-teal-400"></i> NIP. 19730822 200801 2 008
+                        </div>
+                    </div>
+                </div>
+
+                {{-- 5. SEKSI TRANTIBUM DAN PB --}}
+                <div class="w-full md:w-[calc(50%-2rem)] lg:w-[calc(30%-2rem)] bg-white rounded-2xl shadow-lg hover:shadow-xl border-t-4 border-teal-500 p-6 text-center transition-all duration-300 hover:-translate-y-2 group">
+                    <div class="relative inline-block mb-4">
+                        <div class="p-1.5 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 shadow-md">
+                            <img class="w-28 h-28 rounded-full object-cover border-4 border-white bg-white"
+                                 src="https://placehold.co/150x150/10B981/ffffff?text=TRANTIB"
+                                 alt="SAFARIN, S.AP">
+                        </div>
+                        <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-gray-600 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-md tracking-wider uppercase">Seksi</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 group-hover:text-teal-600 transition-colors">SAFARIN, S.AP</h3>
+                    <p class="text-xs text-teal-600 font-bold uppercase tracking-widest mt-1 mb-4">Seksi Trantibum dan PB</p>
+                    <div class="border-t border-gray-100 pt-4 space-y-2 text-xs text-gray-500">
+                        <div class="flex items-center justify-center gap-2">
+                            <i class="fas fa-id-badge text-teal-400"></i> NIP. 19750426 201001 1 003
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

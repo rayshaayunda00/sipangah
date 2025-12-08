@@ -1,29 +1,27 @@
 <?php
 
-    namespace App\Models;
+namespace App\Models;
 
-    use Illuminate\Database\Eloquent\Factories\HasFactory;
-    use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-    class Arsip extends Model
-    {
-        use HasFactory;
+class Arsip extends Model
+{
+    use HasFactory;
 
-        protected $fillable = [
-            'nomor_arsip',
-            'judul_arsip',
-            'kategori',
-            'deskripsi',
-            'tanggal_arsip',
-            'file_lampiran',
-            'status',
-        ];
+    protected $fillable = [
+        'nomor_arsip',
+        'judul_arsip',
+        'kategori',
+        'deskripsi',
+        'tanggal_arsip',
+        'file_lampiran',
+        'status',
+    ];
 
-        // Definisikan tipe enum untuk memastikan data valid (opsional, tapi baik)
-        protected $casts = [
-            'kategori' => 'string', // atau bisa diset enum jika Laravel Anda mendukung
-            'status' => 'string',
-            'tanggal_arsip' => 'date',
-        ];
-    }
-
+    // 🔥 TAMBAHKAN BAGIAN INI (PENTING!)
+    protected $casts = [
+        'file_lampiran' => 'array', // <--- Ini yang mengubah JSON String jadi Array
+        'tanggal_arsip' => 'date',
+    ];
+}

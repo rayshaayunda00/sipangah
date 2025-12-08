@@ -1,163 +1,107 @@
-{{-- resources/views/admin/arsip/create.blade.php --}}
-
 @extends('layouts.admin')
-
 @section('title', 'Tambah Arsip Baru')
 
 @section('content')
 <div class="space-y-6">
-
-    {{-- Header --}}
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">Tambah Arsip Baru</h1>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Isi formulir di bawah untuk menambahkan arsip baru</p>
+            <h1 class="text-2xl font-semibold text-gray-900">Tambah Arsip Baru</h1>
+            <p class="text-sm text-gray-600 mt-1">Isi formulir di bawah untuk menambahkan arsip baru</p>
         </div>
     </div>
 
-    {{-- Form Card --}}
-    <div class="bg-white dark:bg-gray-800 shadow-sm border dark:border-gray-700 rounded-xl">
+    <div class="bg-white shadow-sm border rounded-xl">
         <form action="{{ route('admin.arsip.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            <div class="px-6 py-4 border-b"><h4 class="text-lg font-semibold">Formulir Arsip Baru</h4></div>
 
-            {{-- Card Header --}}
-            <div class="px-6 py-4 border-b dark:border-gray-700">
-                <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Formulir Arsip Baru</h4>
-            </div>
-
-            {{-- Card Content --}}
             <div class="px-6 py-6 grid gap-4">
-
                 {{-- Nomor Arsip --}}
                 <div class="grid gap-2">
-                    <label for="nomor_arsip" class="text-sm font-medium text-gray-700 dark:text-gray-300">Nomor Arsip</label>
-                    <input type="text" id="nomor_arsip" name="nomor_arsip"
-                           placeholder="Kosongkan untuk generate otomatis"
-                           value="{{ old('nomor_arsip') }}"
-                           class="w-full rounded-md border border-input bg-input-background px-3 py-1 text-base @error('nomor_arsip') border-destructive @enderror">
-                    <p class="text-xs text-gray-500">Biarkan kosong untuk generate otomatis</p>
-                    @error('nomor_arsip') <p class="text-xs text-destructive">{{ $message }}</p> @enderror
+                    <label for="nomor_arsip" class="text-sm font-medium">Nomor Arsip</label>
+                    <input type="text" id="nomor_arsip" name="nomor_arsip" placeholder="Kosongkan untuk auto-generate" value="{{ old('nomor_arsip') }}" class="w-full rounded-md border border-input px-3 py-1 text-base">
+                    <p class="text-xs text-gray-500">Biarkan kosong otomatis dibuat sistem.</p>
                 </div>
 
-                {{-- Judul Arsip --}}
+                {{-- Judul --}}
                 <div class="grid gap-2">
-                    <label for="judul_arsip" class="text-sm font-medium text-gray-700 dark:text-gray-300">Judul Arsip <span class="text-red-500">*</span></label>
-                    <input type="text" id="judul_arsip" name="judul_arsip"
-                           placeholder="Masukkan judul arsip"
-                           value="{{ old('judul_arsip') }}" required
-                           class="w-full rounded-md border border-input bg-input-background px-3 py-1 text-base @error('judul_arsip') border-destructive @enderror">
-                    @error('judul_arsip') <p class="text-xs text-destructive">{{ $message }}</p> @enderror
+                    <label for="judul_arsip" class="text-sm font-medium">Judul Arsip <span class="text-red-500">*</span></label>
+                    <input type="text" id="judul_arsip" name="judul_arsip" value="{{ old('judul_arsip') }}" required class="w-full rounded-md border border-input px-3 py-1 text-base">
                 </div>
 
                 {{-- Kategori --}}
                 <div class="grid gap-2">
-                    <label for="kategori" class="text-sm font-medium text-gray-700 dark:text-gray-300">Kategori Arsip <span class="text-red-500">*</span></label>
-                    <select id="kategori" name="kategori" required
-                            class="w-full rounded-md border border-input bg-input-background px-3 py-2 text-sm @error('kategori') border-destructive @enderror">
-                        <option value="Surat Masuk" {{ old('kategori')=='Surat Masuk'?'selected':'' }}>Surat Masuk</option>
-                        <option value="Surat Keluar" {{ old('kategori')=='Surat Keluar'?'selected':'' }}>Surat Keluar</option>
-                        <option value="Dokumen Penting" {{ old('kategori')=='Dokumen Penting'?'selected':'' }}>Dokumen Penting</option>
+                    <label for="kategori" class="text-sm font-medium">Kategori <span class="text-red-500">*</span></label>
+                    <select id="kategori" name="kategori" required class="w-full rounded-md border border-input px-3 py-2 text-sm">
+                        <option value="Surat Masuk">Surat Masuk</option>
+                        <option value="Surat Keluar">Surat Keluar</option>
+                        <option value="Dokumen Penting">Dokumen Penting</option>
                     </select>
-                    @error('kategori') <p class="text-xs text-destructive">{{ $message }}</p> @enderror
                 </div>
 
                 {{-- Deskripsi --}}
                 <div class="grid gap-2">
-                    <label for="deskripsi" class="text-sm font-medium text-gray-700 dark:text-gray-300">Deskripsi Arsip</label>
-                    <textarea id="deskripsi" name="deskripsi" rows="3"
-                              placeholder="Masukkan deskripsi (opsional)"
-                              class="w-full rounded-md border border-input bg-input-background px-3 py-2 text-base @error('deskripsi') border-destructive @enderror">{{ old('deskripsi') }}</textarea>
-                    @error('deskripsi') <p class="text-xs text-destructive">{{ $message }}</p> @enderror
+                    <label for="deskripsi" class="text-sm font-medium">Deskripsi</label>
+                    <textarea id="deskripsi" name="deskripsi" rows="3" class="w-full rounded-md border border-input px-3 py-2">{{ old('deskripsi') }}</textarea>
                 </div>
 
-                {{-- Tanggal Arsip --}}
+                {{-- Tanggal --}}
                 <div class="grid gap-2">
-                    <label for="tanggal_arsip" class="text-sm font-medium text-gray-700 dark:text-gray-300">Tanggal Arsip <span class="text-red-500">*</span></label>
-                    <input type="date" id="tanggal_arsip" name="tanggal_arsip" required
-                           value="{{ old('tanggal_arsip', now()->format('Y-m-d')) }}"
-                           class="w-full rounded-md border border-input bg-input-background px-3 py-1 text-base @error('tanggal_arsip') border-destructive @enderror">
-                    @error('tanggal_arsip') <p class="text-xs text-destructive">{{ $message }}</p> @enderror
+                    <label for="tanggal_arsip" class="text-sm font-medium">Tanggal Arsip <span class="text-red-500">*</span></label>
+                    <input type="date" id="tanggal_arsip" name="tanggal_arsip" value="{{ old('tanggal_arsip', now()->format('Y-m-d')) }}" required class="w-full rounded-md border border-input px-3 py-1 text-base">
                 </div>
 
                 {{-- Status --}}
                 <div class="flex items-center justify-between">
                     <div>
-                        <label for="status" class="text-sm font-medium text-gray-700 dark:text-gray-300">Status Arsip</label>
+                        <label class="text-sm font-medium">Status Arsip</label>
                         <p class="text-xs text-gray-500">Aktif / Tidak aktif</p>
                     </div>
-                    <input type="checkbox" id="status" name="status" value="Aktif"
-                           class="h-6 w-10 rounded-full border border-input"
-                           {{ old('status','Aktif')=='Aktif'?'checked':'' }}>
+                    <input type="checkbox" name="status" value="Aktif" checked class="h-6 w-10 rounded-full border border-input">
                 </div>
 
-                {{-- File Lampiran --}}
-                <div class="grid gap-2">
-                    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">File Lampiran</label>
-                    <label for="file_lampiran"
-       class="relative flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600">
-    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400"></i>
-        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Klik untuk upload</span> atau seret file</p>
-        <p class="text-xs text-gray-500 dark:text-gray-400">PDF, DOCX, XLSX, JPG, PNG (maks 2MB)</p>
-    </div>
-</label>
-
-<input id="file_lampiran" name="file_lampiran" type="file" class="hidden">
-
-                    <div id="previewContainer" class="mt-2 text-sm text-gray-500">(Belum ada file dipilih)</div>
-                    @error('file_lampiran') <p class="text-xs text-destructive">{{ $message }}</p> @enderror
+                {{-- File Lampiran (MULTIPLE) --}}
+                <div class="grid gap-2 pt-4 border-t">
+                    <label class="text-sm font-medium">File Lampiran</label>
+                    <label for="file_lampiran" class="relative flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                            <p class="text-sm text-gray-500"><span class="font-semibold">Klik upload</span> atau seret file</p>
+                            <p class="text-xs text-gray-500">Bisa pilih banyak file (PDF, JPG, PNG)</p>
+                        </div>
+                    </label>
+                    <input id="file_lampiran" name="file_lampiran[]" type="file" multiple class="hidden">
+                    <div id="previewContainer" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2"></div>
                 </div>
-
             </div>
 
-            {{-- Card Footer --}}
-            <div class="flex items-center justify-end gap-2 px-6 pb-6">
+           {{-- Card Footer --}}
+            <div class="flex items-center justify-end gap-2 px-6 pb-6 bg-gray-50/50 rounded-b-xl pt-4">
                 <a href="{{ route('admin.arsip.index') }}"
-                   class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium border bg-background text-foreground hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
+                   class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                     Batal
                 </a>
                 <button type="submit"
-                        class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2">
-                    Tambah Arsip
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-sm">
+                    Simpan
                 </button>
             </div>
         </form>
     </div>
-
 </div>
 @endsection
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function(){
-    const input = document.getElementById('file_lampiran');
-    const preview = document.getElementById('previewContainer');
-
-    input.addEventListener('change', function(e){
-        const file = e.target.files[0];
-        preview.innerHTML = '';
-
-        if(!file){
-            preview.innerText = "(Belum ada file dipilih)";
-            return;
+document.getElementById('file_lampiran').addEventListener('change', function(e){
+    const container = document.getElementById('previewContainer');
+    container.innerHTML = '';
+    Array.from(e.target.files).forEach(file => {
+        let content = `<div class="p-2 border rounded bg-white text-xs truncate">${file.name}</div>`;
+        if(file.type.startsWith('image/')) {
+            content = `<img src="${URL.createObjectURL(file)}" class="h-20 w-full object-cover rounded border">`;
         }
-
-        if(file.type.includes('image')){
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            img.className = "w-full max-w-xs rounded shadow border mt-1";
-            preview.appendChild(img);
-        } else if(file.type === 'application/pdf'){
-            const iframe = document.createElement('iframe');
-            iframe.src = URL.createObjectURL(file);
-            iframe.className = "w-full h-64 border rounded mt-1";
-            preview.appendChild(iframe);
-        } else {
-            preview.innerHTML = `<div class="p-2 bg-gray-100 dark:bg-gray-700 rounded border mt-1">
-                <p class="text-xs font-semibold text-gray-800 dark:text-white">${file.name}</p>
-                <p class="text-xs">(Preview tidak tersedia)</p>
-            </div>`;
-        }
+        container.innerHTML += content;
     });
 });
 </script>

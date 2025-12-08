@@ -52,10 +52,10 @@
                 <i class="fas fa-users text-blue-500 mr-2"></i> Jumlah User
             </h3>
             <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahUser }}</div>
-            <div class="text-green-500 mt-1 text-sm">
+            {{-- <div class="text-green-500 mt-1 text-sm">
                 <i class="fas fa-arrow-up"></i>
                 <span>12% dari bulan lalu</span>
-            </div>
+            </div> --}}
         </div>
 
         <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-indigo-500 hover:shadow-lg transition">
@@ -63,10 +63,10 @@
                 <i class="fas fa-newspaper text-indigo-500 mr-2"></i> Jumlah Artikel
             </h3>
             <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahArtikel }}</div>
-            <div class="text-green-500 mt-1 text-sm">
+            {{-- <div class="text-green-500 mt-1 text-sm">
                 <i class="fas fa-arrow-up"></i>
                 <span>5 artikel baru</span>
-            </div>
+            </div> --}}
         </div>
 
         <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-green-500 hover:shadow-lg transition">
@@ -74,10 +74,10 @@
                 <i class="fas fa-seedling text-green-500 mr-2"></i> Jumlah Potensi
             </h3>
             <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahPotensi }}</div>
-            <div class="text-green-500 mt-1 text-sm">
+            {{-- <div class="text-green-500 mt-1 text-sm">
                 <i class="fas fa-arrow-up"></i>
                 <span>3 potensi baru</span>
-            </div>
+            </div> --}}
         </div>
     </div>
     {{-- === AKHIR STATISTIK CARD === --}}

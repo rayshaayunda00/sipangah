@@ -220,6 +220,15 @@
                         <h3 class="text-xl font-bold">Peta Wilayah</h3>
                     </div>
                     <div id="map" class="w-full h-[450px] z-0"></div>
+                    <div class="p-4 flex justify-end">
+    <a href="https://www.google.com/maps/place/Cupak+Tangah,+Kec.+Pauh,+Kota+Padang,+Sumatera+Barat/@-0.9363475,100.4231463,14.47z"
+       target="_blank"
+       class="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition">
+        <i class="fas fa-location-arrow"></i>
+        Lihat di Google Maps
+    </a>
+</div>
+
                 </div>
             </section>
 
@@ -249,24 +258,74 @@
             document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
 
             // === 2. Map Leaflet ===
-            if (document.getElementById('map')) {
-                var map = L.map('map').setView([-0.9360, 100.4310], 14);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap contributors'
-                }).addTo(map);
+            // === 2. Map Leaflet ===
+// === 2. Map Leaflet ===
+if (document.getElementById('map')) {
+    var map = L.map('map').setView([-0.9360, 100.4310], 14);
 
-                // Fetch GeoJSON
-                fetch('{{ asset('geojson/cupak_tangah.json') }}')
-                    .then(response => response.json())
-                    .then(data => {
-                        L.geoJSON(data, {
-                            style: { color: '#0f766e', weight: 3, fillColor: '#0d9488', fillOpacity: 0.25 }
-                        }).addTo(map);
-                    })
-                    .catch(e => console.log('GeoJSON Error:', e));
+    // === BASE LAYERS ===
+    var esriSat = L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        {
+            maxZoom: 20,
+            attribution: 'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics'
+        }
+    ).addTo(map);
 
-                L.marker([-0.9360, 100.4310]).addTo(map).bindPopup("<b>Kantor Lurah Cupak Tangah</b>");
-            }
+    var esriStreets = L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+        {
+            maxZoom: 20,
+            attribution: 'Tiles © Esri'
+        }
+    );
+
+    var osm = L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }
+    );
+
+    // === OVERLAYS ===
+    var kantorMarker = L.marker([-0.9360, 100.4310]).bindPopup("<b>Kantor Lurah Cupak Tangah</b>");
+
+    var polygonLayer = L.geoJSON(null, {
+        style: {
+            color: '#0f766e',
+            weight: 3,
+            fillColor: '#0d9488',
+            fillOpacity: 0.25
+        }
+    });
+
+    // Load GeoJSON
+    fetch('{{ asset('geojson/cupak_tangah.json') }}')
+        .then(response => response.json())
+        .then(data => polygonLayer.addData(data))
+        .catch(e => console.log('GeoJSON Error:', e));
+
+    // === GROUP LAYERS ===
+    var baseLayers = {
+        "ESRI Satellite": esriSat
+        // "ESRI Streets": esriStreets,
+        // "OpenStreetMap": osm
+    };
+
+    var overlays = {
+        "Wilayah Cupak Tangah": polygonLayer,
+        "Kantor Lurah": kantorMarker
+    };
+
+    // === ADD LAYER CONTROL ===
+    L.control.layers(baseLayers, overlays, { collapsed: false }).addTo(map);
+
+    // Add overlays default
+    kantorMarker.addTo(map);
+    polygonLayer.addTo(map);
+}
+
         });
     </script>
 @endpush
