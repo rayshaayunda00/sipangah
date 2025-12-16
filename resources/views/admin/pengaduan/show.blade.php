@@ -1,96 +1,85 @@
-{{--
-    Kita "pinjam" layout admin (layouts/admin.blade.php)
-    biar dapet sidebar, header, dan CSS-nya.
---}}
 @extends('layouts.admin')
 
-{{--
-    Ini buat ngatur judul di tab browser.
---}}
 @section('title', 'Detail Pengaduan')
 
-{{--
-    Ini bagian konten utamanya,
-    yang bakal di-inject ke @yield('content') di layout.
---}}
 @section('content')
-{{--
-    Bikin kontainer biar rapi.
-    'max-w-3xl' = lebarnya dibatasi (gak full)
-    'mx-auto' = biar posisinya di tengah layar
---}}
-<div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+<div class="max-w-4xl mx-auto px-4 py-8">
 
-    {{-- Ambil judul pengaduan dari database --}}
-    <h2 class="text-2xl font-bold mb-4">{{ $pengaduan->judul_pengaduan }}</h2>
+    <div class="bg-white shadow rounded-lg overflow-hidden border border-gray-200">
 
-    {{--
-        Ini blok buat nampilin data-data si pengadu.
-        Kita pake variabel $pengaduan yang dikirim dari Controller.
-    --}}
-    <p class="mb-2 text-gray-600">
-        <strong>Nama Pengadu:</strong> {{ $pengaduan->nama_pengadu }}<br>
-        <strong>Email:</strong> {{ $pengaduan->email_pengadu }}<br>
-        {{--
-            Pake '??' (Null Coalescing Operator).
-            Artinya: Kalo $pengaduan->no_hp_pengadu ada isinya, tampilin.
-            Kalo kosong (null), tampilin '-'. Biar gak error.
-        --}}
-        <strong>No HP:</strong> {{ $pengaduan->no_hp_pengadu ?? '-' }}<br>
-        <strong>Tanggal:</strong> {{ $pengaduan->tanggal_pengaduan }}<br>
-        <strong>Status:</strong>
-        {{--
-            Ini buat ngasih warna-warni di status (badge).
-            Kita pake @if @elseif buat ngecek statusnya.
-        --}}
-        <span class="px-3 py-1 rounded
-            @if($pengaduan->status_pengaduan=='Baru') bg-blue-100 text-blue-800
-            @elseif($pengaduan->status_pengaduan=='Dalam Proses') bg-yellow-100 text-yellow-800
-            @else bg-green-100 text-green-800 @endif">
-            {{ $pengaduan->status_pengaduan }}
-        </span>
-    </p>
+        <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-800">Detail Pengaduan</h1>
 
-    {{-- Kasih garis pemisah biar cakep --}}
-    <hr class="my-4">
+            @php
+                $statusColor = match($pengaduan->status_pengaduan) {
+                    'Baru' => 'bg-blue-100 text-blue-800',
+                    'Dalam Proses' => 'bg-yellow-100 text-yellow-800',
+                    'Selesai' => 'bg-green-100 text-green-800',
+                    default => 'bg-gray-100 text-gray-800'
+                };
+            @endphp
+            <span class="px-3 py-1 rounded-full text-sm font-semibold {{ $statusColor }}">
+                {{ $pengaduan->status_pengaduan }}
+            </span>
+        </div>
 
-    {{-- Bagian buat nampilin isi laporannya --}}
-    <div class="mb-4">
-        <h3 class="font-semibold mb-2">Isi Pengaduan:</h3>
-        {{--
-            'whitespace-pre-line' ini penting!
-            Gunanya buat ngejaga format "Enter" atau baris baru
-            dari user. Kalo user ngetik pake enter, di sini juga bakal ke-enter.
-        --}}
-        <p class="text-gray-700 whitespace-pre-line">{{ $pengaduan->isi_pengaduan }}</p>
-    </div>
+        <div class="p-6 space-y-6">
 
-    {{--
-        Cek dulu, ada lampirannya gak?
-        Kalo $pengaduan->url_lampiran gak kosong (ada isinya),
-        baru kita tampilin blok di bawah ini.
-    --}}
-    @if($pengaduan->url_lampiran)
-    <div class="mb-4">
-        <h3 class="font-semibold mb-2">Lampiran:</h3>
-        {{--
-            Tampilin gambar lampirannya.
-            Pake helper asset('storage/...') buat ngambil
-            file dari folder public/storage.
-        --}}
-        <img src="{{ asset('storage/'.$pengaduan->url_lampiran) }}"
-             alt="Lampiran Pengaduan"
-             class="max-w-full h-auto border rounded"> {{-- max-w-full biar gambarnya gak "mbleber" --}}
-    </div>
-    @endif
+            <div>
+                <label class="block text-sm font-medium text-gray-500">Judul Pengaduan</label>
+                <div class="mt-1 text-lg font-semibold text-gray-900">
+                    {{ $pengaduan->judul_pengaduan }}
+                </div>
+            </div>
 
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-md">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase">Nama Pelapor</label>
+                    <p class="text-gray-900">{{ $pengaduan->nama_pengadu }}</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase">Tanggal Masuk</label>
+                    <p class="text-gray-900">{{ \Carbon\Carbon::parse($pengaduan->tanggal_pengaduan)->format('d M Y, H:i') }} WIB</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase">Email</label>
+                    <p class="text-gray-900">{{ $pengaduan->email_pengadu }}</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase">No HP</label>
+                    <p class="text-gray-900">{{ $pengaduan->no_hp_pengadu ?? '-' }}</p>
+                </div>
+            </div>
 
-    {{-- Bagian tombol-tombol di bawah --}}
-    <div class="flex justify-between">
-        {{-- Tombol buat balik ke halaman daftar (index) --}}
-        <a href="{{ route('admin.pengaduan.index') }}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-            ← Kembali
-        </a>
+            <div>
+                <label class="block text-sm font-medium text-gray-500 mb-2">Isi Laporan</label>
+                <div class="p-4 bg-gray-50 rounded border border-gray-200 text-gray-800 whitespace-pre-line">
+                    {{ $pengaduan->isi_pengaduan }}
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-500 mb-2">Lampiran Bukti</label>
+                @if($pengaduan->url_lampiran)
+                    <a href="{{ asset('storage/'.$pengaduan->url_lampiran) }}" target="_blank" class="inline-block border p-1 rounded hover:opacity-80">
+                        <img src="{{ asset('storage/'.$pengaduan->url_lampiran) }}" alt="Lampiran" class="h-48 rounded">
+                    </a>
+                @else
+                    <p class="text-sm text-gray-400 italic">Tidak ada lampiran.</p>
+                @endif
+            </div>
+
+        </div>
+
+        <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end">
+            <form action="{{ route('admin.pengaduan.destroy', $pengaduan->id_pengaduan) }}" method="POST" onsubmit="return confirm('Hapus pengaduan ini?')">
+                @csrf @method('DELETE')
+                <button type="submit" class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-700 transition">
+                    Hapus Pengaduan
+                </button>
+            </form>
+        </div>
+
     </div>
 </div>
 @endsection

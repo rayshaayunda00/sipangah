@@ -1,105 +1,140 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="p-6">
-    <!-- Judul halaman -->
-    <h1 class="text-2xl font-bold mb-4">Edit Artikel</h1>
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-    <!-- Tampilkan alert error global jika ada -->
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-3xl font-black text-gray-900 tracking-tight">Edit Artikel</h1>
+            <p class="text-sm text-gray-500 mt-1">Perbarui konten artikel Anda.</p>
+        </div>
+        <a href="{{ route('admin.artikel.index') }}"
+           class="group inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all shadow-sm">
+            <i class="fas fa-arrow-left mr-2 text-gray-400 group-hover:text-gray-600"></i>
+            Kembali
+        </a>
+    </div>
+
     @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
-            <strong class="font-bold">Terjadi Kesalahan!</strong>
-            <span class="block sm:inline">Silakan periksa kembali inputan Anda.</span>
-            <ul class="mt-2 list-disc list-inside text-sm">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+        <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg shadow-sm animate-fade-in-up">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-circle text-red-500"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-bold text-red-800">Periksa inputan Anda:</h3>
+                    <ul class="mt-1 list-disc list-inside text-sm text-red-700">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
         </div>
     @endif
 
-    <!-- Form update -->
-    <form action="{{ route('admin.artikel.update', $artikel->id_artikel) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+        <form action="{{ route('admin.artikel.update', $artikel->id_artikel) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
-        <!-- Input Judul -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Judul</label>
-            <input type="text"
-                   name="judul"
-                   value="{{ old('judul', $artikel->judul) }}"
-                   class="w-full border p-2 rounded @error('judul') border-red-500 @enderror"
-                   required>
-            @error('judul')
-                <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
-            @enderror
-        </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3">
 
-        <!-- Kategori -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Kategori</label>
-            <select name="id_kategori" class="w-full border p-2 rounded @error('id_kategori') border-red-500 @enderror">
-                @foreach($kategori as $k)
-                    <option value="{{ $k->id_kategori }}"
-                        {{ old('id_kategori', $artikel->id_kategori) == $k->id_kategori ? 'selected' : '' }}>
-                        {{ $k->nama_kategori }}
-                    </option>
-                @endforeach
-            </select>
-            @error('id_kategori')
-                <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
-            @enderror
-        </div>
+                <div class="p-8 bg-gray-50 border-b lg:border-b-0 lg:border-r border-gray-100">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-amber-100 text-amber-600 w-10 h-10 rounded-full flex items-center justify-center mr-3 shadow-sm">
+                            <i class="fas fa-pen text-lg"></i>
+                        </div>
+                        <h2 class="text-lg font-bold text-gray-800">Detail Informasi</h2>
+                    </div>
 
-        <!-- Penulis -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Penulis</label>
-            <select name="id_penulis" class="w-full border p-2 rounded @error('id_penulis') border-red-500 @enderror">
-                @foreach($penulis as $p)
-                    <option value="{{ $p->id_penulis }}"
-                        {{ old('id_penulis', $artikel->id_penulis) == $p->id_penulis ? 'selected' : '' }}>
-                        {{ $p->nama_penulis }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+                    <div class="mb-5">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Judul Artikel <span class="text-red-500">*</span></label>
+                        <input type="text" name="judul" value="{{ old('judul', $artikel->judul) }}"
+                               class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" required>
+                    </div>
 
-        <!-- Status Publikasi -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Status Publikasi</label>
-            <select name="status_publikasi" class="w-full border p-2 rounded">
-                <option value="published" {{ old('status_publikasi', $artikel->status_publikasi) == 'published' ? 'selected' : '' }}>Published</option>
-                <option value="draft" {{ old('status_publikasi', $artikel->status_publikasi) == 'draft' ? 'selected' : '' }}>Draft</option>
-            </select>
-        </div>
+                    <div class="mb-5">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Kategori <span class="text-red-500">*</span></label>
+                        <select name="id_kategori" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                            @foreach($kategori as $k)
+                                <option value="{{ $k->id_kategori }}" {{ old('id_kategori', $artikel->id_kategori) == $k->id_kategori ? 'selected' : '' }}>
+                                    {{ $k->nama_kategori }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-        <!-- Isi Konten -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Isi Konten</label>
-            <textarea name="isi_konten" class="w-full border p-2 rounded @error('isi_konten') border-red-500 @enderror" rows="6" required>{{ old('isi_konten', $artikel->isi_konten) }}</textarea>
-            @error('isi_konten')
-                <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
-            @enderror
-        </div>
+                    <div class="mb-5">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Penulis</label>
+                        <select name="id_penulis" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                            <option value="">-- Pilih Penulis --</option>
+                            @foreach($penulis as $p)
+                                <option value="{{ $p->id_penulis }}" {{ old('id_penulis', $artikel->id_penulis) == $p->id_penulis ? 'selected' : '' }}>
+                                    {{ $p->nama_penulis }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-        <!-- Gambar Utama -->
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Gambar Utama</label>
-            @if($artikel->url_gambar_utama)
-                <div class="mb-2">
-                    <img src="{{ asset('storage/'.$artikel->url_gambar_utama) }}" class="w-32 h-32 object-cover rounded border">
-                    <p class="text-xs text-gray-500">Gambar saat ini</p>
+                    <div class="mb-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Status Publikasi</label>
+                        <select name="status_publikasi" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 bg-white">
+                            <option value="published" {{ old('status_publikasi', $artikel->status_publikasi) == 'published' ? 'selected' : '' }}>Published (Tayang)</option>
+                            <option value="draft" {{ old('status_publikasi', $artikel->status_publikasi) == 'draft' ? 'selected' : '' }}>Draft (Konsep)</option>
+                        </select>
+                    </div>
                 </div>
-            @endif
-            <input type="file" name="url_gambar_utama" class="w-full border p-2 rounded @error('url_gambar_utama') border-red-500 @enderror">
-            @error('url_gambar_utama')
-                <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
-            @enderror
-        </div>
 
-        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Update</button>
-        <a href="{{ route('admin.artikel.index') }}" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition ml-2">Batal</a>
-    </form>
+                <div class="lg:col-span-2 p-8 bg-white">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-teal-100 text-teal-600 w-10 h-10 rounded-full flex items-center justify-center mr-3 shadow-sm">
+                            <i class="fas fa-edit text-lg"></i>
+                        </div>
+                        <h2 class="text-lg font-bold text-gray-800">Konten & Media</h2>
+                    </div>
+
+                    <div class="mb-6 p-5 rounded-xl border border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Gambar Utama / Cover</label>
+
+                        @if($artikel->url_gambar_utama)
+                            <div class="mb-3 relative w-32 h-24 rounded-lg overflow-hidden border border-gray-300 group">
+                                <img src="{{ asset('storage/'.$artikel->url_gambar_utama) }}" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center text-white text-xs">
+                                    Saat Ini
+                                </div>
+                            </div>
+                        @endif
+
+                        <input type="file" name="url_gambar_utama"
+                               class="block w-full text-sm text-gray-500
+                                      file:mr-4 file:py-2 file:px-4
+                                      file:rounded-full file:border-0
+                                      file:text-sm file:font-semibold
+                                      file:bg-teal-50 file:text-teal-700
+                                      hover:file:bg-teal-100
+                                      cursor-pointer"
+                               accept="image/*">
+                        <p class="text-xs text-gray-400 mt-2">Biarkan kosong jika tidak ingin mengubah gambar.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Isi Artikel <span class="text-red-500">*</span></label>
+                        <textarea name="isi_konten" rows="12"
+                                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all font-mono text-sm leading-relaxed"
+                                  required>{{ old('isi_konten', $artikel->isi_konten) }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 px-8 py-5 border-t border-gray-100 flex items-center justify-end">
+                <a href="{{ route('admin.artikel.index') }}" class="text-gray-600 hover:text-gray-900 font-medium text-sm mr-6">Batal</a>
+                <button type="submit" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 border border-transparent rounded-lg font-semibold text-white shadow-md hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all transform hover:-translate-y-0.5">
+                    <i class="fas fa-save mr-2"></i>
+                    Simpan Perubahan
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 @endsection
