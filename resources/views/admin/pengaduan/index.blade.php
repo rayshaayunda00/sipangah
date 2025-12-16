@@ -12,29 +12,40 @@
                 <h1 class="text-3xl font-black text-gray-900 tracking-tight">Daftar Pengaduan</h1>
                 <p class="mt-2 text-sm text-gray-700">Pantau dan kelola laporan dari warga.</p>
             </div>
+        </div>
 
-            </div>
+        <form action="{{ route('admin.pengaduan.index') }}" method="GET" class="flex flex-col sm:flex-row gap-4 mb-6">
 
-        <div class="flex flex-col sm:flex-row gap-4 mb-6">
             <div class="relative flex-1">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
                 <input type="text"
-                       class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm"
-                       placeholder="Cari pengaduan berdasarkan nama atau judul...">
+                       name="search"
+                       value="{{ request('search') }}"
+                       class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm"
+                       placeholder="Cari nama pelapor atau judul pengaduan...">
             </div>
 
             <div class="w-full sm:w-48">
-                <select class="w-full border border-gray-300 rounded-lg py-2 px-3 text-sm focus:ring-blue-500 focus:border-blue-500">
+                <select name="status" class="w-full border border-gray-300 rounded-lg py-2 px-3 text-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
                     <option value="">Semua Status</option>
-                    <option value="Baru">Baru</option>
-                    <option value="Dalam Proses">Dalam Proses</option>
-                    <option value="Selesai">Selesai</option>
+                    <option value="Baru" {{ request('status') == 'Baru' ? 'selected' : '' }}>Baru</option>
+                    <option value="Dalam Proses" {{ request('status') == 'Dalam Proses' ? 'selected' : '' }}>Dalam Proses</option>
+                    <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
                 </select>
             </div>
 
-            <button class="px-6 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition shadow-sm">
+            <button type="submit" class="px-6 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition shadow-sm">
                 Filter
             </button>
-        </div>
+
+            @if(request('search') || request('status'))
+                <a href="{{ route('admin.pengaduan.index') }}" class="px-4 py-2 bg-gray-100 text-gray-600 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 transition shadow-sm flex items-center justify-center">
+                    <i class="fas fa-times mr-1"></i> Reset
+                </a>
+            @endif
+        </form>
 
         @if(session('success'))
             <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg shadow-sm animate-fade-in-up">
@@ -53,51 +64,39 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                            No
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                            Pelapor & Tanggal
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                            Judul Pengaduan
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                            Status
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">
-                            Aksi
-                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">No</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Pelapor & Tanggal</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Judul Pengaduan</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($pengaduans as $index => $p)
                     <tr class="hover:bg-gray-50 transition-colors duration-200">
 
-                        {{-- Kolom No --}}
+                        {{-- No --}}
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {{ $index + 1 }}
+                            {{ $pengaduans->firstItem() + $index }}
                         </td>
 
-                        {{-- Kolom Pelapor --}}
+                        {{-- Pelapor --}}
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-bold text-gray-900">
-                                {{ $p->nama_pengadu }}
-                            </div>
+                            <div class="text-sm font-bold text-gray-900">{{ $p->nama_pengadu }}</div>
                             <div class="text-xs text-gray-500 mt-1 flex items-center">
                                 <i class="far fa-calendar-alt mr-1.5"></i>
                                 {{ \Carbon\Carbon::parse($p->tanggal_pengaduan)->format('d M Y') }}
                             </div>
                         </td>
 
-                        {{-- Kolom Judul --}}
+                        {{-- Judul --}}
                         <td class="px-6 py-4">
                             <div class="text-sm text-gray-900 font-medium line-clamp-1 max-w-xs" title="{{ $p->judul_pengaduan }}">
                                 {{ $p->judul_pengaduan }}
                             </div>
                         </td>
 
-                        {{-- Kolom Status (Dropdown Langsung) --}}
+                        {{-- Status (Dropdown Update Langsung) --}}
                         <td class="px-6 py-4 whitespace-nowrap">
                             <form action="{{ route('admin.pengaduan.updateStatus', $p->id_pengaduan) }}" method="POST">
                                 @csrf
@@ -115,18 +114,15 @@
                             </form>
                         </td>
 
-                        {{-- Kolom Aksi (ICON BUTTONS) --}}
+                        {{-- Aksi --}}
                         <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                             <div class="flex justify-center items-center gap-2">
-
-                                {{-- Tombol Lihat Detail (Icon Mata Biru) --}}
                                 <a href="{{ route('admin.pengaduan.show', $p->id_pengaduan) }}"
                                    class="text-blue-500 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 p-2 rounded-lg transition-colors group-hover:shadow-sm"
                                    title="Lihat Detail">
                                     <i class="fas fa-eye"></i>
                                 </a>
 
-                                {{-- Tombol Hapus (Icon Sampah Merah) --}}
                                 <form action="{{ route('admin.pengaduan.destroy', $p->id_pengaduan) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengaduan ini?')">
                                     @csrf @method('DELETE')
                                     <button type="submit"
@@ -135,7 +131,6 @@
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
-
                             </div>
                         </td>
                     </tr>
@@ -146,8 +141,8 @@
                                 <div class="bg-gray-100 rounded-full p-4 mb-4">
                                     <i class="fas fa-inbox text-gray-400 text-3xl"></i>
                                 </div>
-                                <h3 class="text-lg font-medium text-gray-900">Belum ada pengaduan</h3>
-                                <p class="text-gray-500 mt-1">Belum ada laporan masuk dari warga.</p>
+                                <h3 class="text-lg font-medium text-gray-900">Data tidak ditemukan</h3>
+                                <p class="text-gray-500 mt-1">Coba kata kunci lain atau reset filter.</p>
                             </div>
                         </td>
                     </tr>
@@ -157,9 +152,9 @@
         </div>
 
         <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
-            {{-- {{ $pengaduans->links() }} --}}
-            <div class="text-xs text-gray-500">
-                Menampilkan total {{ count($pengaduans) }} pengaduan.
+            {{ $pengaduans->links() }}
+            <div class="text-xs text-gray-500 mt-2">
+                Menampilkan total {{ $pengaduans->total() }} pengaduan.
             </div>
         </div>
     </div>
