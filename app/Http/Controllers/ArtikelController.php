@@ -27,35 +27,59 @@ class ArtikelController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'judul' => 'required|max:255',
-            'isi_konten' => 'required',
-            'url_gambar_utama' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'id_kategori' => 'required|exists:t_kategori,id_kategori',
-            'id_penulis' => 'required|exists:t_penulis,id_penulis',
+{
+    // 1. Validasi Dasar
+    $request->validate([
+        'judul' => 'required|max:255',
+        'isi_konten' => 'required',
+        'url_gambar_utama' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        // id_kategori boleh string 'lainnya' atau integer (id yang ada)
+        'id_kategori' => 'required',
+        'id_penulis' => 'nullable|exists:t_penulis,id_penulis',
+
+        // Validasi kondisional: jika pilih 'lainnya', maka nama_kategori_baru wajib diisi
+        'nama_kategori_baru' => 'required_if:id_kategori,lainnya|nullable|string|max:100|unique:t_kategori,nama_kategori',
+    ], [
+        'nama_kategori_baru.required_if' => 'Nama kategori baru wajib diisi jika memilih opsi Lainnya.',
+        'nama_kategori_baru.unique' => 'Nama kategori tersebut sudah ada.',
+    ]);
+
+    // 2. Logika Kategori (Inti Perubahan)
+    $kategoriId = $request->id_kategori;
+
+    if ($kategoriId === 'lainnya') {
+        // Buat Kategori Baru
+        $kategoriBaru = Kategori::create([
+            'nama_kategori' => $request->nama_kategori_baru,
+            'url_seo_kategori' => Str::slug($request->nama_kategori_baru), // Asumsi ada kolom slug
+            // 'deskripsi_kategori' => ... (opsional jika ada)
         ]);
 
-        $path = null;
-        if ($request->hasFile('url_gambar_utama')) {
-            $path = $request->file('url_gambar_utama')->store('artikel', 'public');
-        }
-
-        Artikel::create([
-            'judul' => $request->judul,
-            'url_seo' => Str::slug($request->judul),
-            'isi_konten' => $request->isi_konten,
-            'url_gambar_utama' => $path,
-            'id_kategori' => $request->id_kategori,
-            'id_penulis' => $request->id_penulis,
-            'jumlah_dibaca' => 0,
-            'tanggal_publikasi' => now(),
-            'status_publikasi' => 'published',
-        ]);
-
-        return redirect()->route('admin.artikel.index')->with('success','Artikel berhasil ditambahkan!');
+        // Update variable ID dengan ID kategori yang baru dibuat
+        $kategoriId = $kategoriBaru->id_kategori;
     }
 
+    // 3. Upload Gambar
+    $path = null;
+    if ($request->hasFile('url_gambar_utama')) {
+        $path = $request->file('url_gambar_utama')->store('artikel', 'public');
+    }
+
+    // 4. Simpan Artikel
+    Artikel::create([
+        'judul' => $request->judul,
+        'url_seo' => Str::slug($request->judul),
+        'isi_konten' => $request->isi_konten,
+        'url_gambar_utama' => $path,
+        'id_kategori' => $kategoriId, // Gunakan ID yang sudah diproses
+        'id_penulis' => $request->id_penulis,
+        'jumlah_dibaca' => 0,
+        'tanggal_publikasi' => now(),
+        'status_publikasi' => $request->status_publikasi ?? 'draft',
+    ]);
+
+    return redirect()->route('admin.artikel.index')->with('success','Artikel berhasil ditambahkan!');
+}
     public function edit($id_artikel)
     {
         $artikel = Artikel::findOrFail($id_artikel);
@@ -64,35 +88,47 @@ class ArtikelController extends Controller
         return view('admin.artikel.edit', compact('artikel','kategori','penulis'));
     }
 
-    public function update(Request $request, $id_artikel)
-    {
-        $artikel = Artikel::findOrFail($id_artikel);
+   public function update(Request $request, $id_artikel)
+{
+    $artikel = Artikel::findOrFail($id_artikel);
 
-        $request->validate([
-            'judul' => 'required|max:255',
-            'isi_konten' => 'required',
-            'url_gambar_utama' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'id_kategori' => 'required|exists:t_kategori,id_kategori',
-            'id_penulis' => 'required|exists:t_penulis,id_penulis',
+    $request->validate([
+        'judul' => 'required|max:255',
+        'isi_konten' => 'required',
+        'url_gambar_utama' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        'id_kategori' => 'required',
+        'id_penulis' => 'nullable|exists:t_penulis,id_penulis',
+        'nama_kategori_baru' => 'required_if:id_kategori,lainnya|nullable|string|max:100|unique:t_kategori,nama_kategori',
+    ]);
+
+    // Logika Kategori Baru
+    $kategoriId = $request->id_kategori;
+    if ($kategoriId === 'lainnya') {
+        $kategoriBaru = Kategori::create([
+            'nama_kategori' => $request->nama_kategori_baru,
+            'url_seo_kategori' => Str::slug($request->nama_kategori_baru),
         ]);
-
-        $path = $artikel->url_gambar_utama;
-        if ($request->hasFile('url_gambar_utama')) {
-            $path = $request->file('url_gambar_utama')->store('artikel', 'public');
-        }
-
-        $artikel->update([
-            'judul' => $request->judul,
-            'url_seo' => Str::slug($request->judul),
-            'isi_konten' => $request->isi_konten,
-            'url_gambar_utama' => $path,
-            'id_kategori' => $request->id_kategori,
-            'id_penulis' => $request->id_penulis,
-            'status_publikasi' => $request->status_publikasi ?? 'draft',
-        ]);
-
-        return redirect()->route('admin.artikel.index')->with('success','Artikel berhasil diperbarui!');
+        $kategoriId = $kategoriBaru->id_kategori;
     }
+
+    // Upload Gambar
+    $path = $artikel->url_gambar_utama;
+    if ($request->hasFile('url_gambar_utama')) {
+        $path = $request->file('url_gambar_utama')->store('artikel', 'public');
+    }
+
+    $artikel->update([
+        'judul' => $request->judul,
+        'url_seo' => Str::slug($request->judul),
+        'isi_konten' => $request->isi_konten,
+        'url_gambar_utama' => $path,
+        'id_kategori' => $kategoriId, // ID baru atau lama
+        'id_penulis' => $request->id_penulis,
+        'status_publikasi' => $request->status_publikasi ?? 'draft',
+    ]);
+
+    return redirect()->route('admin.artikel.index')->with('success','Artikel berhasil diperbarui!');
+}
 
     public function destroy($id_artikel)
     {

@@ -8,11 +8,6 @@
             <h1 class="text-3xl font-black text-gray-900 tracking-tight">Edit Artikel</h1>
             <p class="text-sm text-gray-500 mt-1">Perbarui konten artikel Anda.</p>
         </div>
-        <a href="{{ route('admin.artikel.index') }}"
-           class="group inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all shadow-sm">
-            <i class="fas fa-arrow-left mr-2 text-gray-400 group-hover:text-gray-600"></i>
-            Kembali
-        </a>
     </div>
 
     @if ($errors->any())
@@ -56,13 +51,23 @@
 
                     <div class="mb-5">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Kategori <span class="text-red-500">*</span></label>
-                        <select name="id_kategori" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+
+                        <select name="id_kategori" id="kategori-select" onchange="toggleKategoriLainnya()"
+                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
                             @foreach($kategori as $k)
                                 <option value="{{ $k->id_kategori }}" {{ old('id_kategori', $artikel->id_kategori) == $k->id_kategori ? 'selected' : '' }}>
                                     {{ $k->nama_kategori }}
                                 </option>
                             @endforeach
+                            <option value="lainnya" {{ old('id_kategori') == 'lainnya' ? 'selected' : '' }}>+ Lainnya (Buat Baru)</option>
                         </select>
+
+                        <div id="kategori-lainnya-container" class="mt-3 {{ old('id_kategori') == 'lainnya' ? '' : 'hidden' }}">
+                            <label class="block text-xs font-semibold text-gray-500 mb-1">Nama Kategori Baru</label>
+                            <input type="text" name="nama_kategori_baru" value="{{ old('nama_kategori_baru') }}"
+                                   class="w-full px-4 py-2 rounded-lg border border-amber-300 bg-amber-50 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-sm"
+                                   placeholder="Contoh: Teknologi, Kesehatan...">
+                        </div>
                     </div>
 
                     <div class="mb-5">
@@ -99,23 +104,25 @@
 
                         @if($artikel->url_gambar_utama)
                             <div class="mb-3 relative w-32 h-24 rounded-lg overflow-hidden border border-gray-300 group">
-                                <img src="{{ asset('storage/'.$artikel->url_gambar_utama) }}" class="w-full h-full object-cover">
+                                <img id="current-img" src="{{ asset('storage/'.$artikel->url_gambar_utama) }}" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center text-white text-xs">
                                     Saat Ini
                                 </div>
                             </div>
                         @endif
 
-                        <input type="file" name="url_gambar_utama"
-                               class="block w-full text-sm text-gray-500
-                                      file:mr-4 file:py-2 file:px-4
-                                      file:rounded-full file:border-0
-                                      file:text-sm file:font-semibold
-                                      file:bg-teal-50 file:text-teal-700
-                                      hover:file:bg-teal-100
-                                      cursor-pointer"
+                        <input type="file" name="url_gambar_utama" id="gambar-input" onchange="previewImage(this)"
+                               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 cursor-pointer"
                                accept="image/*">
+
                         <p class="text-xs text-gray-400 mt-2">Biarkan kosong jika tidak ingin mengubah gambar.</p>
+
+                        <div id="image-preview" class="hidden mt-4">
+                            <p class="text-xs text-gray-600 font-semibold mb-2">Preview Baru:</p>
+                            <div class="relative w-full max-w-sm h-48 rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+                                <img id="preview-img" src="" alt="Preview" class="w-full h-full object-cover">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mb-4">
@@ -137,4 +144,36 @@
         </form>
     </div>
 </div>
+
+<script>
+    // Script Preview Gambar
+    function previewImage(input) {
+        const previewDiv = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewDiv.classList.remove('hidden');
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            previewImg.src = "";
+            previewDiv.classList.add('hidden');
+        }
+    }
+
+    // Script Toggle Kategori Lainnya
+    function toggleKategoriLainnya() {
+        const select = document.getElementById('kategori-select');
+        const container = document.getElementById('kategori-lainnya-container');
+
+        if (select.value === 'lainnya') {
+            container.classList.remove('hidden');
+        } else {
+            container.classList.add('hidden');
+        }
+    }
+</script>
 @endsection
