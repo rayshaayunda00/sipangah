@@ -1,110 +1,158 @@
-{{--
-    Kita "pinjam" layout admin (layouts/admin.blade.php)
-    biar dapet sidebar, header, dan CSS-nya.
---}}
 @extends('layouts.admin')
 
-{{-- Ini buat ngatur judul di tab browser --}}
 @section('title', 'Tambah Item Potensi')
 
-{{--
-    Ini bagian konten utamanya,
-    yang bakal di-inject ke @yield('content') di layout.
---}}
 @section('content')
-<h2 class="text-2xl font-bold mb-4">Tambah Item Potensi</h2>
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-{{--
-    Ini form-nya.
-    - action: Nanti datanya dikirim ke route 'admin.item_potensi.store'.
-    - method: "POST", karena kita mau BIKIN data baru.
-    - enctype: "multipart/form-data" -> INI WAJIB BANGET ada kalau di dalam form-nya ada <input type="file">
-      buat upload gambar/file. Kalau lupa, filenya gak bakal kekirim.
---}}
-<form action="{{ route('admin.item_potensi.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-
-    {{--
-        @csrf -> Jimat sakti Laravel.
-        Wajib ada di setiap form POST/PUT/PATCH/DELETE.
-        Biar aman dari serangan jahat dan gak error 419 (Page Expired).
-    --}}
-    @csrf
-
-    {{-- Input buat milih Subkategori (Dropdown) --}}
-    <div>
-        <label class="font-semibold">Subkategori</label>
-        {{--
-            Ini dropdown (select). Datanya kita ambil dari $subkategori
-            yang dikirim dari Controller.
-        --}}
-        <select name="id_subkategori_potensi" class="w-full border p-2 rounded" required>
-            <option value="">-- Pilih Subkategori --</option>
-            {{--
-                Kita looping variabel $subkategori.
-                Tiap item-nya kita panggil $sub.
-            --}}
-            @foreach ($subkategori as $sub)
-                <option value="{{ $sub->id_subkategori_potensi }}">
-                    {{--
-                        Kita tampilin nama subkategori dan nama kategori induknya.
-                        ($sub->kategori->nama_kategori) -> Ini bisa karena ada relasi di Model.
-                    --}}
-                    {{ $sub->nama_subkategori }} ({{ $sub->kategori->nama_kategori }})
-                </option>
-            @endforeach
-        </select>
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-3xl font-black text-gray-900 tracking-tight">Tambah Item Potensi</h1>
+            <p class="text-sm text-gray-500 mt-1">Tambahkan data potensi daerah, UMKM, atau wisata baru.</p>
+        </div>
     </div>
 
-    {{-- Input buat Nama Item --}}
-    <div>
-        <label class="font-semibold">Nama Item</label>
-        <input type="text" name="nama_item" class="w-full border p-2 rounded" required>
-    </div>
+    @if ($errors->any())
+        <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg shadow-sm animate-fade-in-up">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-exclamation-circle text-red-500"></i>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-bold text-red-800">Terdapat kesalahan:</h3>
+                    <ul class="mt-1 list-disc list-inside text-sm text-red-700">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    @endif
 
-    {{-- Input buat Deskripsi Singkat --}}
-    <div>
-        <label class="font-semibold">Deskripsi Singkat</label>
-        <textarea name="deskripsi_singkat" class="w-full border p-2 rounded"></textarea>
-    </div>
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+        <form action="{{ route('admin.item_potensi.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-    {{-- Input buat Deskripsi Lengkap (biasanya lebih panjang) --}}
-    <div>
-        <label class="font-semibold">Deskripsi Lengkap</label>
-        <textarea name="deskripsi_lengkap" class="w-full border p-2 rounded" rows="5"></textarea>
-    </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3">
 
-    {{-- Input buat Alamat --}}
-    <div>
-        <label class="font-semibold">Alamat</label>
-        <input type="text" name="alamat" class="w-full border p-2 rounded">
-    </div>
+                <div class="p-8 bg-gray-50 border-b lg:border-b-0 lg:border-r border-gray-100 lg:col-span-2">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-blue-100 text-blue-600 w-10 h-10 rounded-full flex items-center justify-center mr-3 shadow-sm">
+                            <i class="fas fa-cube text-lg"></i>
+                        </div>
+                        <h2 class="text-lg font-bold text-gray-800">Informasi Utama</h2>
+                    </div>
 
-    {{-- Input buat No HP --}}
-    <div>
-        <label class="font-semibold">No HP</label>
-        <input type="text" name="no_hp" class="w-full border p-2 rounded">
-    </div>
+                    <div class="mb-5">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Item <span class="text-red-500">*</span></label>
+                        <input type="text" name="nama_item" value="{{ old('nama_item') }}"
+                               class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                               placeholder="Contoh: Keripik Balado Sanjai" required>
+                    </div>
 
-    {{-- Input buat upload Foto Utama --}}
-    <div>
-        <label class="font-semibold">Foto Utama</label>
-        {{--
-            Inget, karena ada type="file", form-nya wajib pake enctype="multipart/form-data".
-            accept="image/*" -> Biar pas pilih file, yang muncul cuma gambar.
-        --}}
-        <input type="file" name="url_gambar_utama" class="w-full border p-2 rounded" accept="image/*">
-    </div>
+                    <div class="mb-5">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Kategori / Subkategori <span class="text-red-500">*</span></label>
+                        <select name="id_subkategori_potensi" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white" required>
+                            <option value="">-- Pilih Subkategori --</option>
+                            @foreach ($subkategori as $sub)
+                                <option value="{{ $sub->id_subkategori_potensi }}" {{ old('id_subkategori_potensi') == $sub->id_subkategori_potensi ? 'selected' : '' }}>
+                                    {{ $sub->nama_subkategori }} ({{ $sub->kategori->nama_kategori }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-    {{-- Input buat milih Status Publikasi --}}
-    <div>
-        <label class="font-semibold">Status Publikasi</label>
-        <select name="status_publikasi" class="w-full border p-2 rounded" required>
-            <option value="draft">Draft</option> {{-- Disimpen tapi gak tampil di web --}}
-            <option value="published">Published</option> {{-- Langsung tampil di web --}}
-        </select>
-    </div>
+                    <div class="mb-5">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Deskripsi Singkat</label>
+                        <textarea name="deskripsi_singkat" rows="3"
+                                  class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                  placeholder="Ringkasan singkat tentang item ini...">{{ old('deskripsi_singkat') }}</textarea>
+                    </div>
 
-    {{-- Tombol buat ngirim form --}}
-    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Simpan</button>
-</form>
+                    <div class="mb-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Deskripsi Lengkap</label>
+                        <textarea name="deskripsi_lengkap" rows="6"
+                                  class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                  placeholder="Jelaskan secara detail...">{{ old('deskripsi_lengkap') }}</textarea>
+                    </div>
+                </div>
+
+                <div class="p-8 bg-white lg:col-span-1">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-teal-100 text-teal-600 w-10 h-10 rounded-full flex items-center justify-center mr-3 shadow-sm">
+                            <i class="fas fa-image text-lg"></i>
+                        </div>
+                        <h2 class="text-lg font-bold text-gray-800">Media & Kontak</h2>
+                    </div>
+
+                    <div class="mb-6 p-5 rounded-xl border border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 transition-colors">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Foto Utama</label>
+                        <input type="file" name="url_gambar_utama" id="gambar-input" onchange="previewImage(this)"
+                               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 cursor-pointer"
+                               accept="image/*">
+                        <p class="text-xs text-gray-500 mt-2">Format: JPG, PNG. Max: 2MB.</p>
+
+                        <div id="image-preview" class="hidden mt-4">
+                            <div class="relative w-full aspect-video rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+                                <img id="preview-img" src="" alt="Preview" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">No. HP / WhatsApp</label>
+                            <input type="text" name="no_hp" value="{{ old('no_hp') }}"
+                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                   placeholder="0812...">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat / Lokasi</label>
+                            <textarea name="alamat" rows="3"
+                                      class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                      placeholder="Alamat lengkap...">{{ old('alamat') }}</textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Status Publikasi</label>
+                            <select name="status_publikasi" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50">
+                                <option value="published" {{ old('status_publikasi') == 'published' ? 'selected' : '' }}>Published (Tayang)</option>
+                                <option value="draft" {{ old('status_publikasi') == 'draft' ? 'selected' : '' }}>Draft (Konsep)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 px-8 py-5 border-t border-gray-100 flex items-center justify-end">
+                <a href="{{ route('admin.item_potensi.index') }}" class="text-gray-600 hover:text-gray-900 font-medium text-sm mr-6">Batal</a>
+                <button type="submit" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 border border-transparent rounded-lg font-semibold text-white shadow-md hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all transform hover:-translate-y-0.5">
+                    <i class="fas fa-save mr-2"></i>
+                    Simpan Item
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function previewImage(input) {
+        const previewDiv = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewDiv.classList.remove('hidden');
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            previewImg.src = "";
+            previewDiv.classList.add('hidden');
+        }
+    }
+</script>
 @endsection

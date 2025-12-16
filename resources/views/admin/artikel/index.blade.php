@@ -16,16 +16,37 @@
         </div>
     </div>
 
-    <div class="flex gap-2 mb-6">
-        <div class="relative flex-1 max-w-md">
+    <form action="{{ route('admin.artikel.index') }}" method="GET" class="flex flex-col sm:flex-row gap-2 mb-6">
+
+        <div class="relative flex-1">
             <input type="text"
+                   name="search"
+                   value="{{ request('search') }}"
                    class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm"
-                   placeholder="Cari artikel berdasarkan judul...">
+                   placeholder="Cari judul artikel...">
         </div>
-        <button class="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition shadow-sm">
-            Cari
+
+        <div class="sm:w-48">
+            <select name="kategori" class="w-full py-2 px-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm bg-white">
+                <option value="">Semua Kategori</option>
+                @foreach($kategoriList as $kat)
+                    <option value="{{ $kat->id_kategori }}" {{ request('kategori') == $kat->id_kategori ? 'selected' : '' }}>
+                        {{ $kat->nama_kategori }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <button type="submit" class="px-6 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition shadow-sm">
+            <i class="fas fa-search mr-1"></i> Cari
         </button>
-    </div>
+
+        @if(request('search') || request('kategori'))
+            <a href="{{ route('admin.artikel.index') }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-300 transition shadow-sm flex items-center justify-center">
+                Reset
+            </a>
+        @endif
+    </form>
 
     @if(session('success'))
         <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg shadow-sm animate-fade-in-up">
@@ -108,18 +129,18 @@
                             @endif
                         </td>
 
-                        {{-- Kolom Aksi (ICON BUTTONS: Edit & Hapus) --}}
+                        {{-- Kolom Aksi --}}
                         <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                             <div class="flex justify-center items-center gap-2">
 
-                                {{-- Tombol Edit (Icon Pensil Kuning/Amber) --}}
+                                {{-- Edit --}}
                                 <a href="{{ route('admin.artikel.edit', $artikel->id_artikel) }}"
                                    class="text-amber-500 hover:text-amber-700 bg-amber-50 hover:bg-amber-100 p-2 rounded-lg transition-colors group-hover:shadow-sm"
                                    title="Edit Artikel">
                                     <i class="fas fa-pen"></i>
                                 </a>
 
-                                {{-- Tombol Hapus (Icon Sampah Merah) --}}
+                                {{-- Hapus --}}
                                 <form action="{{ route('admin.artikel.destroy', $artikel->id_artikel) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus artikel ini?')">
                                     @csrf @method('DELETE')
                                     <button type="submit"
@@ -137,10 +158,10 @@
                         <td colspan="5" class="px-6 py-12 text-center text-gray-500">
                             <div class="flex flex-col items-center justify-center">
                                 <div class="bg-gray-100 rounded-full p-4 mb-4">
-                                    <i class="far fa-newspaper text-gray-400 text-3xl"></i>
+                                    <i class="fas fa-search text-gray-400 text-3xl"></i>
                                 </div>
-                                <h3 class="text-lg font-medium text-gray-900">Belum ada artikel</h3>
-                                <p class="text-gray-500 mt-1">Belum ada artikel yang ditulis.</p>
+                                <h3 class="text-lg font-medium text-gray-900">Data tidak ditemukan</h3>
+                                <p class="text-gray-500 mt-1">Coba kata kunci lain atau reset filter.</p>
                             </div>
                         </td>
                     </tr>

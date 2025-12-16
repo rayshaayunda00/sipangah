@@ -13,11 +13,33 @@ class ArtikelController extends Controller
     // ... (Method admin index, create, store, edit, update, destroy BIARKAN SAJA SEPERTI SEBELUMNYA) ...
     // Saya tulis ulang bagian ADMIN agar file ini lengkap bisa langsung di-copy paste
 
-    public function index()
-    {
-        $artikels = Artikel::with(['kategori','penulis'])->latest()->paginate(10);
-        return view('admin.artikel.index', compact('artikels'));
+   public function index(Request $request)
+{
+    // 1. Ambil kata kunci pencarian & kategori dari URL
+    $search = $request->input('search');
+    $filterKategori = $request->input('kategori');
+
+    // 2. Query dasar dengan Eager Loading
+    $query = Artikel::with(['kategori', 'penulis']);
+
+    // 3. Logika Pencarian Judul
+    if ($search) {
+        $query->where('judul', 'like', '%' . $search . '%');
     }
+
+    // 4. Logika Filter Kategori
+    if ($filterKategori) {
+        $query->where('id_kategori', $filterKategori);
+    }
+
+    // 5. Eksekusi & Pagination
+    $artikels = $query->latest()->paginate(10)->withQueryString(); // withQueryString() agar parameter search tidak hilang saat pindah halaman
+
+    // 6. Ambil semua kategori untuk dropdown filter
+    $kategoriList = Kategori::all();
+
+    return view('admin.artikel.index', compact('artikels', 'kategoriList'));
+}
 
     public function create()
     {
