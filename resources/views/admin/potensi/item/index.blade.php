@@ -16,16 +16,30 @@
         </div>
     </div>
 
-    <div class="flex gap-2 mb-6">
+    <form action="{{ route('admin.item_potensi.index') }}" method="GET" class="flex flex-col sm:flex-row gap-2 mb-6">
         <div class="relative flex-1 max-w-md">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+            </div>
+
             <input type="text"
-                   class="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm"
-                   placeholder="Cari item potensi...">
+                   name="search"
+                   value="{{ request('search') }}"
+                   class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm"
+                   placeholder="Cari nama item, kategori, atau subkategori...">
         </div>
-        <button class="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition shadow-sm">
+
+        <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition shadow-sm">
             Cari
         </button>
-    </div>
+
+        @if(request('search'))
+            <a href="{{ route('admin.item_potensi.index') }}"
+               class="px-4 py-2 bg-gray-100 text-gray-600 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-200 transition shadow-sm flex items-center justify-center">
+               <i class="fas fa-times mr-1"></i> Reset
+            </a>
+        @endif
+    </form>
 
     @if(session('success'))
         <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg shadow-sm animate-fade-in-up">
@@ -96,7 +110,7 @@
                             </div>
                         </td>
 
-                        {{-- Kolom Deskripsi Singkat (NEW) --}}
+                        {{-- Kolom Deskripsi Singkat --}}
                         <td class="px-6 py-4">
                             <p class="text-sm text-gray-600 line-clamp-2 max-w-xs" title="{{ $itm->deskripsi_singkat }}">
                                 {{ Str::limit($itm->deskripsi_singkat, 80, '...') }}
@@ -116,7 +130,7 @@
                             @endif
                         </td>
 
-                        {{-- Kolom Info Kontak (Alamat & HP) --}}
+                        {{-- Kolom Info Kontak --}}
                         <td class="px-6 py-4">
                             <div class="text-xs text-gray-600">
                                 <div class="flex items-start mb-1" title="{{ $itm->alamat }}">
@@ -133,7 +147,6 @@
                         {{-- Kolom Aksi --}}
                         <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                             <div class="flex justify-center items-center gap-2">
-
                                 <a href="{{ route('admin.item_potensi.edit', $itm->id_item_potensi) }}"
                                    class="text-amber-500 hover:text-amber-700 bg-amber-50 hover:bg-amber-100 p-2 rounded-lg transition-colors group-hover:shadow-sm"
                                    title="Edit Item">
@@ -148,7 +161,6 @@
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
-
                             </div>
                         </td>
                     </tr>
@@ -157,10 +169,10 @@
                         <td colspan="6" class="px-6 py-12 text-center text-gray-500">
                             <div class="flex flex-col items-center justify-center">
                                 <div class="bg-gray-100 rounded-full p-4 mb-4">
-                                    <i class="fas fa-box-open text-gray-400 text-3xl"></i>
+                                    <i class="fas fa-search text-gray-400 text-3xl"></i>
                                 </div>
-                                <h3 class="text-lg font-medium text-gray-900">Belum ada item potensi</h3>
-                                <p class="text-gray-500 mt-1">Belum ada data item yang ditambahkan.</p>
+                                <h3 class="text-lg font-medium text-gray-900">Data tidak ditemukan</h3>
+                                <p class="text-gray-500 mt-1">Coba kata kunci lain atau reset pencarian.</p>
                             </div>
                         </td>
                     </tr>
@@ -170,10 +182,7 @@
         </div>
 
         <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
-            {{-- {{ $items->links() }} --}}
-            <div class="text-xs text-gray-500">
-                Menampilkan total {{ count($items) }} data.
-            </div>
+            {{ $items->links() }}
         </div>
     </div>
 

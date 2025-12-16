@@ -10,20 +10,21 @@
             <h1 class="text-3xl font-black text-gray-900 tracking-tight">Tambah Item Potensi</h1>
             <p class="text-sm text-gray-500 mt-1">Tambahkan data potensi daerah, UMKM, atau wisata baru.</p>
         </div>
+        <a href="{{ route('admin.item_potensi.index') }}"
+           class="group inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all shadow-sm">
+            <i class="fas fa-arrow-left mr-2 text-gray-400 group-hover:text-gray-600"></i>
+            Kembali
+        </a>
     </div>
 
     @if ($errors->any())
         <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg shadow-sm animate-fade-in-up">
             <div class="flex">
-                <div class="flex-shrink-0">
-                    <i class="fas fa-exclamation-circle text-red-500"></i>
-                </div>
+                <div class="flex-shrink-0"><i class="fas fa-exclamation-circle text-red-500"></i></div>
                 <div class="ml-3">
                     <h3 class="text-sm font-bold text-red-800">Terdapat kesalahan:</h3>
                     <ul class="mt-1 list-disc list-inside text-sm text-red-700">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
+                        @foreach ($errors->all() as $error) <li>{{ $error }}</li> @endforeach
                     </ul>
                 </div>
             </div>
@@ -47,34 +48,55 @@
                     <div class="mb-5">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Item <span class="text-red-500">*</span></label>
                         <input type="text" name="nama_item" value="{{ old('nama_item') }}"
-                               class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                               class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all"
                                placeholder="Contoh: Keripik Balado Sanjai" required>
                     </div>
 
                     <div class="mb-5">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Kategori / Subkategori <span class="text-red-500">*</span></label>
-                        <select name="id_subkategori_potensi" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white" required>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Subkategori <span class="text-red-500">*</span></label>
+
+                        <select name="id_subkategori_potensi" id="subkategori-select" onchange="toggleSubkategoriLainnya()"
+                                class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 bg-white">
                             <option value="">-- Pilih Subkategori --</option>
                             @foreach ($subkategori as $sub)
                                 <option value="{{ $sub->id_subkategori_potensi }}" {{ old('id_subkategori_potensi') == $sub->id_subkategori_potensi ? 'selected' : '' }}>
                                     {{ $sub->nama_subkategori }} ({{ $sub->kategori->nama_kategori }})
                                 </option>
                             @endforeach
+                            <option value="lainnya" {{ old('id_subkategori_potensi') == 'lainnya' ? 'selected' : '' }}>+ Lainnya (Buat Baru)</option>
                         </select>
+
+                        <div id="subkategori-lainnya-container" class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg {{ old('id_subkategori_potensi') == 'lainnya' ? '' : 'hidden' }}">
+                            <h4 class="text-xs font-bold text-blue-800 uppercase tracking-wide mb-3">Buat Subkategori Baru</h4>
+
+                            <div class="mb-3">
+                                <label class="block text-xs font-semibold text-gray-600 mb-1">Nama Subkategori Baru <span class="text-red-500">*</span></label>
+                                <input type="text" name="nama_subkategori_baru" value="{{ old('nama_subkategori_baru') }}"
+                                       class="w-full px-3 py-2 rounded border border-gray-300 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                       placeholder="Contoh: Kerajinan Tangan">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-600 mb-1">Termasuk Kategori Induk <span class="text-red-500">*</span></label>
+                                <select name="id_kategori_induk" class="w-full px-3 py-2 rounded border border-gray-300 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white">
+                                    <option value="">-- Pilih Kategori Induk --</option>
+                                    @foreach($kategoriInduk as $kat)
+                                        <option value="{{ $kat->id_kategori_potensi }}" {{ old('id_kategori_induk') == $kat->id_kategori_potensi ? 'selected' : '' }}>
+                                            {{ $kat->nama_kategori }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mb-5">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Deskripsi Singkat</label>
-                        <textarea name="deskripsi_singkat" rows="3"
-                                  class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
-                                  placeholder="Ringkasan singkat tentang item ini...">{{ old('deskripsi_singkat') }}</textarea>
+                        <textarea name="deskripsi_singkat" rows="3" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all text-sm">{{ old('deskripsi_singkat') }}</textarea>
                     </div>
-
                     <div class="mb-2">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Deskripsi Lengkap</label>
-                        <textarea name="deskripsi_lengkap" rows="6"
-                                  class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
-                                  placeholder="Jelaskan secara detail...">{{ old('deskripsi_lengkap') }}</textarea>
+                        <textarea name="deskripsi_lengkap" rows="6" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all text-sm">{{ old('deskripsi_lengkap') }}</textarea>
                     </div>
                 </div>
 
@@ -91,8 +113,6 @@
                         <input type="file" name="url_gambar_utama" id="gambar-input" onchange="previewImage(this)"
                                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 cursor-pointer"
                                accept="image/*">
-                        <p class="text-xs text-gray-500 mt-2">Format: JPG, PNG. Max: 2MB.</p>
-
                         <div id="image-preview" class="hidden mt-4">
                             <div class="relative w-full aspect-video rounded-lg overflow-hidden border border-gray-200 shadow-sm">
                                 <img id="preview-img" src="" alt="Preview" class="w-full h-full object-cover">
@@ -103,21 +123,15 @@
                     <div class="space-y-5">
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">No. HP / WhatsApp</label>
-                            <input type="text" name="no_hp" value="{{ old('no_hp') }}"
-                                   class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                                   placeholder="0812...">
+                            <input type="text" name="no_hp" value="{{ old('no_hp') }}" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all">
                         </div>
-
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat / Lokasi</label>
-                            <textarea name="alamat" rows="3"
-                                      class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
-                                      placeholder="Alamat lengkap...">{{ old('alamat') }}</textarea>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat</label>
+                            <textarea name="alamat" rows="3" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all text-sm">{{ old('alamat') }}</textarea>
                         </div>
-
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-2">Status Publikasi</label>
-                            <select name="status_publikasi" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50">
+                            <select name="status_publikasi" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 bg-gray-50">
                                 <option value="published" {{ old('status_publikasi') == 'published' ? 'selected' : '' }}>Published (Tayang)</option>
                                 <option value="draft" {{ old('status_publikasi') == 'draft' ? 'selected' : '' }}>Draft (Konsep)</option>
                             </select>
@@ -141,7 +155,6 @@
     function previewImage(input) {
         const previewDiv = document.getElementById('image-preview');
         const previewImg = document.getElementById('preview-img');
-
         if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -152,6 +165,18 @@
         } else {
             previewImg.src = "";
             previewDiv.classList.add('hidden');
+        }
+    }
+
+    // Toggle Input Lainnya
+    function toggleSubkategoriLainnya() {
+        const select = document.getElementById('subkategori-select');
+        const container = document.getElementById('subkategori-lainnya-container');
+
+        if (select.value === 'lainnya') {
+            container.classList.remove('hidden');
+        } else {
+            container.classList.add('hidden');
         }
     }
 </script>
