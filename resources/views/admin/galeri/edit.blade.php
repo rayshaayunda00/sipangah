@@ -8,11 +8,6 @@
             <h1 class="text-3xl font-black text-gray-900 tracking-tight">Edit Kegiatan</h1>
             <p class="text-sm text-gray-500 mt-1">Perbarui informasi utama atau kelola dokumentasi foto.</p>
         </div>
-        <a href="{{ route('admin.galeri.index') }}"
-           class="group inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all shadow-sm">
-            <i class="fas fa-arrow-left mr-2 text-gray-400 group-hover:text-gray-600"></i>
-            Kembali
-        </a>
     </div>
 
     @if(session('success'))

@@ -111,47 +111,47 @@
                     </div>
 
                     <div class="relative group">
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Upload Dokumentasi Foto</label>
+    <label class="block text-sm font-bold text-gray-700 mb-2">Upload Dokumentasi Foto</label>
 
-                        <div class="w-full p-8 rounded-2xl border-2 border-dashed border-blue-200 bg-blue-50/50 group-hover:border-blue-400 group-hover:bg-blue-50 transition-all text-center">
-                            <div class="mb-4">
-                                <i class="fas fa-cloud-upload-alt text-4xl text-blue-300 group-hover:text-blue-500 transition-colors"></i>
-                            </div>
+    <div class="w-full p-8 rounded-2xl border-2 border-dashed border-blue-200 bg-blue-50/50 group-hover:border-blue-400 group-hover:bg-blue-50 transition-all text-center">
+        <div class="mb-4">
+            <i class="fas fa-cloud-upload-alt text-4xl text-blue-300 group-hover:text-blue-500 transition-colors"></i>
+        </div>
 
-                            <label for="upload-multiple" class="cursor-pointer">
-                                <span class="block text-sm font-semibold text-blue-600 hover:text-blue-800 underline mb-1">
-                                    Klik untuk memilih foto
-                                </span>
-                                <span class="block text-xs text-gray-500">
-                                    Bisa pilih banyak sekaligus (Max 2MB/foto)
-                                </span>
-                            </label>
+        <label for="upload-multiple" class="cursor-pointer">
+            <span class="block text-sm font-semibold text-blue-600 hover:text-blue-800 underline mb-1">
+                Klik untuk memilih foto
+            </span>
+            <span class="block text-xs text-gray-500">
+                Bisa pilih banyak sekaligus (Max 2MB/foto)
+            </span>
+        </label>
 
-                            <input id="upload-multiple"
-                                   type="file"
-                                   name="url_foto[]"
-                                   multiple
-                                   class="hidden"
-                                   onchange="handleFiles(this)"
-                                   accept="image/png, image/jpeg, image/jpg">
-                        </div>
+        {{-- ID input tetap sama, namun kita akan memanipulasi filenya lewat JS --}}
+        <input id="upload-multiple"
+               type="file"
+               name="url_foto[]"
+               multiple
+               class="hidden"
+               onchange="handleFiles(this)"
+               accept="image/png, image/jpeg, image/jpg">
+    </div>
 
-                        <div id="file-count" class="hidden mt-3 text-sm text-teal-700 bg-teal-50 px-3 py-2 rounded-lg inline-flex items-center animate-fade-in-up">
-                            <i class="fas fa-check-circle mr-2"></i>
-                            <span id="file-count-text">0 file dipilih</span>
-                        </div>
+    {{-- Counter File --}}
+    <div id="file-count" class="hidden mt-3 text-sm text-teal-700 bg-teal-50 px-3 py-2 rounded-lg inline-flex items-center">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span id="file-count-text">0 file dipilih</span>
+    </div>
 
-                        <div id="image-preview-container" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                            </div>
+    {{-- Container Preview (Tempat foto yang terpilih muncul dengan tombol hapus) --}}
+    <div id="image-preview-container" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+        </div>
 
-                        <div class="mt-3 text-xs text-gray-400 flex items-start">
-                            <i class="fas fa-lightbulb text-yellow-400 mr-2 text-base"></i>
-                            <p><strong>Tips Pro:</strong> Tahan tombol <code>CTRL</code> (Windows) atau <code>Command</code> (Mac) saat memilih file untuk mengunggah banyak foto sekaligus.</p>
-                        </div>
-
-                        @error('url_foto') <p class="text-red-500 text-xs mt-2 font-medium">{{ $message }}</p> @enderror
-                        @error('url_foto.*') <p class="text-red-500 text-xs mt-1 font-medium">{{ $message }}</p> @enderror
-                    </div>
+    <div class="mt-3 text-xs text-gray-400 flex items-start">
+        <i class="fas fa-lightbulb text-yellow-400 mr-2 text-base"></i>
+        <p><strong>Tips:</strong> Anda bisa menghapus foto yang salah pilih dengan mengklik tombol tong sampah pada gambar preview.</p>
+    </div>
+</div>
                 </div>
             </div>
 
@@ -168,7 +168,14 @@
 
 {{-- SCRIPT UNTUK PREVIEW GAMBAR --}}
 <script>
-    // Preview untuk Thumbnail (Single Image)
+    // Variabel global untuk menyimpan daftar file yang valid
+    let selectedFiles = [];
+    const fileInput = document.getElementById('upload-multiple');
+    const previewContainer = document.getElementById('image-preview-container');
+    const fileCountDiv = document.getElementById('file-count');
+    const fileCountText = document.getElementById('file-count-text');
+
+    // 1. Preview untuk Thumbnail (Single Image) - Tetap seperti awal
     function previewThumbnail(input) {
         const previewDiv = document.getElementById('thumbnail-preview');
         const previewImg = previewDiv.querySelector('img');
@@ -185,50 +192,68 @@
         }
     }
 
-    // Preview untuk Dokumentasi (Multiple Images)
+    // 2. Fungsi Utama Menangani Multiple Files
     function handleFiles(input) {
-        const fileCountDiv = document.getElementById('file-count');
-        const fileCountText = document.getElementById('file-count-text');
-        const previewContainer = document.getElementById('image-preview-container');
+        // Ambil file baru yang dipilih dan masukkan ke array selectedFiles
+        const files = Array.from(input.files);
 
-        // Reset preview container
-        previewContainer.innerHTML = '';
+        files.forEach(file => {
+            // Validasi tipe file sederhana
+            if (file.type.match('image.*')) {
+                selectedFiles.push(file);
+            }
+        });
 
-        if (input.files && input.files.length > 0) {
-            // Update teks jumlah file
-            fileCountText.textContent = input.files.length + " foto siap diupload";
+        renderPreviews();
+        updateInputFiles();
+    }
+
+    // 3. Fungsi Render Preview dengan Tombol Hapus
+    function renderPreviews() {
+        previewContainer.innerHTML = ''; // Kosongkan container
+
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const div = document.createElement('div');
+                div.className = "relative group aspect-square rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-gray-100";
+
+                div.innerHTML = `
+                    <img src="${e.target.result}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <button type="button" onclick="removeFile(${index})" class="bg-red-500 text-white w-10 h-10 rounded-full hover:bg-red-600 transition-transform transform hover:scale-110 flex items-center justify-center shadow-lg">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                `;
+                previewContainer.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Update counter
+        if (selectedFiles.length > 0) {
+            fileCountText.textContent = `${selectedFiles.length} foto siap diupload`;
             fileCountDiv.classList.remove('hidden');
-
-            // Loop setiap file untuk membuat preview
-            Array.from(input.files).forEach(file => {
-                // Pastikan file adalah gambar
-                if (file.type.match('image.*')) {
-                    const reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        // Buat elemen div wrapper
-                        const div = document.createElement('div');
-                        div.className = "relative group aspect-square rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-gray-100";
-
-                        // Isi HTML gambar
-                        div.innerHTML = `
-                            <img src="${e.target.result}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
-                        `;
-
-                        // Masukkan ke container
-                        previewContainer.appendChild(div);
-                    }
-
-                    // Baca file sebagai Data URL
-                    reader.readAsDataURL(file);
-                }
-            });
-
         } else {
-            // Jika tidak ada file dipilih (cancel), sembunyikan counter
             fileCountDiv.classList.add('hidden');
         }
+    }
+
+    // 4. Fungsi Menghapus File dari Array
+    function removeFile(index) {
+        selectedFiles.splice(index, 1); // Hapus dari array berdasarkan index
+        renderPreviews(); // Gambar ulang preview
+        updateInputFiles(); // Sinkronkan ke elemen input file
+    }
+
+    // 5. Fungsi Sinkronisasi Array ke Elemen Input (Paling Penting)
+    function updateInputFiles() {
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+        fileInput.files = dataTransfer.files; // Ganti daftar file di input dengan yang baru
     }
 </script>
 @endsection
