@@ -2,8 +2,9 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/padang.png') }}">
 
     <title>@yield('title', 'SIPANGAH | Sistem Informasi Kelurahan')</title>
 
@@ -399,8 +400,8 @@
             <!-- Logo Section -->
             <div class="logo-section">
                 <div class="logo-container">
-                    @if(file_exists(public_path('images/sipangah-logo.png')))
-    <img src="{{ asset('images/sipangah-logo.png') }}" alt="Logo Kelurahan">
+                    @if(file_exists(public_path('images/padang.png')))
+    <img src="{{ asset('images/padang.png') }}" alt="Logo Kelurahan">
 @else
     <div class="logo-placeholder">
         <i class="fas fa-landmark"></i>

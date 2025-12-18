@@ -204,6 +204,14 @@
                                     <td class="px-6 py-4 text-gray-700 font-medium">Seksi Tapem</td>
                                     <td class="px-6 py-4 text-gray-600">Meli Chairani, A.md</td>
                                 </tr>
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 text-gray-700 font-medium">Seksi PM dan Kesos</td>
+                                    <td class="px-6 py-4 text-gray-600">Rasnanelly</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 text-gray-700 font-medium">Seksi Trantibum dan PB</td>
+                                    <td class="px-6 py-4 text-gray-600">Safarin S.AP</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

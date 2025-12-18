@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | @yield('title', 'Dashboard')</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/padang.png') }}">
     <!-- Judul halaman akan diganti sesuai section 'title', default 'Dashboard' -->
 
     <!-- Font Awesome untuk icon -->
@@ -397,10 +398,11 @@
     <div class="admin-container">
         <!-- SIDEBAR -->
         <aside class="sidebar">
-            <div class="sidebar-header">
-                <h1>Admin Panel</h1>
-                <p>Kelurahan Sipangah</p>
-            </div>
+            <div class="sidebar-header" style="display: flex; flex-direction: column; align-items: center;">
+    <img src="{{ asset('images/padang.png') }}" alt="Logo" style="height: 50px; margin-bottom: 10px;">
+    <h1>Admin Panel</h1>
+    <p>Kelurahan Sipangah</p>
+</div>
 
             <nav class="sidebar-nav">
                 <!-- Menu Dashboard -->

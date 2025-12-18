@@ -7,7 +7,7 @@
 
         <title>@yield('title', 'Sipangah - Kelurahan Cupak Tangah')</title>
 
-        <link rel="icon" type="image/png" href="{{ asset('images/logo-ct.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('images/padang.png') }}">
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 

@@ -4,7 +4,7 @@
             <div class="flex">
                 {{-- Logo dan Nama Kelurahan --}}
                 <a href="/" class="flex-shrink-0 flex items-center">
-                    <img src="{{ asset('storage/image/padang.png') }}" alt="Logo CT" class="h-8 w-auto mr-2">
+                    <img src="{{ asset('images/padang.png') }}" alt="Logo CT" class="h-8 w-auto mr-2">
                     <span class="text-xl font-extrabold text-teal-600 mr-2">Sipangah</span>
                 </a>
 
