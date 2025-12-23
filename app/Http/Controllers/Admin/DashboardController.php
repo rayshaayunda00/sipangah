@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Artikel;
 use App\Models\ItemPotensi;
-use App\Models\Pengaduan; // 1. Tambahkan Import Model Pengaduan
+use App\Models\Pengaduan;
+use App\Models\KegiatanGaleri;
 
 class DashboardController extends Controller
 {
@@ -35,20 +36,22 @@ class DashboardController extends Controller
     /**
      * Halaman Dashboard Admin
      */
-    public function adminDashboard()
+   public function adminDashboard()
     {
         // Hitung Data Statistik
         $jumlahUser = User::count();
         $jumlahArtikel = Artikel::count();
         $jumlahPotensi = ItemPotensi::count();
-        $jumlahPengaduan = Pengaduan::count(); // 2. Hitung jumlah pengaduan
+        $jumlahPengaduan = Pengaduan::count();
+        $jumlahGaleri = KegiatanGaleri::count(); // 2. Hitung jumlah galeri
 
         // Kirim data ke view
         return view('admin.dashboard', compact(
             'jumlahUser',
             'jumlahArtikel',
             'jumlahPotensi',
-            'jumlahPengaduan' // 3. Masukkan variabel ke compact
+            'jumlahPengaduan',
+            'jumlahGaleri' // 3. Masukkan variabel ke compact
         ));
     }
 
