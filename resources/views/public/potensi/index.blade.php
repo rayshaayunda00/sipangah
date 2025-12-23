@@ -140,14 +140,13 @@
     </section>
 
     {{-- MAIN SECTION (SEARCH + FILTER + GRID) --}}
-    {{-- Menggunakan py-8 md:py-12 agar jarak search bar sama dengan halaman Artikel --}}
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 scroll-target">
 
-        {{-- Container SEARCH & FILTER (Struktur disamakan dengan Artikel) --}}
+        {{-- Container SEARCH & FILTER --}}
         <div class="mb-12 fade-in-up">
             <form action="{{ route('potensi.public.index') }}" method="GET" class="flex justify-center mb-6">
                 <div class="relative w-full sm:w-11/12 md:w-3/4 lg:w-2/3 xl:w-1/2">
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari potensi berdasarkan judul atau deskripsi..."
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama item atau pemilik..."
                            class="search-input w-full px-5 py-3 rounded-2xl shadow-sm border border-teal-200 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 placeholder-gray-400 text-sm sm:text-base">
                 </div>
                 @if(request('kategori'))
@@ -188,18 +187,30 @@
                 </div>
 
                 <div class="p-4 md:p-6">
-                    <h2 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2 leading-tight group-hover:text-teal-700 transition-colors duration-300">
+                    <h2 class="text-xl font-bold text-gray-900 mb-2 line-clamp-2 leading-tight group-hover:text-teal-700 transition-colors duration-300">
                         {{ $item->nama_item }}
                     </h2>
+
+                    {{-- MENAMPILKAN NAMA PEMILIK --}}
+                    <div class="flex items-center mb-3">
+                        <div class="flex items-center text-xs font-medium text-teal-600 bg-teal-50 px-2.5 py-1 rounded-lg border border-teal-100">
+                            <i class="fas fa-user-circle mr-1.5"></i>
+                            {{ $item->nama_pemilik ?? 'Pemilik tidak diketahui' }}
+                        </div>
+                    </div>
+
+                    {{-- Menggunakan Deskripsi Lengkap di-limit karena deskripsi_singkat sudah dihapus --}}
                     <p class="text-gray-600 mb-4 text-sm line-clamp-3 leading-relaxed">
-                        {{ $item->deskripsi_singkat }}
+                        {{ Str::limit($item->deskripsi_lengkap, 100, '...') }}
                     </p>
+
                     @if ($item->alamat)
                     <div class="flex items-start text-gray-600 mb-3">
                         <i class="fas fa-map-marker-alt text-teal-500 mr-2 mt-0.5 flex-shrink-0"></i>
                         <span class="text-sm line-clamp-2">{{ $item->alamat }}</span>
                     </div>
                     @endif
+
                     <div class="flex items-center justify-between pt-4 border-t border-gray-100/50">
                         @if ($item->no_hp)
                         <div class="flex items-center text-teal-600 font-semibold text-sm">
@@ -253,7 +264,6 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Observer untuk animasi Fade In
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -271,7 +281,6 @@
             observer.observe(element);
         });
 
-        // Animasi loading gambar
         const images = document.querySelectorAll('img');
         images.forEach(img => {
             img.classList.add('opacity-0', 'transition-opacity', 'duration-500');

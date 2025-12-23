@@ -46,40 +46,48 @@
 
 
     {{-- === STATISTIK CARD === --}}
-    <div class="stats-grid">
-       <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-blue-500 hover:shadow-lg transition">
-            <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
-                <i class="fas fa-users text-blue-500 mr-2"></i> Jumlah User
-            </h3>
-            <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahUser }}</div>
-            {{-- <div class="text-green-500 mt-1 text-sm">
-                <i class="fas fa-arrow-up"></i>
-                <span>12% dari bulan lalu</span>
-            </div> --}}
-        </div>
+    <div class="stats-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
 
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-indigo-500 hover:shadow-lg transition">
-            <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
-                <i class="fas fa-newspaper text-indigo-500 mr-2"></i> Jumlah Artikel
-            </h3>
-            <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahArtikel }}</div>
-            {{-- <div class="text-green-500 mt-1 text-sm">
-                <i class="fas fa-arrow-up"></i>
-                <span>5 artikel baru</span>
-            </div> --}}
-        </div>
-
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-green-500 hover:shadow-lg transition">
-            <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
-                <i class="fas fa-seedling text-green-500 mr-2"></i> Jumlah Potensi
-            </h3>
-            <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahPotensi }}</div>
-            {{-- <div class="text-green-500 mt-1 text-sm">
-                <i class="fas fa-arrow-up"></i>
-                <span>3 potensi baru</span>
-            </div> --}}
-        </div>
+    {{-- 1. Card User --}}
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-blue-500 hover:shadow-lg transition">
+        <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
+            <i class="fas fa-users text-blue-500 mr-2"></i> Jumlah User
+        </h3>
+        <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahUser }}</div>
     </div>
+
+    {{-- 2. Card Artikel --}}
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-indigo-500 hover:shadow-lg transition">
+        <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
+            <i class="fas fa-newspaper text-indigo-500 mr-2"></i> Jumlah Artikel
+        </h3>
+        <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahArtikel }}</div>
+    </div>
+
+    {{-- 3. Card Potensi --}}
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-green-500 hover:shadow-lg transition">
+        <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
+            <i class="fas fa-seedling text-green-500 mr-2"></i> Jumlah Potensi
+        </h3>
+        <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahPotensi }}</div>
+    </div>
+
+    {{-- 4. Card Pengaduan (BARU) --}}
+    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-red-500 hover:shadow-lg transition">
+        <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
+            <i class="fas fa-bullhorn text-red-500 mr-2"></i> Jumlah Pengaduan
+        </h3>
+        <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahPengaduan ?? 0 }}</div>
+
+        {{-- Opsional: Info tambahan (misal: jumlah yang belum diproses) --}}
+        {{--
+        <div class="mt-2 text-xs font-medium text-red-500 bg-red-50 inline-block px-2 py-1 rounded">
+            Perlu dicek
+        </div>
+        --}}
+    </div>
+
+</div>
     {{-- === AKHIR STATISTIK CARD === --}}
 
 

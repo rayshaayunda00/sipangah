@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class PotensiPublicController extends Controller
 {
+
   public function index(Request $request)
 {
     $kategoriAktif = $request->query('kategori');
@@ -28,7 +29,7 @@ class PotensiPublicController extends Controller
         ->when($search, function ($query, $search) {
             return $query->where(function($q) use ($search) {
                 $q->where('nama_item', 'like', "%{$search}%")
-                  ->orWhere('deskripsi_singkat', 'like', "%{$search}%");
+                  ->orWhere('nama_pemilik', 'like', "%{$search}%");
             });
         })
         ->latest()

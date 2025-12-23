@@ -20,7 +20,7 @@ class ItemPotensiController extends Controller
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('nama_item', 'like', "%{$search}%")
-                  ->orWhere('deskripsi_singkat', 'like', "%{$search}%")
+                  ->orWhere('nama_pemilik', 'like', "%{$search}%")
                   ->orWhereHas('subkategori', function($subQ) use ($search) {
                       $subQ->where('nama_subkategori', 'like', "%{$search}%")
                            ->orWhereHas('kategori', function($catQ) use ($search) {
@@ -49,7 +49,7 @@ class ItemPotensiController extends Controller
             // Validasi id_subkategori boleh 'lainnya' atau ID yang ada
             'id_subkategori_potensi' => 'required',
             'nama_item' => 'required|max:150',
-            'deskripsi_singkat' => 'nullable|max:255',
+            'nama_pemilik' => 'nullable|max:150',
             'deskripsi_lengkap' => 'nullable',
             'alamat' => 'nullable|max:255',
             'no_hp' => 'nullable|max:20',
@@ -109,7 +109,7 @@ class ItemPotensiController extends Controller
         $request->validate([
             'id_subkategori_potensi' => 'required',
             'nama_item' => 'required|max:150',
-            'deskripsi_singkat' => 'nullable|max:255',
+            'nama_pemilik' => 'nullable|max:150',
             'deskripsi_lengkap' => 'nullable',
             'alamat' => 'nullable|max:255',
             'no_hp' => 'nullable|max:20',

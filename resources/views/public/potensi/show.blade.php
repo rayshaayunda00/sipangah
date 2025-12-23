@@ -15,7 +15,6 @@
             --accent: #f59e0b;
         }
 
-        /* Style Body & Background Page (Disamakan dengan Potensi) */
         .detail-page-bg {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f0fdfa 0%, #f8fafc 50%, #ecfdf5 100%);
@@ -23,7 +22,6 @@
             color: #111827;
         }
 
-        /* Glass Card Style */
         .glass-card {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
@@ -39,7 +37,6 @@
             box-shadow: 0 25px 50px -12px rgba(15, 118, 110, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.9);
         }
 
-        /* Hero Pattern */
         .hero-pattern {
             background-image: radial-gradient(circle at 20% 80%, rgba(13, 148, 136, 0.08) 0%, transparent 50%),
                               radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.05) 0%, transparent 50%),
@@ -76,11 +73,9 @@
             transform: translateY(-3px); box-shadow: 0 12px 30px rgba(15, 118, 110, 0.4);
         }
 
-        /* Animasi Scroll */
         .fade-in-up { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .fade-in-up.visible { opacity: 1; transform: translateY(0); }
 
-        /* Group Hover Utilities */
         .group:hover .group-hover\:scale-110 { transform: scale(1.1); }
         .group:hover .group-hover\:translate-y-0 { transform: translateY(0); }
         .group:hover .group-hover\:text-teal-700 { color: var(--primary); }
@@ -98,7 +93,7 @@
 @section('content')
 <div class="min-h-screen detail-page-bg">
 
-    {{-- HERO SECTION (STRUKTUR DISAMAKAN) --}}
+    {{-- HERO SECTION --}}
     <section class="hero-section hero-pattern pt-28 md:pt-36">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 text-center fade-in-up">
 
@@ -146,54 +141,55 @@
                 </h1>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 md:mb-8">
-                    @if($item->subkategori && $item->subkategori->kategori)
-                    <div class="space-y-4">
-                        <div class="flex items-center text-gray-700 p-3 rounded-xl bg-gray-50/50 hover:bg-teal-50 transition-colors duration-300">
-                            <div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mr-4">
-                                <i class="fas fa-tags text-teal-600"></i>
-                            </div>
-                            <div>
-                                <div class="text-sm text-gray-500">Kategori</div>
-                                <div class="font-semibold text-teal-700">{{ $item->subkategori->kategori->nama_kategori }}</div>
-                            </div>
+
+                    {{-- BOX NAMA PEMILIK --}}
+                    <div class="flex items-center text-gray-700 p-3 rounded-xl bg-gray-50/50 hover:bg-teal-50 transition-colors duration-300">
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-purple-600"></i>
                         </div>
-                        <div class="flex items-center text-gray-700 p-3 rounded-xl bg-gray-50/50 hover:bg-teal-50 transition-colors duration-300">
-                            <div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mr-4">
-                                <i class="fas fa-tag text-teal-600"></i>
-                            </div>
-                            <div>
-                                <div class="text-sm text-gray-500">Subkategori</div>
-                                <div class="font-semibold text-teal-700">{{ $item->subkategori->nama_subkategori }}</div>
+                        <div>
+                            <div class="text-sm text-gray-500">Nama Pemilik</div>
+                            <div class="font-semibold text-teal-700">{{ $item->nama_pemilik ?? '-' }}</div>
+                        </div>
+                    </div>
+
+                    @if($item->subkategori && $item->subkategori->kategori)
+                    <div class="flex items-center text-gray-700 p-3 rounded-xl bg-gray-50/50 hover:bg-teal-50 transition-colors duration-300">
+                        <div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mr-4">
+                            <i class="fas fa-tags text-teal-600"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm text-gray-500">Kategori / Subkategori</div>
+                            <div class="font-semibold text-teal-700">
+                                {{ $item->subkategori->kategori->nama_kategori }} / {{ $item->subkategori->nama_subkategori }}
                             </div>
                         </div>
                     </div>
                     @endif
 
-                    <div class="space-y-4">
-                        @if ($item->no_hp)
-                        <div class="flex items-center text-gray-700 p-3 rounded-xl bg-gray-50/50 hover:bg-green-50 transition-colors duration-300">
-                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mr-4">
-                                <i class="fas fa-phone text-green-600"></i>
-                            </div>
-                            <div>
-                                <div class="text-sm text-gray-500">Kontak</div>
-                                <div class="font-semibold text-teal-600 text-lg">{{ $item->no_hp }}</div>
-                            </div>
+                    @if ($item->no_hp)
+                    <div class="flex items-center text-gray-700 p-3 rounded-xl bg-gray-50/50 hover:bg-green-50 transition-colors duration-300">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mr-4">
+                            <i class="fas fa-phone text-green-600"></i>
                         </div>
-                        @endif
-
-                        @if ($item->alamat)
-                        <div class="flex items-start text-gray-700 p-3 rounded-xl bg-gray-50/50 hover:bg-blue-50 transition-colors duration-300">
-                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4 mt-1 flex-shrink-0">
-                                <i class="fas fa-map-marker-alt text-blue-600"></i>
-                            </div>
-                            <div>
-                                <div class="text-sm text-gray-500">Alamat</div>
-                                <div class="font-semibold leading-relaxed text-teal-700">{{ $item->alamat }}</div>
-                            </div>
+                        <div>
+                            <div class="text-sm text-gray-500">Kontak</div>
+                            <div class="font-semibold text-teal-600 text-lg">{{ $item->no_hp }}</div>
                         </div>
-                        @endif
                     </div>
+                    @endif
+
+                    @if ($item->alamat)
+                    <div class="flex items-start text-gray-700 p-3 rounded-xl bg-gray-50/50 hover:bg-blue-50 transition-colors duration-300">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                            <i class="fas fa-map-marker-alt text-blue-600"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm text-gray-500">Alamat</div>
+                            <div class="font-semibold leading-relaxed text-teal-700">{{ $item->alamat }}</div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
 
                 <div class="mb-6 md:mb-8">
@@ -202,12 +198,11 @@
                         Deskripsi Lengkap
                     </h3>
                     <div class="text-gray-700 leading-relaxed text-lg bg-gray-50/50 p-4 md:p-6 rounded-xl border-l-4 border-teal-500">
-                        {!! nl2br(e($item->deskripsi_lengkap ?? $item->deskripsi_singkat)) !!}
+                        {!! nl2br(e($item->deskripsi_lengkap ?? $item->nama_pemilik)) !!}
                     </div>
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-4 action-buttons pt-6 border-t border-gray-200">
-                    {{-- Tombol Kontak --}}
                     @if ($item->no_hp)
                     <a href="https://wa.me/{{ preg_replace('/^0/', '62', preg_replace('/[^0-9]/', '', $item->no_hp)) }}" target="_blank"
                        class="contact-btn inline-flex items-center justify-center text-teal-600 font-semibold text-sm md:text-base px-6 py-3 rounded-xl bg-teal-50 border border-teal-100 shadow-sm hover:bg-teal-600 hover:text-white transition-all">
@@ -249,7 +244,6 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Observer untuk animasi Fade In Up
         const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
         const observer = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
@@ -263,7 +257,6 @@
             observer.observe(element);
         });
 
-        // Animasi loading gambar agar halus
         const images = document.querySelectorAll('img');
         images.forEach(img => {
             img.classList.add('opacity-0', 'transition-opacity', 'duration-500');
@@ -280,7 +273,6 @@
             }
         });
 
-        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();

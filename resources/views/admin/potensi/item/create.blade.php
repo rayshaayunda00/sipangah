@@ -10,11 +10,6 @@
             <h1 class="text-3xl font-black text-gray-900 tracking-tight">Tambah Item Potensi</h1>
             <p class="text-sm text-gray-500 mt-1">Tambahkan data potensi daerah, UMKM, atau wisata baru.</p>
         </div>
-        <a href="{{ route('admin.item_potensi.index') }}"
-           class="group inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all shadow-sm">
-            <i class="fas fa-arrow-left mr-2 text-gray-400 group-hover:text-gray-600"></i>
-            Kembali
-        </a>
     </div>
 
     @if ($errors->any())
@@ -90,10 +85,14 @@
                         </div>
                     </div>
 
+                    {{-- PERUBAHAN DI SINI: Textarea Deskripsi Singkat diganti Input Nama Pemilik --}}
                     <div class="mb-5">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Deskripsi Singkat</label>
-                        <textarea name="deskripsi_singkat" rows="3" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all text-sm">{{ old('deskripsi_singkat') }}</textarea>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Pemilik</label>
+                        <input type="text" name="nama_pemilik" value="{{ old('nama_pemilik') }}"
+                               class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all text-sm"
+                               placeholder="Contoh: Bpk. Syafruddin">
                     </div>
+
                     <div class="mb-2">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Deskripsi Lengkap</label>
                         <textarea name="deskripsi_lengkap" rows="6" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 transition-all text-sm">{{ old('deskripsi_lengkap') }}</textarea>

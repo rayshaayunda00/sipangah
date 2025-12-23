@@ -14,7 +14,7 @@ class ItemPotensi extends Model
     protected $fillable = [
         'id_subkategori_potensi',
         'nama_item',
-        'deskripsi_singkat',
+        'nama_pemilik',
         'deskripsi_lengkap',
         'alamat',
         'no_hp',

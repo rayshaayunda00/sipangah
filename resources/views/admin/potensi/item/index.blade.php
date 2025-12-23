@@ -22,11 +22,12 @@
                 <i class="fas fa-search text-gray-400"></i>
             </div>
 
+            {{-- Placeholder diubah untuk mencerminkan pencarian nama pemilik --}}
             <input type="text"
                    name="search"
                    value="{{ request('search') }}"
                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm"
-                   placeholder="Cari nama item, kategori, atau subkategori...">
+                   placeholder="Cari nama item, pemilik, kategori...">
         </div>
 
         <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700 transition shadow-sm">
@@ -65,9 +66,12 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
                             Nama Item & Kategori
                         </th>
+
+                        {{-- PERUBAHAN: Header Tabel menjadi Nama Pemilik --}}
                         <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
-                            Deskripsi
+                            Nama Pemilik
                         </th>
+
                         <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
                             Status
                         </th>
@@ -110,11 +114,11 @@
                             </div>
                         </td>
 
-                        {{-- Kolom Deskripsi Singkat --}}
+                        {{-- PERUBAHAN DI SINI: Menampilkan Nama Pemilik --}}
                         <td class="px-6 py-4">
-                            <p class="text-sm text-gray-600 line-clamp-2 max-w-xs" title="{{ $itm->deskripsi_singkat }}">
-                                {{ Str::limit($itm->deskripsi_singkat, 80, '...') }}
-                            </p>
+                            <div class="text-sm text-gray-900 font-medium">
+                                {{ $itm->nama_pemilik ?? '-' }}
+                            </div>
                         </td>
 
                         {{-- Kolom Status --}}

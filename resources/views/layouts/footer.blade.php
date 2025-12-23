@@ -45,25 +45,36 @@
                 </p>
 
                 <div class="space-y-2 text-sm pt-1">
-                    {{-- Alamat --}}
-                    <div class="flex items-start gap-2 group">
-                        <div class="mt-0.5 min-w-[1.5rem] h-6 rounded bg-teal-800 flex items-center justify-center border border-teal-700">
-                            <i class="fas fa-map-marker-alt text-teal-300 text-xs"></i>
-                        </div>
-                        <span class="text-teal-100 group-hover:text-white transition leading-tight">
-                            Jl. Raya Cupak Tangah No. 123, Kec. Pauh, Kota Padang
-                        </span>
-                    </div>
-                    {{-- Email --}}
-                    <div class="flex items-center gap-2 group">
-                         <div class="w-6 h-6 rounded bg-teal-800 flex items-center justify-center border border-teal-700">
-                            <i class="fas fa-envelope text-teal-300 text-xs"></i>
-                        </div>
-                        <span class="text-teal-100 group-hover:text-white transition">
-                            info@cupaktangah.padang.go.id
-                        </span>
-                    </div>
-                </div>
+    {{-- Alamat --}}
+    <div class="flex items-start gap-2 group">
+        <div class="mt-0.5 min-w-[1.5rem] h-6 rounded bg-teal-800 flex items-center justify-center border border-teal-700">
+            <i class="fas fa-map-marker-alt text-teal-300 text-xs"></i>
+        </div>
+        <span class="text-teal-100 group-hover:text-white transition leading-tight">
+            Jl. Raya Cupak Tangah No. 123, Kec. Pauh, Kota Padang
+        </span>
+    </div>
+
+    {{-- Email --}}
+    <div class="flex items-center gap-2 group">
+         <div class="w-6 h-6 rounded bg-teal-800 flex items-center justify-center border border-teal-700">
+            <i class="fas fa-envelope text-teal-300 text-xs"></i>
+        </div>
+        <span class="text-teal-100 group-hover:text-white transition">
+            cupaktangah2020@gmail.com
+        </span>
+    </div>
+
+    {{-- WhatsApp (Baru Ditambahkan) --}}
+    <div class="flex items-center gap-2 group">
+        <div class="w-6 h-6 rounded bg-teal-800 flex items-center justify-center border border-teal-700">
+            <i class="fab fa-whatsapp text-teal-300 text-xs"></i>
+        </div>
+        <a href="https://wa.me/6281211120687" target="_blank" class="text-teal-100 group-hover:text-white transition hover:underline">
+            +62 812-1112-0687
+        </a>
+    </div>
+</div>
             </div>
 
             {{-- KOLOM 2: MENU UTAMA --}}

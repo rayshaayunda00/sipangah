@@ -89,7 +89,7 @@
                             </span>
                             <div>
                                 <p class="text-sm text-gray-500">Total Penduduk</p>
-                                <p class="font-semibold text-gray-800">8.234 Jiwa</p>
+                                <p class="font-semibold text-gray-800">-</p>
                             </div>
                         </div>
 
@@ -111,7 +111,7 @@
                             </span>
                             <div>
                                 <p class="text-sm text-gray-500">Kode Pos</p>
-                                <p class="font-semibold text-gray-800">25163</p>
+                                <p class="font-semibold text-gray-800">25176</p>
                             </div>
                         </div>
                     </div>
@@ -123,7 +123,7 @@
                 {{-- Blok Kanan: Gambar --}}
                 <div class="relative hidden lg:block">
                     <img class="w-full h-auto rounded-3xl shadow-2xl object-cover transition duration-500 hover:scale-105"
-                         src="{{ asset('images/kelurahan.png') }}"
+                         src="{{ asset('images/lurah.jpg') }}"
                          onerror="this.src='https://placehold.co/600x600/E5E7EB/6B7280?text=Kantor+Kelurahan';"
                          alt="Kantor Kelurahan Cupak Tangah">
 
@@ -375,7 +375,7 @@
                 <div class="inline-flex items-center justify-center w-14 h-14 bg-teal-50 text-teal-600 rounded-full mb-4 group-hover:scale-110 transition duration-300">
                     <i class="fas fa-users w-7 h-7 flex items-center justify-center text-2xl"></i>
                 </div>
-                <p class="text-4xl font-extrabold text-teal-600 mb-2">12 / 6</p>
+                <p class="text-4xl font-extrabold text-teal-600 mb-2">21 / 6</p>
                 <p class="text-sm font-medium text-gray-500 uppercase tracking-wider">Jumlah RT / RW</p>
             </div>
 
