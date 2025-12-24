@@ -84,7 +84,7 @@
     <!-- ========================== -->
     <!-- 🔵 REGISTER DENGAN GOOGLE (TOMBOL RESMI GOOGLE STYLE) -->
     <!-- ========================== -->
-    <a href="{{ route('google.redirect') }}"
+    {{-- <a href="{{ route('google.redirect') }}"
        class="mt-4 w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-2 hover:bg-gray-100 transition">
 
         <!-- Google SVG Logo -->
@@ -98,7 +98,7 @@
         <span class="text-gray-700 font-medium">
             Daftar dengan Google
         </span>
-    </a>
+    </a> --}}
 
     <!-- Script password toggle -->
     <script>
