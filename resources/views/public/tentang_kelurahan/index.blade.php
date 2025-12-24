@@ -159,7 +159,7 @@
             </section>
 
             {{-- SEJARAH (Added fade-in-up) --}}
-            <section class="mb-12 fade-in-up">
+            {{-- <section class="mb-12 fade-in-up">
                 <div class="glass-card rounded-2xl overflow-hidden p-6 md:p-8">
                     <div class="text-center mb-8">
                         <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-4">Sejarah Singkat</h2>
@@ -175,7 +175,7 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> --}}
 
             {{-- STRUKTUR ORGANISASI (Added fade-in-up) --}}
             <section class="mb-12 fade-in-up">

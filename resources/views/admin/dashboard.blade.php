@@ -7,122 +7,158 @@
 {{-- 3. Ini adalah "isi" yang akan dimasukkan ke @yield('content') di layout --}}
 @section('content')
 
-    {{-- === WAKTU SAAT INI (TATA LETAK BARU: SPLIT) === --}}
-    <div class="mb-6 bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md flex items-center justify-between">
-
-        {{-- Kiri: Sapaan Dinamis --}}
-        <div>
-            <div id="dynamic-greeting" class="text-xl font-semibold text-gray-800 dark:text-white">
-                {{-- Fallback jika JS gagal --}}
+    {{-- === WAKTU SAAT INI === --}}
+    <div class="mb-8 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col md:flex-row items-center justify-between gap-4">
+        {{-- Kiri: Sapaan --}}
+        <div class="text-center md:text-left">
+            <h2 id="dynamic-greeting" class="text-2xl font-bold text-gray-800 dark:text-white">
                 Selamat Datang, Admin!
-            </div>
-            <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Berikut adalah ringkasan aktivitas website Anda.
-            </div>
+            </h2>
+            <p class="text-gray-500 dark:text-gray-400 mt-1 text-sm">
+                Pantau perkembangan terkini website Kelurahan Cupak Tangah.
+            </p>
         </div>
 
-        {{-- Kanan: Jam & Tanggal Live --}}
-        <div class="flex items-center gap-4">
-            <i class="fas fa-clock text-blue-500 text-3xl fa-fw"></i>
-            <div class="text-right"> {{-- Membuat teks jam rata kanan --}}
-
-                {{-- Waktu (dibuat lebih besar) --}}
-                <div class="text-lg font-semibold text-gray-900 dark:text-white">
-                    <span id="live-time">
-                        {{-- Fallback: Tampilkan waktu dari server --}}
-                        {{ \Carbon\Carbon::now()->translatedFormat('H:i:s') }}
-                    </span> WIB
+        {{-- Kanan: Jam Digital --}}
+        <div class="flex items-center gap-4 bg-gray-50 dark:bg-gray-700/50 px-5 py-3 rounded-xl border border-gray-200 dark:border-gray-600">
+            <div class="p-2 bg-blue-100 text-blue-600 rounded-lg">
+                <i class="fas fa-clock text-xl"></i>
+            </div>
+            <div class="text-right">
+                <div class="text-xl font-bold text-gray-900 dark:text-white tracking-wide" id="live-time">
+                    {{ \Carbon\Carbon::now()->format('H:i:s') }}
                 </div>
-
-                {{-- Tanggal (dibuat lebih kecil) --}}
-                <div id="live-date" class="text-sm font-medium text-gray-600 dark:text-gray-300">
-                    {{-- Fallback: Tampilkan tanggal dari server --}}
+                <div class="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider" id="live-date">
                     {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
                 </div>
             </div>
         </div>
     </div>
-    {{-- === AKHIR WAKTU === --}}
 
+    {{-- === STATISTIK GRID (TAMPILAN BARU) === --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-10">
 
-    {{-- === STATISTIK CARD === --}}
-    <div class="stats-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
+        {{-- 1. Card User --}}
+        <div class="group bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-blue-500 uppercase tracking-wider mb-1">Total Pengguna</p>
+                    <h3 class="text-3xl font-extrabold text-gray-800 dark:text-white">{{ $jumlahUser }}</h3>
+                </div>
+                <div class="p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-600 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                    <i class="fas fa-users text-xl"></i>
+                </div>
+            </div>
 
-    {{-- 1. Card User --}}
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-blue-500 hover:shadow-lg transition">
-        <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
-            <i class="fas fa-users text-blue-500 mr-2"></i> Jumlah User
+        </div>
+
+        {{-- 2. Card Artikel --}}
+        <div class="group bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-indigo-500 uppercase tracking-wider mb-1">Artikel Terbit</p>
+                    <h3 class="text-3xl font-extrabold text-gray-800 dark:text-white">{{ $jumlahArtikel }}</h3>
+                </div>
+                <div class="p-3 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
+                    <i class="fas fa-newspaper text-xl"></i>
+                </div>
+            </div>
+
+        </div>
+
+        {{-- 3. Card Potensi --}}
+        <div class="group bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-emerald-500 uppercase tracking-wider mb-1">Data Potensi</p>
+                    <h3 class="text-3xl font-extrabold text-gray-800 dark:text-white">{{ $jumlahPotensi }}</h3>
+                </div>
+                <div class="p-3 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 rounded-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
+                    <i class="fas fa-seedling text-xl"></i>
+                </div>
+            </div>
+
+        </div>
+
+        {{-- 4. Card Galeri --}}
+        <div class="group bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-purple-500 uppercase tracking-wider mb-1">Album Galeri</p>
+                    <h3 class="text-3xl font-extrabold text-gray-800 dark:text-white">{{ $jumlahGaleri ?? 0 }}</h3>
+                </div>
+                <div class="p-3 bg-purple-50 dark:bg-purple-900/20 text-purple-600 rounded-xl group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                    <i class="fas fa-images text-xl"></i>
+                </div>
+            </div>
+
+        </div>
+
+        {{-- 5. Card Pengaduan --}}
+        <div class="group bg-white dark:bg-gray-800 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-rose-500 uppercase tracking-wider mb-1">Pengaduan</p>
+                    <h3 class="text-3xl font-extrabold text-gray-800 dark:text-white">{{ $jumlahPengaduan ?? 0 }}</h3>
+                </div>
+                <div class="p-3 bg-rose-50 dark:bg-rose-900/20 text-rose-600 rounded-xl group-hover:bg-rose-600 group-hover:text-white transition-colors duration-300">
+                    <i class="fas fa-bullhorn text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {{-- === MENU AKSES CEPAT (DIPERBAGUS) === --}}
+    <div class="mb-6">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+            <span class="w-1 h-6 bg-teal-500 rounded-full"></span>
+            Akses Cepat Menu
         </h3>
-        <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahUser }}</div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+
+            <a href="{{ route('admin.galeri.index') }}" class="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-teal-500 transition-all duration-300 group cursor-pointer h-full">
+                <div class="w-14 h-14 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-sm">
+                    <i class="fas fa-images text-xl"></i>
+                </div>
+                <h4 class="font-semibold text-gray-800 dark:text-white text-sm">Galeri</h4>
+                <span class="text-xs text-gray-400 mt-1">Upload Foto</span>
+            </a>
+
+            <a href="{{ route('admin.pengaduan.index') }}" class="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-rose-500 transition-all duration-300 group cursor-pointer h-full">
+                <div class="w-14 h-14 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-sm">
+                    <i class="fas fa-concierge-bell text-xl"></i>
+                </div>
+                <h4 class="font-semibold text-gray-800 dark:text-white text-sm">Pengaduan</h4>
+                <span class="text-xs text-gray-400 mt-1">Cek Laporan</span>
+            </a>
+
+            <a href="{{ route('admin.artikel.index') }}" class="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-indigo-500 transition-all duration-300 group cursor-pointer h-full">
+                <div class="w-14 h-14 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-sm">
+                    <i class="fas fa-edit text-xl"></i>
+                </div>
+                <h4 class="font-semibold text-gray-800 dark:text-white text-sm">Artikel</h4>
+                <span class="text-xs text-gray-400 mt-1">Tulis Berita</span>
+            </a>
+
+            <a href="{{ route('admin.item_potensi.index') }}" class="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-emerald-500 transition-all duration-300 group cursor-pointer h-full">
+                <div class="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-sm">
+                    <i class="fas fa-leaf text-xl"></i>
+                </div>
+                <h4 class="font-semibold text-gray-800 dark:text-white text-sm">Potensi</h4>
+                <span class="text-xs text-gray-400 mt-1">Input Data</span>
+            </a>
+
+            <a href="{{ route('admin.users.index') }}" class="flex flex-col items-center justify-center p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md hover:border-blue-500 transition-all duration-300 group cursor-pointer h-full">
+                <div class="w-14 h-14 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-sm">
+                    <i class="fas fa-users-cog text-xl"></i>
+                </div>
+                <h4 class="font-semibold text-gray-800 dark:text-white text-sm">Pengguna</h4>
+                <span class="text-xs text-gray-400 mt-1">Atur Akun</span>
+            </a>
+        </div>
     </div>
-
-    {{-- 2. Card Artikel --}}
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-indigo-500 hover:shadow-lg transition">
-        <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
-            <i class="fas fa-newspaper text-indigo-500 mr-2"></i> Jumlah Artikel
-        </h3>
-        <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahArtikel }}</div>
-    </div>
-
-    {{-- 3. Card Potensi --}}
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-green-500 hover:shadow-lg transition">
-        <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
-            <i class="fas fa-seedling text-green-500 mr-2"></i> Jumlah Potensi
-        </h3>
-        <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahPotensi }}</div>
-    </div>
-
-    {{-- 4. Card Galeri (BARU) --}}
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-purple-500 hover:shadow-lg transition">
-        <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
-            <i class="fas fa-images text-purple-500 mr-2"></i> Jumlah Galeri
-        </h3>
-        <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahGaleri ?? 0 }}</div>
-    </div>
-
-    {{-- 5. Card Pengaduan --}}
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border-l-4 border-red-500 hover:shadow-lg transition">
-        <h3 class="text-gray-600 dark:text-gray-300 text-lg flex items-center">
-            <i class="fas fa-bullhorn text-red-500 mr-2"></i> Jumlah Pengaduan
-        </h3>
-        <div class="text-3xl font-bold mt-2 text-gray-800 dark:text-white">{{ $jumlahPengaduan ?? 0 }}</div>
-    </div>
-
-</div>
-    {{-- === AKHIR STATISTIK CARD === --}}
-
-
-    {{-- === MENU AKSES CEPAT === --}}
-    <h3 class="page-title" style="font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 1.5rem; border-bottom: none;">Akses Cepat</h3>
-
-    <div class="quick-menu-grid">
-        <a href="{{ route('admin.galeri.index') }}" class="menu-card">
-            <h4><i class="fas fa-images"></i> Kelola Galeri</h4>
-            <p>Tambah, edit, dan hapus foto/video galeri.</p>
-            <i class="fas fa-image card-icon"></i>
-        </a>
-        <a href="{{ route('admin.pengaduan.index') }}" class="menu-card">
-            <h4><i class="fas fa-concierge-bell"></i> Kelola Pengaduan</h4>
-            <p>Tinjau dan tanggapi laporan layanan pengaduan.</p>
-            <i class="fas fa-concierge-bell card-icon"></i>
-        </a>
-        <a href="{{ route('admin.artikel.index') }}" class="menu-card">
-            <h4><i class="fas fa-edit"></i> Kelola Artikel</h4>
-            <p>Buat dan kelola artikel berita/edukasi.</p>
-            <i class="fas fa-newspaper card-icon"></i>
-        </a>
-        <a href="{{ route('admin.item_potensi.index') }}" class="menu-card">
-            <h4><i class="fas fa-leaf"></i> Kelola Potensi</h4>
-            <p>Input dan atur data potensi daerah.</p>
-            <i class="fas fa-file-alt card-icon"></i>
-        </a>
-        <a href="{{ route('admin.users.index') }}" class="menu-card">
-            <h4><i class="fas fa-users"></i> Kelola Pengguna</h4>
-            <p>Kelola data pengguna dan akses sistem.</p>
-            <i class="fas fa-user-cog card-icon"></i>
-        </a>
-    </div>
-    {{-- === AKHIR MENU AKSES CEPAT === --}}
 
 @endsection
 

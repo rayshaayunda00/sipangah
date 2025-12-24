@@ -71,15 +71,6 @@
 
         </div>
 
-        <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end">
-            <form action="{{ route('admin.pengaduan.destroy', $pengaduan->id_pengaduan) }}" method="POST" onsubmit="return confirm('Hapus pengaduan ini?')">
-                @csrf @method('DELETE')
-                <button type="submit" class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-700 transition">
-                    Hapus Pengaduan
-                </button>
-            </form>
-        </div>
-
     </div>
 </div>
 @endsection
