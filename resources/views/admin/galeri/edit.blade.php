@@ -224,35 +224,87 @@
     </div>
 </div>
 
-{{-- Script Preview Gambar Upload --}}
+{{-- Script Preview Gambar Upload (Versi Advanced) --}}
 <script>
+    // Variable global penampung file (DataTransfer API)
+    const dataTransfer = new DataTransfer();
+    const fileInput = document.getElementById('upload-multiple');
+    const previewArea = document.getElementById('upload-preview-area');
+    const previewContainer = document.getElementById('image-preview-container');
+
+    // 1. Handle File Selection (Akumulatif)
     function handleFiles(input) {
-        const previewArea = document.getElementById('upload-preview-area');
-        const previewContainer = document.getElementById('image-preview-container');
+        const newFiles = Array.from(input.files);
 
-        // Reset container
-        previewContainer.innerHTML = '';
+        // Masukkan file baru ke penampung
+        newFiles.forEach(file => {
+            if (file.type.match('image.*')) {
+                dataTransfer.items.add(file);
+            }
+        });
 
-        if (input.files && input.files.length > 0) {
+        // Update input asli & Render
+        fileInput.files = dataTransfer.files;
+        renderPreviews();
+    }
+
+    // 2. Render Preview dengan Tombol Hapus
+    function renderPreviews() {
+        previewContainer.innerHTML = ''; // Reset container visual
+
+        if (dataTransfer.files.length > 0) {
             previewArea.classList.remove('hidden');
 
-            Array.from(input.files).forEach(file => {
-                if (file.type.match('image.*')) {
-                    const reader = new FileReader();
+            Array.from(dataTransfer.files).forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const div = document.createElement('div');
+                    div.className = "relative aspect-square rounded-lg overflow-hidden border border-gray-200 bg-gray-100 group";
 
-                    reader.onload = function(e) {
-                        const div = document.createElement('div');
-                        div.className = "relative aspect-square rounded-lg overflow-hidden border border-gray-200 bg-gray-100";
-                        div.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
-                        previewContainer.appendChild(div);
-                    }
+                    div.innerHTML = `
+                        <img src="${e.target.result}" class="w-full h-full object-cover">
 
-                    reader.readAsDataURL(file);
+                        {{-- Overlay Gelap saat Hover --}}
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+
+                            {{-- Tombol Hapus --}}
+                            <button type="button" onclick="removeFile(${index})"
+                                class="bg-red-500 text-white w-8 h-8 rounded-full hover:bg-red-600 transition-transform transform hover:scale-110 flex items-center justify-center shadow-lg"
+                                title="Hapus foto ini">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                    previewContainer.appendChild(div);
                 }
+                reader.readAsDataURL(file);
             });
         } else {
             previewArea.classList.add('hidden');
         }
+    }
+
+    // 3. Fungsi Hapus File dari List Upload Baru
+    window.removeFile = function(index) {
+        const dt = new DataTransfer();
+        const currentFiles = dataTransfer.files;
+
+        // Re-build daftar file tanpa file yang dihapus
+        for (let i = 0; i < currentFiles.length; i++) {
+            if (i !== index) {
+                dt.items.add(currentFiles[i]);
+            }
+        }
+
+        // Update Global DataTransfer & Input
+        dataTransfer.items.clear();
+        for (let i = 0; i < dt.files.length; i++) {
+            dataTransfer.items.add(dt.files[i]);
+        }
+        fileInput.files = dataTransfer.files;
+
+        // Render ulang
+        renderPreviews();
     }
 </script>
 @endsection

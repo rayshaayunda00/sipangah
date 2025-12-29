@@ -2,7 +2,7 @@
 
 @section('title', $kegiatan->judul_kegiatan ?? 'Detail Kegiatan')
 
-{{-- 1. CSS & FONTS (Masuk ke @stack('styles') di Layout Utama) --}}
+{{-- 1. CSS & FONTS --}}
 @push('styles')
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,7 +14,6 @@
             --accent: #f59e0b;
         }
 
-        /* Gunakan class wrapper, jangan timpa body langsung */
         .detail-page-bg {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f0fdfa 0%, #f8fafc 50%, #ecfdf5 100%);
@@ -34,26 +33,23 @@
         .card-hover { transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .card-hover:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px -12px rgba(15, 118, 110, 0.25),
-                        0 0 0 1px rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 40px -12px rgba(15, 118, 110, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.9);
         }
 
         .image-container { position: relative; overflow: hidden; }
+        /* Overlay gradient bawah pada thumbnail */
         .image-container::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40%;
-            background: linear-gradient(to top, rgba(15, 118, 110, 0.4) 0%, transparent 100%);
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%);
             opacity: 0; transition: opacity 0.4s ease; z-index: 1;
         }
         .card-hover:hover .image-container::after { opacity: 1; }
 
         .photo-overlay {
             background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
-            opacity: 0; transition: all 0.3s ease;
+            opacity: 0; transition: all 0.3s ease; z-index: 2;
         }
         .group:hover .photo-overlay { opacity: 1; }
-
-        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
         .hero-pattern {
             background-image: radial-gradient(circle at 20% 80%, rgba(13, 148, 136, 0.08) 0%, transparent 50%),
@@ -78,10 +74,7 @@
             gap: 1.5rem;
         }
         @media (max-width: 640px) {
-            .grid-layout {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 1rem;
-            }
+            .grid-layout { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
         }
 
         .empty-state {
@@ -89,17 +82,18 @@
             border: 2px dashed #cbd5e1;
         }
 
-        /* Group Hover Utils */
-        .group:hover .group-hover\:scale-110 { transform: scale(1.1); }
-        .group:hover .group-hover\:translate-y-0 { transform: translateY(0); }
+        /* Cursor Zoom */
+        .cursor-zoom-in { cursor: zoom-in; }
+        .cursor-zoom-out { cursor: zoom-out; }
     </style>
 @endpush
 
-{{-- 2. KONTEN UTAMA (Masuk ke @yield('content')) --}}
+{{-- 2. KONTEN UTAMA --}}
 @section('content')
 <div class="detail-page-bg pt-20 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
+        {{-- INFO UTAMA --}}
         <div class="glass-card rounded-3xl p-8 mb-10 hero-pattern">
             <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
                 <div class="flex-1">
@@ -136,6 +130,7 @@
             </div>
         </div>
 
+        {{-- GALERI FOTO --}}
         <div class="mb-8">
             <div class="flex items-center justify-between mb-8">
                 <h2 class="text-3xl font-bold text-gray-900">
@@ -150,32 +145,36 @@
             @if($kegiatan->fotoGaleri->count() > 0)
             <div class="grid-layout">
                 @foreach($kegiatan->fotoGaleri as $foto)
-                <div class="glass-card rounded-2xl overflow-hidden card-hover group">
-                    <div class="relative overflow-hidden image-container">
-                        <img src="{{ asset('storage/' . $foto->url_foto) }}"
-                             alt="{{ $foto->deskripsi_foto ?? $kegiatan->judul_kegiatan }}"
-                             class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+<div class="glass-card rounded-2xl overflow-hidden card-hover group">
+    {{-- PINDAHKAN ONCLICK KE DIV INI --}}
+    <div class="relative overflow-hidden image-container cursor-zoom-in"
+         onclick="openLightbox('{{ asset('storage/' . $foto->url_foto) }}', '{{ $foto->deskripsi_foto ?? $kegiatan->judul_kegiatan }}')">
 
-                        <div class="photo-overlay absolute inset-0 flex flex-col justify-end p-4">
-                            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                @if($foto->deskripsi_foto)
-                                <p class="text-white text-sm font-medium leading-snug line-clamp-2 mb-2">
-                                    {{ $foto->deskripsi_foto }}
-                                </p>
-                                @endif
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs text-teal-200 bg-teal-600/50 px-2 py-1 rounded-full">
-                                        Foto {{ $loop->iteration }}
-                                    </span>
-                                    <button class="text-white hover:text-teal-200 transition-colors">
-                                        <i class="fas fa-expand text-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <img src="{{ asset('storage/' . $foto->url_foto) }}"
+             alt="{{ $foto->deskripsi_foto ?? $kegiatan->judul_kegiatan }}"
+             class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+
+        {{-- Pastikan class pointer-events-none ada di sini --}}
+        <div class="photo-overlay absolute inset-0 flex flex-col justify-end p-4 pointer-events-none">
+            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                @if($foto->deskripsi_foto)
+                <p class="text-white text-sm font-medium leading-snug line-clamp-2 mb-2">
+                    {{ $foto->deskripsi_foto }}
+                </p>
+                @endif
+                <div class="flex items-center justify-between">
+                    <span class="text-xs text-teal-200 bg-teal-600/50 px-2 py-1 rounded-full">
+                        Foto {{ $loop->iteration }}
+                    </span>
+                    <span class="text-white">
+                        <i class="fas fa-expand text-sm"></i>
+                    </span>
                 </div>
-                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
             </div>
             @else
             <div class="empty-state rounded-3xl p-12 text-center">
@@ -192,10 +191,53 @@
         </div>
 
     </div>
+
+    {{-- MODAL LIGHTBOX --}}
+    <div id="lightbox-modal" class="fixed inset-0 z-[9999] hidden transition-opacity duration-300 opacity-0" aria-hidden="true">
+
+        {{-- Background Gelap Blur --}}
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-md transition-opacity" onclick="closeLightbox()"></div>
+
+        {{-- Top Bar Actions (Close & Download) --}}
+        <div class="absolute top-0 left-0 right-0 z-50 flex justify-between items-center p-4 sm:p-6 bg-gradient-to-b from-black/60 to-transparent">
+
+            {{-- Caption (Kiri) --}}
+            <div class="flex-1 mr-4">
+                <p id="lightbox-caption" class="text-white text-base sm:text-lg font-medium tracking-wide line-clamp-1"></p>
+            </div>
+
+            {{-- Action Buttons (Kanan) --}}
+            <div class="flex items-center gap-3">
+
+                {{-- Tombol Download --}}
+                <a id="lightbox-download" href="#" download target="_blank"
+                   class="p-2.5 text-white bg-white/10 hover:bg-white/20 rounded-full transition-all backdrop-blur-sm group"
+                   title="Unduh Gambar">
+                    <i class="fas fa-download text-lg group-hover:scale-110 transition-transform"></i>
+                </a>
+
+                {{-- Tombol Close --}}
+                <button onclick="closeLightbox()"
+                        class="p-2.5 text-white bg-white/10 hover:bg-red-500/80 rounded-full transition-all backdrop-blur-sm group"
+                        title="Tutup">
+                    <i class="fas fa-times text-lg group-hover:scale-110 transition-transform"></i>
+                </button>
+            </div>
+        </div>
+
+        {{-- Container Gambar --}}
+        <div class="relative flex items-center justify-center min-h-screen p-4 pt-20 pb-10">
+            {{-- Wrapper Gambar --}}
+            <div class="relative max-w-7xl w-full flex justify-center items-center transform transition-all scale-95 duration-300" id="lightbox-content">
+                <img id="lightbox-image" src="" alt="Full View" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl">
+            </div>
+        </div>
+    </div>
+
 </div>
 @endsection
 
-{{-- 3. JAVASCRIPT (Masuk ke @stack('scripts')) --}}
+{{-- 3. JAVASCRIPT --}}
 @push('scripts')
 <script>
     // Image loading animation
@@ -203,25 +245,63 @@
         const images = document.querySelectorAll('img');
         images.forEach(img => {
             img.classList.add('opacity-0', 'transition-opacity', 'duration-500');
-
-            img.addEventListener('load', function() {
-                this.classList.remove('opacity-0');
-                this.classList.add('opacity-100');
-            });
-
-            if (img.complete) {
+            const showImg = () => {
                 img.classList.remove('opacity-0');
                 img.classList.add('opacity-100');
-            }
+            };
+            if (img.complete) { showImg(); } else { img.addEventListener('load', showImg); }
         });
     });
 
-    // Add click to enlarge functionality (Simple placeholder)
-    document.querySelectorAll('.image-container img').forEach(img => {
-        img.addEventListener('click', function() {
-            // Anda bisa menambahkan logika Lightbox di sini nanti
-            // this.classList.toggle('scale-150'); // Contoh sederhana
-        });
+    // === LOGIKA LIGHTBOX ===
+const modal = document.getElementById('lightbox-modal');
+const modalImg = document.getElementById('lightbox-image');
+const modalCaption = document.getElementById('lightbox-caption');
+const modalDownload = document.getElementById('lightbox-download'); // Link Download
+const modalContent = document.getElementById('lightbox-content');
+
+// Fungsi Buka
+window.openLightbox = function(src, caption) {
+    modalImg.src = src;
+    modalCaption.textContent = caption || 'Detail Foto';
+
+    // Set Link Download
+    modalDownload.href = src;
+    modalDownload.download = `Dokumentasi-${Date.now()}.jpg`; // Nama file default saat didownload
+
+    // Tampilkan Modal
+    modal.classList.remove('hidden');
+
+    // Animasi Masuk (Fade In & Scale Up)
+    requestAnimationFrame(() => {
+        modal.classList.remove('opacity-0');
+        modalContent.classList.remove('scale-95');
+        modalContent.classList.add('scale-100');
     });
+
+    // Matikan scroll body
+    document.body.style.overflow = 'hidden';
+}
+
+// Fungsi Tutup
+window.closeLightbox = function() {
+    // Animasi Keluar
+    modal.classList.add('opacity-0');
+    modalContent.classList.remove('scale-100');
+    modalContent.classList.add('scale-95');
+
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modalImg.src = '';
+        document.body.style.overflow = '';
+    }, 300);
+}
+
+// Tutup dengan tombol ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeLightbox();
+    }
+});
 </script>
 @endpush

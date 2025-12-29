@@ -12,37 +12,46 @@ class ArsipController extends Controller
     /**
      * Menampilkan daftar arsip (Read)
      */
-    public function index(Request $request)
-    {
-        $query = Arsip::query();
+   public function index(Request $request)
+{
+    $query = Arsip::query();
 
-        // 1. Filter Pencarian
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('nomor_arsip', 'like', "%{$search}%")
-                  ->orWhere('judul_arsip', 'like', "%{$search}%")
-                  ->orWhere('kategori', 'like', "%{$search}%");
-            });
-        }
-
-        // 2. Filter Kategori
-        if ($request->filled('kategori') && $request->kategori != 'all') {
-            $query->where('kategori', $request->kategori);
-        }
-
-        // Ambil data dengan pagination
-        $arsips = $query->latest('tanggal_arsip')->paginate(10)->appends($request->query());
-
-        return view('admin.arsip.index', [
-            'arsips' => $arsips,
-            'totalArsip' => Arsip::count(),
-            'totalSuratMasuk' => Arsip::where('kategori', 'Surat Masuk')->count(),
-            'totalSuratKeluar' => Arsip::where('kategori', 'Surat Keluar')->count(),
-            'totalDokumen' => Arsip::where('kategori', 'Dokumen Penting')->count(),
-        ]);
+    // 1. Filter Pencarian
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('nomor_arsip', 'like', "%{$search}%")
+              ->orWhere('judul_arsip', 'like', "%{$search}%")
+              ->orWhere('kategori', 'like', "%{$search}%");
+        });
     }
 
+    // 2. Filter Kategori
+    if ($request->filled('kategori') && $request->kategori != 'all') {
+        $query->where('kategori', $request->kategori);
+    }
+
+    // Ambil data untuk tabel
+    $arsips = $query->latest('tanggal_arsip')->paginate(10)->appends($request->query());
+
+    // --- LOGIKA BARU UNTUK STATISTIK DINAMIS ---
+
+    // Ambil list kategori unik saja
+    $kategoriList = Arsip::select('kategori')->distinct()->pluck('kategori');
+
+    // Hitung jumlah per kategori
+    // Hasilnya akan berupa array: ['Surat Masuk' => 10, 'Surat Keluar' => 5, 'Laporan' => 2]
+    $statsPerKategori = Arsip::select('kategori', \DB::raw('count(*) as total'))
+                             ->groupBy('kategori')
+                             ->pluck('total', 'kategori');
+
+    return view('admin.arsip.index', [
+        'arsips' => $arsips,
+        'kategoriList' => $kategoriList,
+        'totalArsip' => Arsip::count(),
+        'statsPerKategori' => $statsPerKategori, // <-- Kirim variabel ini
+    ]);
+}
     /**
      * Menampilkan form tambah (Create)
      */
@@ -60,13 +69,23 @@ class ArsipController extends Controller
         $validated = $request->validate([
             'nomor_arsip'   => 'nullable|string|max:255|unique:arsips,nomor_arsip',
             'judul_arsip'   => 'required|string|max:255',
-            'kategori'      => 'required|in:Surat Masuk,Surat Keluar,Dokumen Penting',
+            // Validasi kategori dilonggarkan (tidak pakai in:...)
+            'kategori'      => 'required|string',
+            // Validasi kategori_lain wajib diisi JIKA kategori == Lainnya
+            'kategori_lain' => 'required_if:kategori,Lainnya|nullable|string|max:255',
             'deskripsi'     => 'nullable|string',
             'tanggal_arsip' => 'required|date',
-            // Validasi Array File
             'file_lampiran'   => 'nullable|array',
             'file_lampiran.*' => 'file|mimes:pdf,doc,docx,xlsx,xls,jpg,jpeg,png|max:5120', // Max 5MB per file
         ]);
+
+        // LOGIKA BARU: Jika pilih "Lainnya", ambil nilai dari input teks
+        if ($request->kategori == 'Lainnya') {
+            $validated['kategori'] = $request->kategori_lain;
+        }
+
+        // Hapus key kategori_lain agar tidak error saat insert (karena kolom ini tidak ada di DB)
+        unset($validated['kategori_lain']);
 
         // 2. Set Status
         $validated['status'] = $request->has('status') ? 'Aktif' : 'Tidak Aktif';
@@ -81,16 +100,10 @@ class ArsipController extends Controller
             $filePaths = [];
 
             foreach ($request->file('file_lampiran') as $file) {
-                // Buat nama unik: WAKTU_UNIQID_NAMAASLI
                 $filename = time() . '_' . uniqid() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
-
-                // Simpan ke storage (folder public/arsip-files)
                 $path = $file->storeAs('arsip-files', $filename, 'public');
-
                 $filePaths[] = $path;
             }
-
-            // Simpan sebagai array (Model sudah ada casts array, jadi tidak perlu json_encode manual)
             $validated['file_lampiran'] = $filePaths;
         }
 
@@ -125,52 +138,68 @@ class ArsipController extends Controller
         $validated = $request->validate([
             'nomor_arsip'   => 'nullable|string|max:255|unique:arsips,nomor_arsip,' . $arsip->id,
             'judul_arsip'   => 'required|string|max:255',
-            'kategori'      => 'required|in:Surat Masuk,Surat Keluar,Dokumen Penting',
+            'kategori'      => 'required|string',
+            'kategori_lain' => 'required_if:kategori,Lainnya|nullable|string|max:255',
             'deskripsi'     => 'nullable|string',
             'tanggal_arsip' => 'required|date',
             'file_lampiran'   => 'nullable|array',
             'file_lampiran.*' => 'file|mimes:pdf,doc,docx,xlsx,xls,jpg,jpeg,png|max:5120',
         ]);
 
+        // Handle Kategori Custom
+        if ($request->kategori == 'Lainnya') {
+            $validated['kategori'] = $request->kategori_lain;
+        }
+        unset($validated['kategori_lain']);
+
         $validated['status'] = $request->has('status') ? 'Aktif' : 'Tidak Aktif';
 
-        // 2. Proses File Baru (Jika User Mengupload Ulang)
-        if ($request->hasFile('file_lampiran')) {
+        // --- LOGIKA FILE MANAGEMENT BARU ---
 
-            // A. Hapus File-file Lama dari Storage
-            if ($arsip->file_lampiran) {
-                // Gunakan helper/logic array check
-                $oldFiles = $this->getFilesArray($arsip->file_lampiran);
-                foreach ($oldFiles as $oldFile) {
-                    if (Storage::disk('public')->exists($oldFile)) {
-                        Storage::disk('public')->delete($oldFile);
-                    }
+        // 1. Ambil file yang sudah ada di database (sebagai array)
+        $currentFiles = $this->getFilesArray($arsip->file_lampiran);
+
+        // 2. Cek apakah ada file lama yang ingin dihapus user
+        // Input 'deleted_files' dikirim dari form (hidden input)
+        if ($request->has('deleted_files')) {
+            $filesToDelete = $request->input('deleted_files');
+
+            foreach ($filesToDelete as $fileToDelete) {
+                // Hapus fisik file
+                if (Storage::disk('public')->exists($fileToDelete)) {
+                    Storage::disk('public')->delete($fileToDelete);
+                }
+
+                // Hapus dari array currentFiles
+                $key = array_search($fileToDelete, $currentFiles);
+                if ($key !== false) {
+                    unset($currentFiles[$key]);
                 }
             }
+            // Re-index array agar urutannya rapi
+            $currentFiles = array_values($currentFiles);
+        }
 
-            // B. Upload File-file Baru
-            $filePaths = [];
+        // 3. Proses File Baru (Upload Tambahan)
+        $newFilesPath = [];
+        if ($request->hasFile('file_lampiran')) {
             foreach ($request->file('file_lampiran') as $file) {
                 $filename = time() . '_' . uniqid() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
                 $path = $file->storeAs('arsip-files', $filename, 'public');
-                $filePaths[] = $path;
+                $newFilesPath[] = $path;
             }
-
-            // Simpan path baru
-            $validated['file_lampiran'] = $filePaths;
-
-        } else {
-            // Jika tidak ada file baru, jangan update kolom ini (tetap pakai data lama)
-            unset($validated['file_lampiran']);
         }
 
-        // 3. Update Database
+        // 4. Gabungkan File Sisa (Lama) + File Baru
+        $finalFiles = array_merge($currentFiles, $newFilesPath);
+
+        // Simpan ke database
+        $validated['file_lampiran'] = $finalFiles;
+
         $arsip->update($validated);
 
-        // 4. Redirect dengan Pesan Khusus
-        // Mengambil nomor arsip terbaru untuk pesan notifikasi
         return redirect()->route('admin.arsip.index')
-            ->with('success', "Arsip dengan nomor {$arsip->nomor_arsip} berhasil update");
+            ->with('success', "Arsip berhasil diperbarui");
     }
 
     /**
@@ -205,25 +234,17 @@ class ArsipController extends Controller
     }
 
     /**
-     * Helper: Decode JSON atau String Biasa (Backward Compatibility)
-     * Mengubah data database menjadi Array PHP
+     * Helper: Decode JSON atau String Biasa
      */
     private function getFilesArray($fileData)
     {
-        // Jika data sudah array (karena model casting), kembalikan langsung
         if (is_array($fileData)) {
             return $fileData;
         }
-
-        // Coba decode JSON jika string
         $decoded = json_decode($fileData, true);
-
-        // Jika valid JSON dan bentuknya array, kembalikan array tersebut
         if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
             return $decoded;
         }
-
-        // Jika bukan JSON (data lama berupa string path tunggal), jadikan array
         return [$fileData];
     }
 }

@@ -32,68 +32,62 @@
             </div>
         @endif
 
-        {{-- Stats Grid --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {{-- Card 1: Total Arsip --}}
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 mb-1">Total Arsip</p>
-                        <h3 class="text-3xl font-bold text-gray-900">{{ $totalArsip ?? 0 }}</h3>
-                    </div>
-                    <div class="p-3 bg-blue-50 rounded-lg">
-                        <svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
+       {{-- Stats Grid --}}
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-            {{-- Card 2: Surat Masuk --}}
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 mb-1">Surat Masuk</p>
-                        <h3 class="text-3xl font-bold text-gray-900">{{ $totalSuratMasuk ?? 0 }}</h3>
-                    </div>
-                    <div class="p-3 bg-green-50 rounded-lg">
-                        <svg class="w-6 h-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 16l6 6 6-6m-6 6V4" />
-                        </svg>
-                    </div>
-                </div>
+    {{-- Card 1: Total Arsip (Tetap Statis) --}}
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="text-sm font-medium text-gray-500 mb-1">Total Arsip</p>
+                <h3 class="text-3xl font-bold text-gray-900">{{ $totalArsip ?? 0 }}</h3>
             </div>
-
-            {{-- Card 3: Surat Keluar --}}
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 mb-1">Surat Keluar</p>
-                        <h3 class="text-3xl font-bold text-gray-900">{{ $totalSuratKeluar ?? 0 }}</h3>
-                    </div>
-                    <div class="p-3 bg-orange-50 rounded-lg">
-                        <svg class="w-6 h-6 text-orange-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l6-6 6 6m-6-6v18" />
-                        </svg>
-                    </div>
-                </div>
+            <div class="p-3 bg-blue-50 rounded-lg">
+                <svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
             </div>
+        </div>
+    </div>
 
-            {{-- Card 4: Dokumen Penting --}}
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-sm font-medium text-gray-500 mb-1">Dokumen Penting</p>
-                        <h3 class="text-3xl font-bold text-gray-900">{{ $totalDokumen ?? 0 }}</h3>
-                    </div>
-                    <div class="p-3 bg-purple-50 rounded-lg">
-                        <svg class="w-6 h-6 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                        </svg>
-                    </div>
+    {{-- Looping Statistik Per Kategori --}}
+    @foreach ($statsPerKategori as $kategoriNama => $total)
+        @php
+            // Logika Warna Acak/Dinamis berdasarkan nama kategori
+            $colors = [
+                'green' => ['bg' => 'bg-green-50', 'text' => 'text-green-600'],
+                'orange' => ['bg' => 'bg-orange-50', 'text' => 'text-orange-600'],
+                'purple' => ['bg' => 'bg-purple-50', 'text' => 'text-purple-600'],
+                'red' => ['bg' => 'bg-red-50', 'text' => 'text-red-600'],
+                'teal' => ['bg' => 'bg-teal-50', 'text' => 'text-teal-600'],
+                'indigo' => ['bg' => 'bg-indigo-50', 'text' => 'text-indigo-600'],
+            ];
+
+            // Pilih warna (gunakan hash nama kategori agar warna konsisten setiap refresh)
+            $colorKeys = array_keys($colors);
+            $colorIndex = crc32($kategoriNama) % count($colorKeys);
+            $selectedColor = $colors[$colorKeys[$colorIndex]];
+        @endphp
+
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start">
+                <div class="overflow-hidden"> {{-- Tambah overflow hidden agar teks panjang terpotong rapi --}}
+                    <p class="text-sm font-medium text-gray-500 mb-1 truncate" title="{{ $kategoriNama }}">
+                        {{ $kategoriNama }}
+                    </p>
+                    <h3 class="text-3xl font-bold text-gray-900">{{ $total }}</h3>
+                </div>
+                <div class="p-3 {{ $selectedColor['bg'] }} rounded-lg flex-shrink-0">
+                    {{-- Ikon Folder Umum --}}
+                    <svg class="w-6 h-6 {{ $selectedColor['text'] }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z" />
+                    </svg>
                 </div>
             </div>
         </div>
+    @endforeach
+
+</div>
 
         {{-- Main Content Card --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -117,11 +111,16 @@
                                    placeholder="Cari arsip...">
                         </div>
 
+                        {{-- DROPDOWN FILTER KATEGORI DINAMIS --}}
                         <select name="kategori" class="pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-white cursor-pointer">
                             <option value="all" {{ request('kategori') == 'all' ? 'selected' : '' }}>Semua Kategori</option>
-                            <option value="Surat Masuk" {{ request('kategori') == 'Surat Masuk' ? 'selected' : '' }}>Surat Masuk</option>
-                            <option value="Surat Keluar" {{ request('kategori') == 'Surat Keluar' ? 'selected' : '' }}>Surat Keluar</option>
-                            <option value="Dokumen Penting" {{ request('kategori') == 'Dokumen Penting' ? 'selected' : '' }}>Dokumen Penting</option>
+
+                            {{-- Looping Data Kategori dari Database --}}
+                            @foreach($kategoriList as $cat)
+                                <option value="{{ $cat }}" {{ request('kategori') == $cat ? 'selected' : '' }}>
+                                    {{ $cat }}
+                                </option>
+                            @endforeach
                         </select>
 
                         <button type="submit" class="inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
@@ -153,11 +152,12 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     @php
+                                        // Logic Badge Warna Dinamis
                                         $badgeColor = match($arsip->kategori) {
                                             'Surat Masuk' => 'bg-blue-100 text-blue-700 ring-blue-600/20',
                                             'Surat Keluar' => 'bg-green-100 text-green-700 ring-green-600/20',
                                             'Dokumen Penting' => 'bg-purple-100 text-purple-700 ring-purple-600/20',
-                                            default => 'bg-gray-100 text-gray-700 ring-gray-600/20',
+                                            default => 'bg-gray-100 text-gray-700 ring-gray-600/20', // Warna untuk kategori custom
                                         };
                                     @endphp
                                     <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset {{ $badgeColor }}">
@@ -181,20 +181,6 @@
                                            title="Lihat Detail">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                                         </a>
-
-                                        {{-- Download Button --}}
-                                        {{-- @php
-                                            $files = is_string($arsip->file_lampiran) ? json_decode($arsip->file_lampiran, true) : $arsip->file_lampiran;
-                                            $files = is_array($files) ? $files : ($files ? [$files] : []);
-                                        @endphp
-
-                                        @if(count($files) > 0)
-                                            <a href="{{ Storage::url($files[0]) }}" target="_blank"
-                                               class="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                                               title="Unduh Lampiran">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                                            </a>
-                                        @endif --}}
 
                                         {{-- Edit Button --}}
                                         <a href="{{ route('admin.arsip.edit', $arsip->id) }}"

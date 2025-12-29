@@ -89,7 +89,7 @@
                             </span>
                             <div>
                                 <p class="text-sm text-gray-500">Total Penduduk</p>
-                                <p class="font-semibold text-gray-800">-</p>
+                                <p class="font-semibold text-gray-800">64.819</p>
                             </div>
                         </div>
 
@@ -111,7 +111,7 @@
                             </span>
                             <div>
                                 <p class="text-sm text-gray-500">Kode Pos</p>
-                                <p class="font-semibold text-gray-800">25176</p>
+                                <p class="font-semibold text-gray-800">25162</p>
                             </div>
                         </div>
                     </div>
@@ -521,18 +521,43 @@
                     <h3 class="font-bold text-gray-800 text-lg">Pelayanan Tatap Muka</h3>
                 </div>
                 <div class="p-6 space-y-4">
-                    <div class="flex justify-between items-center pb-4 border-b border-gray-50 last:border-0 last:pb-0">
-                        <span class="text-gray-600 font-medium flex items-center gap-2">
-                            <i class="far fa-calendar text-teal-400 w-5"></i> Senin - Kamis
-                        </span>
-                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">08:00 – 15:30 WIB</span>
+
+                    {{-- Senin - Kamis --}}
+                    <div class="border-b border-gray-50 pb-4 last:border-0 last:pb-0">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-600 font-medium flex items-center gap-2">
+                                <i class="far fa-calendar text-teal-400 w-5"></i> Senin - Kamis
+                            </span>
+                            <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">07:30 – 16:00 WIB</span>
+                        </div>
+                        {{-- Tambahan Istirahat Senin-Kamis --}}
+                        <div class="flex justify-between items-center pl-7">
+                            <span class="text-gray-400 text-sm flex items-center gap-2">
+                                <i class="fas fa-mug-hot text-orange-300 w-4"></i> Istirahat
+                            </span>
+                            <span class="text-orange-600 text-xs font-semibold bg-orange-50 px-2 py-0.5 rounded border border-orange-100">12:00 – 13:00 WIB</span>
+                        </div>
                     </div>
-                    <div class="flex justify-between items-center pb-4 border-b border-gray-50 last:border-0 last:pb-0">
-                        <span class="text-gray-600 font-medium flex items-center gap-2">
-                            <i class="far fa-calendar-check text-teal-400 w-5"></i> Jumat
-                        </span>
-                        <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">08:00 – 11:30 WIB</span>
+
+                    {{-- Jumat --}}
+                    <div class="border-b border-gray-50 pb-4 last:border-0 last:pb-0">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-600 font-medium flex items-center gap-2">
+                                <i class="far fa-calendar-check text-teal-400 w-5"></i> Jumat
+                            </span>
+                            {{-- Catatan: Pastikan jam operasional Jumat disesuaikan jika buka kembali setelah istirahat --}}
+                            <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-semibold">08:00 – 16:00 WIB</span>
+                        </div>
+                        {{-- Tambahan Istirahat Jumat --}}
+                        <div class="flex justify-between items-center pl-7">
+                            <span class="text-gray-400 text-sm flex items-center gap-2">
+                                <i class="fas fa-mug-hot text-orange-300 w-4"></i> Istirahat
+                            </span>
+                            <span class="text-orange-600 text-xs font-semibold bg-orange-50 px-2 py-0.5 rounded border border-orange-100">12:00 – 13:30 WIB</span>
+                        </div>
                     </div>
+
+                    {{-- Sabtu - Minggu --}}
                     <div class="flex justify-between items-center pb-4 border-b border-gray-50 last:border-0 last:pb-0">
                         <span class="text-gray-600 font-medium flex items-center gap-2">
                             <i class="far fa-calendar-times text-red-400 w-5"></i> Sabtu - Minggu
